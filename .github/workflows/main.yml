@@ -1,0 +1,165 @@
+name: Flutter CI/CD — job_seeker
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Cancel any in-progress run for the same branch when a new push comes in
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # JOB 1: Code Quality (fast feedback — runs before tests/builds)
+  # ─────────────────────────────────────────────────────────────
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'   # Supports Dart SDK ^3.9.2 from pubspec.yaml
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run code generation (freezed, riverpod, json_serializable)
+      # This ensures generated .g.dart and .freezed.dart files are up to date
+      - name: Run build_runner (code generation)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze code (flutter_lints + riverpod_lint + custom_lint)
+        run: flutter analyze --no-fatal-infos
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 2: Run Tests (unit, widget, service, provider tests)
+  # ─────────────────────────────────────────────────────────────
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: code-quality   # Only run if code quality checks pass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run build_runner (code generation)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # Runs all test files under: test/core/, test/models/, test/providers/,
+      # test/screens/, test/services/, test/widgets/
+      # Excludes benchmark tests (they are slow and not CI-suitable)
+      - name: Run tests (excluding benchmarks)
+        run: |
+          flutter test \
+            --coverage \
+            --exclude-tags benchmark \
+            --reporter expanded
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
+          retention-days: 7
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 3: Build Android APK
+  # ─────────────────────────────────────────────────────────────
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    needs: test   # Only build if tests pass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17 (required by Android Gradle)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run build_runner (code generation)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # The app uses flutter_secure_storage which requires minSdk >= 18 (already set via flutter.minSdkVersion)
+      # Build APK in release mode (signed with debug key — replace with real signing for production)
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 4: Build iOS (no code signing — macOS runner)
+  # ─────────────────────────────────────────────────────────────
+  build-ios:
+    name: Build iOS (no-codesign)
+    runs-on: macos-latest
+    needs: test   # Only build if tests pass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run build_runner (code generation)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS (no code signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-build
+          path: build/ios/iphoneos/Runner.app
+          retention-days: 14
