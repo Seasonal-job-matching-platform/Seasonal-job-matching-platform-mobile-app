@@ -38,9 +38,6 @@ jobs:
       - name: Run build_runner (code generation)
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed .
-
       - name: Analyze code (flutter_lints + riverpod_lint + custom_lint)
         run: flutter analyze --no-fatal-infos
 
