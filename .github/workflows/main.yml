@@ -10,10 +10,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# ── Single source of truth for Flutter version ──────────────────────────────
+env:
+  FLUTTER_VERSION: '3.41.6'
+
 jobs:
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   # JOB 1: Code Quality
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
@@ -25,7 +29,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.6'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -38,9 +42,9 @@ jobs:
       - name: Analyze code
         run: flutter analyze --no-fatal-infos
 
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   # JOB 2: Run Tests
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   test:
     name: Run Tests
     runs-on: ubuntu-latest
@@ -53,7 +57,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.6'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -62,6 +66,10 @@ jobs:
 
       - name: Run build_runner (code generation)
         run: dart run build_runner build --delete-conflicting-outputs
+
+      # Catches API mismatches (missing widgets, wrong params) before running
+      - name: Verify tests compile
+        run: flutter test --no-pub --dry-run
 
       - name: Run tests (excluding benchmarks)
         run: |
@@ -77,9 +85,9 @@ jobs:
           path: coverage/lcov.info
           retention-days: 7
 
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   # JOB 3: Build Android APK
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   build-android:
     name: Build Android APK
     runs-on: ubuntu-latest
@@ -98,7 +106,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.6'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
@@ -118,10 +126,10 @@ jobs:
           path: build/app/outputs/flutter-apk/app-debug.apk
           retention-days: 14
 
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   # JOB 4: Create GitHub Release
   # Only runs on push to main
-  # ─────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
