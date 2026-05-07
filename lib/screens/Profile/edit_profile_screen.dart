@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:job_seeker/constants/constants.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 import 'package:job_seeker/models/profile_screen_models/personal_information_model.dart';
@@ -237,9 +238,33 @@ TextButton(
                     const SizedBox(height: 20),
 
                     _buildLabel('Country / Location'),
-                    TextFormField(
-                      controller: _countryController,
-                      decoration: _inputDecoration('e.g. New York, USA'),
+                    DropdownButtonFormField<String>(
+                      value: countryList.contains(_countryController.text)
+                          ? _countryController.text
+                          : null,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _countryController.text = newValue;
+                          });
+                        }
+                      },
+                      decoration: _inputDecoration(l10n.selectCountry),
+                      items: countryList
+                          .map(
+                            (country) => DropdownMenuItem(
+                              value: country,
+                              child: Text(country),
+                            ),
+                          )
+                          .toList(),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please select your country';
+                        }
+                        return null;
+                      },
+                      isExpanded: true,
                     ),
                     const SizedBox(height: 24),
 
