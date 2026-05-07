@@ -97,13 +97,22 @@ class PersonalInformationService {
     final appliedJobsPath = getUserAppliedJobs(userId);
     try {
       final response = await _dio.get(appliedJobsPath);
-      // The API returns a response with 'jobIds' field
-      final jobIds = (response.data['jobIds'] as List)
-          .map((id) => id is int ? id : int.parse(id.toString()))
-          .toList();
-      return jobIds;
+      final data = response.data;
+      if (data is Map && data['jobIds'] != null) {
+        return (data['jobIds'] as List)
+            .map((id) => id is int ? id : int.parse(id.toString()))
+            .toList();
+      } else if (data is List) {
+        return data
+            .map((id) => id is int ? id : int.parse(id.toString()))
+            .toList();
+      }
+      return [];
     } on DioException catch (e) {
       throw _handleError(e);
+    } catch (e) {
+      print('[DEBUG] Error parsing applied job IDs: $e');
+      return [];
     }
   }
 
@@ -132,6 +141,9 @@ class PersonalInformationService {
       return [];
     } on DioException catch (e) {
       throw _handleError(e);
+    } catch (e) {
+      print('[DEBUG] Error parsing favorite job IDs: $e');
+      return [];
     }
   }
 
@@ -147,15 +159,21 @@ class PersonalInformationService {
     try {
       final response = await _dio.get(path);
       final raw = response.data;
-      final list =
-          (raw['fieldsOfInterest'] as List?)
-              ?.map((e) => e == null ? '' : e.toString())
-              .where((s) => s.isNotEmpty)
-              .toList() ??
-          <String>[];
-      return list;
+      if (raw is Map && raw['fieldsOfInterest'] != null) {
+        final list =
+            (raw['fieldsOfInterest'] as List?)
+                ?.map((e) => e == null ? '' : e.toString())
+                .where((s) => s.isNotEmpty)
+                .toList() ??
+            <String>[];
+        return list;
+      }
+      return [];
     } on DioException catch (e) {
       throw _handleError(e);
+    } catch (e) {
+      print('[DEBUG] Error parsing fields of interest: $e');
+      return [];
     }
   }
 

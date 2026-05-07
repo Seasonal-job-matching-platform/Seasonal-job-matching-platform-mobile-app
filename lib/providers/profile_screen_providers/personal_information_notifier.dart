@@ -23,14 +23,26 @@ class PersonalInformationAsyncNotifier
     // Fetch user data
     final userData = await _service.fetchUserData();
 
-    // Fetch applied job IDs from the dedicated API endpoint
-    final appliedJobIds = await _service.fetchAppliedJobIds();
+    List<int> appliedJobIds = userData.ownedapplications;
+    try {
+      appliedJobIds = await _service.fetchAppliedJobIds();
+    } catch (e, st) {
+      debugPrint('[DEBUG] Error fetching applied job IDs: $e\n$st');
+    }
 
-    // Fetch favorite job IDs from the dedicated API endpoint
-    final favoriteJobIds = await _service.fetchFavoriteJobIds();
+    List<int> favoriteJobIds = userData.favoriteJobs;
+    try {
+      favoriteJobIds = await _service.fetchFavoriteJobIds();
+    } catch (e, st) {
+      debugPrint('[DEBUG] Error fetching favorite job IDs: $e\n$st');
+    }
 
-    // Fetch fields of interest from the dedicated API endpoint
-    final fieldsOfInterest = await _service.fetchFieldsOfInterest();
+    List<String> fieldsOfInterest = userData.fieldsOfInterest ?? [];
+    try {
+      fieldsOfInterest = await _service.fetchFieldsOfInterest();
+    } catch (e, st) {
+      debugPrint('[DEBUG] Error fetching fields of interest: $e\n$st');
+    }
 
     // Update user data with applied job IDs, favorite job IDs, and fields of interest
     return userData.copyWith(
