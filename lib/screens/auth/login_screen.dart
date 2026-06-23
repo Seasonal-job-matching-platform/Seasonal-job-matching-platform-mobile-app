@@ -25,7 +25,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   final bool _hasNavigated = false;
-  bool isLoading = false;
 
   @override
   void initState() {
@@ -106,6 +105,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+    final isLoading = authState.isLoading;
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final currentLocale = ref.watch(localeProvider);

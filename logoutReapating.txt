@@ -1,0 +1,82 @@
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/168
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] AuthDialogManager: Session expired marked as handled
+I/flutter (22121): [DEBUG] Interceptor: Clearing storage and logging out
+I/flutter (22121): [DEBUG] === LOGOUT STARTED ===
+I/flutter (22121): [DEBUG] Storage cleared
+I/flutter (22121): [DEBUG] All providers invalidated
+I/flutter (22121): [DEBUG] appliedJobsLocalProvider cleared
+I/flutter (22121): [DEBUG] === LOGOUT COMPLETE ===
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for notifications/168
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): [NotificationsApiService] Error fetching notifications: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] AuthDialogManager: Session expired flag reset
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] AuthDialogManager: Session expired marked as handled
+I/flutter (22121): [DEBUG] Interceptor: Clearing storage and logging out
+I/flutter (22121): [DEBUG] === LOGOUT STARTED ===
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] Storage cleared
+I/flutter (22121): [DEBUG] All providers invalidated
+I/flutter (22121): [DEBUG] appliedJobsLocalProvider cleared
+I/flutter (22121): [DEBUG] === LOGOUT COMPLETE ===
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for jobs?page=0
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): fetchJobsPage error: DioException [bad response]: This exception was thrown because the response has a status code of 401 and RequestOptions.validateStatus was configured to throw for this status code.
+I/flutter (22121): The status code of 401 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+I/flutter (22121): Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+I/flutter (22121): In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+I/flutter (22121): [DEBUG] AuthDialogManager: Session expired flag reset

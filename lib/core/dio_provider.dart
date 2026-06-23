@@ -42,10 +42,16 @@ final dioProvider = Provider<Dio>((ref) {
           '[DEBUG] Interceptor: Received ${error.response?.statusCode} for $requestPath',
         );
 
-        // Skip auth endpoints - they might return 403 during login flow
-        if (requestPath.contains('/auth/') ||
-            requestPath.contains('/users/login') ||
-            requestPath.contains('/users/signup')) {
+        final cleanPath = requestPath.toLowerCase();
+        final method = error.requestOptions.method.toUpperCase();
+
+        // Skip auth endpoints - they might return 401/403 during authentication flows
+        final isAuthEndpoint = cleanPath.contains('auth/') ||
+            cleanPath.contains('users/login') ||
+            cleanPath.contains('users/signup') ||
+            (cleanPath == 'users' && method == 'POST');
+
+        if (isAuthEndpoint) {
           print(
             '[DEBUG] Interceptor blocked: Auth endpoint - skipping 403 check',
           );

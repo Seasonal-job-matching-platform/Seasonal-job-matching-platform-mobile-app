@@ -1,0 +1,30 @@
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/login
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] AuthDialogManager: Session expired marked as handled
+I/flutter (22121): [DEBUG] Interceptor: Clearing storage and logging out
+I/flutter (22121): [DEBUG] === LOGOUT STARTED ===
+I/flutter (22121): [DEBUG] Storage cleared
+I/flutter (22121): [DEBUG] All providers invalidated
+I/flutter (22121): [DEBUG] appliedJobsLocalProvider cleared
+I/flutter (22121): [DEBUG] === LOGOUT COMPLETE ===
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/login
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/login
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/login
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+I/flutter (22121): [DEBUG] Interceptor: Received 401 for users/login
+I/flutter (22121): [DEBUG] NavigationService: No route available
+I/flutter (22121): [DEBUG] Interceptor: 401 detected - checking if already handled
+I/flutter (22121): [DEBUG] Interceptor blocked: Session expired already handled
+
+
+
+

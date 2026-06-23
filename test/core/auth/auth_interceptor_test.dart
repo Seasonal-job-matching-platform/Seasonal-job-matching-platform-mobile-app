@@ -26,11 +26,13 @@ void main() {
         // Wait for async operation
         await Future.delayed(Duration.zero);
 
+        expect(handler.nextCalled, isTrue);
+        expect(handler.rejectCalled, isFalse);
         expect(options.headers['Authorization'], equals('Bearer $testToken'));
       },
     );
 
-    test('should not add Authorization header when token is null', () async {
+    test('should reject request when token is null for protected endpoint', () async {
       final interceptorNoToken = AuthInterceptor(() => Future.value(null));
 
       final options = RequestOptions(
@@ -45,10 +47,12 @@ void main() {
       // Wait for async operation
       await Future.delayed(Duration.zero);
 
-      expect(options.headers.containsKey('Authorization'), isFalse);
+      expect(handler.rejectCalled, isTrue);
+      expect(handler.nextCalled, isFalse);
+      expect(handler.rejectedError?.message, contains('No authentication token available'));
     });
 
-    test('should not add Authorization header when token is empty', () async {
+    test('should reject request when token is empty for protected endpoint', () async {
       final interceptorEmptyToken = AuthInterceptor(() => Future.value(''));
 
       final options = RequestOptions(
@@ -63,6 +67,29 @@ void main() {
       // Wait for async operation
       await Future.delayed(Duration.zero);
 
+      expect(handler.rejectCalled, isTrue);
+      expect(handler.nextCalled, isFalse);
+      expect(handler.rejectedError?.message, contains('No authentication token available'));
+    });
+
+    test('should allow public auth endpoint to proceed without token', () async {
+      final interceptorNoToken = AuthInterceptor(() => Future.value(null));
+
+      final options = RequestOptions(
+        path: 'users/login',
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final handler = MockRequestInterceptorHandler();
+
+      interceptorNoToken.onRequest(options, handler);
+
+      // Wait for async operation
+      await Future.delayed(Duration.zero);
+
+      expect(handler.nextCalled, isTrue);
+      expect(handler.rejectCalled, isFalse);
       expect(options.headers.containsKey('Authorization'), isFalse);
     });
 
@@ -111,8 +138,20 @@ void main() {
 }
 
 class MockRequestInterceptorHandler extends RequestInterceptorHandler {
+  bool nextCalled = false;
+  bool rejectCalled = false;
+  DioException? rejectedError;
+  RequestOptions? nextOptions;
+
   @override
   void next(RequestOptions options) {
-    super.next(options);
+    nextCalled = true;
+    nextOptions = options;
+  }
+
+  @override
+  void reject(DioException error, [bool callFollowingErrorInterceptor = false]) {
+    rejectCalled = true;
+    rejectedError = error;
   }
 }
