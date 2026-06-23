@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
 import 'package:job_seeker/services/jobs_screen_services/jobs_services_provider.dart';
 import 'package:job_seeker/providers/jobs_screen_providers/jobs_filter_provider.dart';
+import 'package:job_seeker/providers/auth_provider.dart';
 
 part 'paginated_jobs_provider.g.dart';
 
@@ -84,6 +85,11 @@ class PaginatedJobs extends _$PaginatedJobs {
 
   @override
   Future<PaginatedJobsState> build() async {
+    final authState = ref.watch(authProvider);
+    if (authState.status != AuthStatus.authenticated) {
+      return const PaginatedJobsState();
+    }
+
     // Watch filters so we rebuild (refresh) when they change
     ref.watch(jobsFilterProvider);
     

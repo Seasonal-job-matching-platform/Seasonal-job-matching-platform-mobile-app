@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/endpoints.dart';
 
 class ApplicationsRepository {
@@ -16,7 +17,7 @@ class ApplicationsRepository {
         return jobData['id'].toString() == jobId;
       });
     } catch (e) {
-      print('Error checking application status: $e');
+      AppLogger.error('Error checking application status: $e');
       rethrow;
     }
   }
@@ -40,7 +41,7 @@ class ApplicationsRepository {
       );
       return Map<String, dynamic>.from(res.data as Map);
     } catch (e) {
-      print('Error submitting application: $e');
+      AppLogger.error('Error submitting application: $e');
       rethrow;
     }
   }

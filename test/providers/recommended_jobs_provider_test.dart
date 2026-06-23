@@ -40,7 +40,13 @@ void main() {
     );
 
     test('initial state is loading', () {
-      final container = createContainer();
+      final container = createContainer(
+        overrides: [
+          personalInformationProvider.overrideWith(
+            () => PersonalInformationAsyncNotifierMock(user),
+          ),
+        ],
+      );
       expect(
         container.read(recommendedJobsProvider),
         const AsyncValue<RecommendedJobsResponse>.loading(),

@@ -1,3 +1,5 @@
+import '../logger.dart';
+
 class AuthDialogManager {
   static final AuthDialogManager _instance = AuthDialogManager._internal();
   factory AuthDialogManager() => _instance;
@@ -8,11 +10,11 @@ class AuthDialogManager {
 
   void markSessionExpiredHandled() {
     _isSessionExpiredHandled = true;
-    print('[DEBUG] AuthDialogManager: Session expired marked as handled');
+    AppLogger.debug('[DEBUG] AuthDialogManager: Session expired marked as handled');
   }
 
   void resetSessionExpired() {
     _isSessionExpiredHandled = false;
-    print('[DEBUG] AuthDialogManager: Session expired flag reset');
+    AppLogger.debug('[DEBUG] AuthDialogManager: Session expired flag reset');
   }
 }

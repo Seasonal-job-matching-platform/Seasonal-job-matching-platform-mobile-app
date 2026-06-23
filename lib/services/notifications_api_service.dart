@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/core/dio_provider.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/endpoints.dart';
 import 'package:job_seeker/models/notification_model.dart';
 
@@ -26,9 +27,9 @@ class NotificationsApiService {
         NOTIFICATION_TOKEN_REGISTER,
         data: {'userId': userId, 'token': token, 'deviceType': deviceType},
       );
-      print('[NotificationsApiService] Token registered successfully');
+      AppLogger.info('[NotificationsApiService] Token registered successfully');
     } catch (e) {
-      print('[NotificationsApiService] Error registering token: $e');
+      AppLogger.error('[NotificationsApiService] Error registering token: $e');
       rethrow;
     }
   }
@@ -47,7 +48,7 @@ class NotificationsApiService {
       final List<dynamic> data = response.data as List<dynamic>;
       return data.map((json) => NotificationModel.fromJson(json)).toList();
     } catch (e) {
-      print('[NotificationsApiService] Error fetching notifications: $e');
+      AppLogger.error('[NotificationsApiService] Error fetching notifications: $e');
       return [];
     }
   }
@@ -56,7 +57,7 @@ class NotificationsApiService {
     try {
       await _dio.patch('$NOTIFICATIONS_BASE/$notificationId/read');
     } catch (e) {
-      print('[NotificationsApiService] Error marking as read: $e');
+      AppLogger.error('[NotificationsApiService] Error marking as read: $e');
     }
   }
 }

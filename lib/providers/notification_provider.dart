@@ -11,6 +11,11 @@ part 'notification_provider.g.dart';
 class Notifications extends _$Notifications {
   @override
   Future<List<NotificationModel>> build(int userId) async {
+    final authState = ref.watch(authProvider);
+    if (authState.status != AuthStatus.authenticated) {
+      return const [];
+    }
+
     final apiService = ref.read(notificationsApiServiceProvider);
     
     // Listen to foreground messages

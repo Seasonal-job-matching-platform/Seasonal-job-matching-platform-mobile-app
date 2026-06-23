@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:job_seeker/endpoints.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
+import 'package:job_seeker/core/logger.dart';
 
 /// Result class for batch fetching with partial success support
 class FavoriteJobsResult {
@@ -61,8 +62,7 @@ class FavoritesService {
   /// Returns null if the request fails for any reason.
   Future<JobModel?> _fetchSingleJob(String id) async {
     try {
-      // ignore: avoid_print
-      print('FavoritesService: Fetching job $id from $JOBS/$id');
+      AppLogger.info('FavoritesService: Fetching job $id from $JOBS/$id');
       final response = await _dio.get(
         '$JOBS/$id',
         options: Options(
@@ -70,15 +70,13 @@ class FavoritesService {
           receiveTimeout: requestTimeout,
         ),
       );
-      // ignore: avoid_print
-      print('FavoritesService: Response for job $id - ${response.statusCode}');
+      AppLogger.info('FavoritesService: Response for job $id - ${response.statusCode}');
       final data = Map<String, dynamic>.from(response.data as Map);
       if (data['id'] != null && data['id'] is! String) {
         data['id'] = data['id'].toString();
       }
       final job = JobModel.fromJson(data);
-      // ignore: avoid_print
-      print('FavoritesService: Successfully parsed job $id - ${job.title}');
+      AppLogger.info('FavoritesService: Successfully parsed job $id - ${job.title}');
       return job;
     } on DioException catch (e) {
       // Log the error type for debugging
@@ -86,10 +84,7 @@ class FavoritesService {
       return null;
     } catch (e, st) {
       // Handle any other parsing errors
-      // ignore: avoid_print
-      print('FavoritesService: Parsing error for job $id - $e');
-      // ignore: avoid_print
-      print('FavoritesService: Stack trace - $st');
+      AppLogger.error('FavoritesService: Parsing error for job $id - $e', error: e, stackTrace: st);
       return null;
     }
   }
@@ -106,7 +101,6 @@ class FavoritesService {
       DioExceptionType.connectionError => 'Connection error',
       _ => 'Unknown error',
     };
-    // ignore: avoid_print
-    print('FavoritesService: Failed to fetch job $jobId - $errorType');
+    AppLogger.error('FavoritesService: Failed to fetch job $jobId - $errorType');
   }
 }

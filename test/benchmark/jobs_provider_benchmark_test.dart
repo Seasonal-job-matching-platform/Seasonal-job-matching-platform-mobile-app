@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
 import 'package:job_seeker/models/jobs_screen_models/paginated_jobs_response.dart';
+import 'package:job_seeker/providers/auth_provider.dart';
 import 'package:job_seeker/providers/jobs_screen_providers/paginated_jobs_provider.dart';
 import 'package:job_seeker/services/jobs_screen_services/jobs_services_provider.dart';
 import 'package:mocktail/mocktail.dart';
@@ -43,6 +44,7 @@ void main() {
     return ProviderContainer(
       overrides: [
         jobServiceProvider.overrideWithValue(mockService),
+        authProvider.overrideWith(() => FakeAuthNotifier()),
       ],
     );
   }
@@ -134,4 +136,15 @@ void main() {
       expect(benchmarks.length, jobCounts.length);
     });
   });
+}
+
+class FakeAuthNotifier extends AuthNotifier {
+  @override
+  AuthState build() {
+    return const AuthState(
+      status: AuthStatus.authenticated,
+      token: 'fake_token',
+      userId: 123,
+    );
+  }
 }

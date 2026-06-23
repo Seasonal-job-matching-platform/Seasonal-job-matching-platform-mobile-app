@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/core/dio_provider.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/endpoints.dart';
 import 'package:job_seeker/models/applications_screen_models/application_model.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
@@ -26,7 +27,7 @@ class ApplicationsService {
       // Fetch user's applications (which already include nested job data)
       final response = await _dio.get("$APPLICATIONS/user/$userId");
       
-      debugPrint('Applications response: ${response.data}');
+      AppLogger.info('Applications response: ${response.data}');
       
       // Parse the response
       final List appDataList = response.data as List;
@@ -44,7 +45,7 @@ class ApplicationsService {
       return result;
       
     } catch (e) {
-      debugPrint('Error fetching applications: $e');
+      AppLogger.error('Error fetching applications: $e');
       rethrow;
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/constants/constants.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 
 class ProfileInfoCard extends ConsumerStatefulWidget {
@@ -424,7 +425,7 @@ class _ProfileInfoCardState extends ConsumerState<ProfileInfoCard>
     return asyncData.when(
       loading: () => _buildCard(context, isLoading: true, onTap: null),
       error: (error, stackTrace) {
-        debugPrint('Profile card error: $error');
+        AppLogger.error('Profile card error: $error');
         return _buildCard(context, isLoading: false, onTap: null);
       },
       data: (data) => _buildCard(

@@ -5,6 +5,8 @@ import 'package:job_seeker/models/profile_screen_models/personal_information_mod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/services/profile_screen_services/personal_information_service.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
+import 'package:job_seeker/providers/auth_provider.dart';
+import 'package:job_seeker/core/logger.dart';
 
 final personalInformationProvider =
     AsyncNotifierProvider<
@@ -20,6 +22,22 @@ class PersonalInformationAsyncNotifier
 
   @override
   Future<PersonalInformationModel> build() async {
+    final authState = ref.watch(authProvider);
+    if (authState.status != AuthStatus.authenticated) {
+      return const PersonalInformationModel(
+        id: 0,
+        name: '',
+        country: '',
+        number: '',
+        email: '',
+        favoriteJobs: [],
+        ownedjobs: [],
+        ownedapplications: [],
+        resume: [],
+        fieldsOfInterest: [],
+      );
+    }
+
     // Fetch user data
     final userData = await _service.fetchUserData();
 
@@ -27,21 +45,21 @@ class PersonalInformationAsyncNotifier
     try {
       appliedJobIds = await _service.fetchAppliedJobIds();
     } catch (e, st) {
-      debugPrint('[DEBUG] Error fetching applied job IDs: $e\n$st');
+      AppLogger.error('[DEBUG] Error fetching applied job IDs: $e\n$st', error: e, stackTrace: st);
     }
 
     List<int> favoriteJobIds = userData.favoriteJobs;
     try {
       favoriteJobIds = await _service.fetchFavoriteJobIds();
     } catch (e, st) {
-      debugPrint('[DEBUG] Error fetching favorite job IDs: $e\n$st');
+      AppLogger.error('[DEBUG] Error fetching favorite job IDs: $e\n$st', error: e, stackTrace: st);
     }
 
     List<String> fieldsOfInterest = userData.fieldsOfInterest ?? [];
     try {
       fieldsOfInterest = await _service.fetchFieldsOfInterest();
     } catch (e, st) {
-      debugPrint('[DEBUG] Error fetching fields of interest: $e\n$st');
+      AppLogger.error('[DEBUG] Error fetching fields of interest: $e\n$st', error: e, stackTrace: st);
     }
 
     // Update user data with applied job IDs, favorite job IDs, and fields of interest
@@ -128,7 +146,7 @@ class PersonalInformationAsyncNotifier
         current.copyWith(ownedapplications: appliedJobIds),
       );
     } catch (e) {
-      debugPrint('Failed to refresh applied jobs: $e');
+      AppLogger.error('Failed to refresh applied jobs: $e');
       // Don't update state on error, keep current data
     }
   }
@@ -139,7 +157,7 @@ class PersonalInformationAsyncNotifier
       final updatedUser = await _service.fetchUserData();
       state = AsyncValue.data(updatedUser);
     } catch (e) {
-      debugPrint('Failed to refresh fields of interest: $e');
+      AppLogger.error('Failed to refresh fields of interest: $e');
       // Don't update state on error, keep current data
     }
   }
@@ -153,7 +171,7 @@ class PersonalInformationAsyncNotifier
       final fields = await _service.fetchFieldsOfInterest();
       state = AsyncValue.data(current.copyWith(fieldsOfInterest: fields));
     } catch (e) {
-      debugPrint('Failed to refresh only fields of interest: $e');
+      AppLogger.error('Failed to refresh only fields of interest: $e');
       // keep current state on error
     }
   }

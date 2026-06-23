@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'logger.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -12,18 +13,18 @@ class NavigationService {
   bool isOnAuthScreen() {
     final context = rootNavigatorKey.currentContext;
     if (context == null) {
-      print('[DEBUG] NavigationService: No context available');
+      AppLogger.debug('[DEBUG] NavigationService: No context available');
       return false;
     }
 
     final route = ModalRoute.of(context);
     if (route == null) {
-      print('[DEBUG] NavigationService: No route available');
+      AppLogger.debug('[DEBUG] NavigationService: No route available');
       return false;
     }
 
     final routeName = route.settings.name;
-    print('[DEBUG] NavigationService: Current route: $routeName');
+    AppLogger.debug('[DEBUG] NavigationService: Current route: $routeName');
 
     // Check for login/signup routes
     return routeName == 'LoginScreen' ||

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:job_seeker/models/profile_screen_models/resume_model.dart';
 import 'package:job_seeker/services/profile_screen_services/resume_service.dart';
+import 'package:job_seeker/providers/auth_provider.dart';
 
 part 'resume_provider.g.dart';
 
@@ -8,6 +9,11 @@ part 'resume_provider.g.dart';
 class ResumeNotifier extends _$ResumeNotifier {
   @override
   Future<ResumeModel?> build() async {
+    final authState = ref.watch(authProvider);
+    if (authState.status != AuthStatus.authenticated) {
+      return null;
+    }
+    
     final service = ref.watch(resumeServiceProvider);
     try {
       // Just try to get the resume. If it returns null (404/500), we return null.

@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:job_seeker/core/logger.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('[NotificationService] Background message: ${message.notification?.title}');
+  AppLogger.info('[NotificationService] Background message: ${message.notification?.title}');
 }
 
 class NotificationService {
@@ -21,9 +22,9 @@ class NotificationService {
   Future<void> initialize() async {
     final permission = await _firebaseMessaging.requestPermission();
     if (permission.authorizationStatus == AuthorizationStatus.authorized) {
-      print('[NotificationService] Permission granted');
+      AppLogger.info('[NotificationService] Permission granted');
     } else {
-      print('[NotificationService] Permission denied: ${permission.authorizationStatus}');
+      AppLogger.warning('[NotificationService] Permission denied: ${permission.authorizationStatus}');
     }
 
     await _firebaseMessaging.setForegroundNotificationPresentationOptions(
@@ -42,21 +43,21 @@ class NotificationService {
   Future<String?> getToken() async {
     try {
       final token = await _firebaseMessaging.getToken();
-      print('[NotificationService] FCM Token: $token');
+      AppLogger.info('[NotificationService] FCM Token: $token');
       return token;
     } catch (e) {
-      print('[NotificationService] Error getting token: $e');
+      AppLogger.error('[NotificationService] Error getting token: $e');
       return null;
     }
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    print('[NotificationService] Foreground message: ${message.notification?.title}');
+    AppLogger.info('[NotificationService] Foreground message: ${message.notification?.title}');
     _onMessageCallback?.call(message);
   }
 
   void _handleMessageOpenedApp(RemoteMessage message) {
-    print('[NotificationService] App opened from notification: ${message.notification?.title}');
+    AppLogger.info('[NotificationService] App opened from notification: ${message.notification?.title}');
     _onMessageCallback?.call(message);
   }
 

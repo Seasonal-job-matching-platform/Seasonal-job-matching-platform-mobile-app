@@ -4,6 +4,7 @@ import 'package:job_seeker/core/dio_provider.dart';
 import 'package:job_seeker/core/auth/auth_storage.dart';
 import 'package:job_seeker/endpoints.dart';
 import 'package:job_seeker/models/profile_screen_models/personal_information_model.dart';
+import 'package:job_seeker/core/logger.dart';
 
 final personalInformationServiceProvider = Provider<PersonalInformationService>(
   (ref) {
@@ -31,7 +32,7 @@ class PersonalInformationService {
     final userId = await _getUserId();
     final userPath = userById(userId);
     final response = await _dio.get(userPath);
-    print('Profile API response: ${response.data}');
+    AppLogger.info('Profile API response: ${response.data}');
     // final fixed = Map<String, dynamic>.from(response.data);
     // if (fixed['id'] != null && fixed['id'] is! String) fixed['id'] = fixed['id'].toString();
     try {
@@ -111,7 +112,7 @@ class PersonalInformationService {
     } on DioException catch (e) {
       throw _handleError(e);
     } catch (e) {
-      print('[DEBUG] Error parsing applied job IDs: $e');
+      AppLogger.error('[DEBUG] Error parsing applied job IDs: $e');
       return [];
     }
   }
@@ -142,7 +143,7 @@ class PersonalInformationService {
     } on DioException catch (e) {
       throw _handleError(e);
     } catch (e) {
-      print('[DEBUG] Error parsing favorite job IDs: $e');
+      AppLogger.error('[DEBUG] Error parsing favorite job IDs: $e');
       return [];
     }
   }
@@ -172,7 +173,7 @@ class PersonalInformationService {
     } on DioException catch (e) {
       throw _handleError(e);
     } catch (e) {
-      print('[DEBUG] Error parsing fields of interest: $e');
+      AppLogger.error('[DEBUG] Error parsing fields of interest: $e');
       return [];
     }
   }

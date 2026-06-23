@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/core/dio_provider.dart';
 import 'package:job_seeker/core/auth/auth_storage.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/endpoints.dart';
 import 'package:job_seeker/models/profile_screen_models/resume_model.dart';
 
@@ -43,7 +44,7 @@ class ResumeService {
     final userId = await _getUserId();
     final path = resumeById(userId);
     try {
-      debugPrint("Entring Post");
+      AppLogger.debug("Entering Post");
       final response = await _dio.post(path, data: {});
       return ResumeModel.fromJson(response.data);
     } on DioException catch (e) {

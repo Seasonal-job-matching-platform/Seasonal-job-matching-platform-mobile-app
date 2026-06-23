@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io' show Platform;
 import 'package:job_seeker/core/auth/auth_storage.dart';
 import 'package:job_seeker/core/auth/auth_dialog_manager.dart';
+import 'package:job_seeker/core/logger.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_controller.dart';
 import 'package:job_seeker/providers/home_screen_providers/recommended_jobs_provider.dart';
@@ -112,7 +113,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
       // Reset dialog manager on successful login
       AuthDialogManager().resetSessionExpired();
-      print('[DEBUG] Login successful, dialog manager reset');
+      AppLogger.debug('[DEBUG] Login successful, dialog manager reset');
     } catch (e) {
       state = AuthState(
         status: AuthStatus.unauthenticated,
@@ -147,7 +148,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
       // If no token is returned, perform automatic login
       if (token == null) {
-        print('[DEBUG] Signup successful, performing automatic login...');
+        AppLogger.debug('[DEBUG] Signup successful, performing automatic login...');
         return await login(email: email, password: password);
       }
 
@@ -165,7 +166,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
       // Reset dialog manager on successful signup
       AuthDialogManager().resetSessionExpired();
-      print('[DEBUG] Signup successful, dialog manager reset');
+      AppLogger.debug('[DEBUG] Signup successful, dialog manager reset');
     } catch (e) {
       state = AuthState(
         status: AuthStatus.unauthenticated,
@@ -176,38 +177,34 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> logout({bool sessionExpired = false}) async {
-    print('[DEBUG] === LOGOUT STARTED ===');
+    AppLogger.debug('[DEBUG] === LOGOUT STARTED ===');
 
     await _storage.clearToken();
     await _storage.clearUserId();
     await _storage.clearFcmToken();
-    print('[DEBUG] Storage cleared');
+    AppLogger.debug('[DEBUG] Storage cleared');
 
     state = AuthState(
       status: AuthStatus.unauthenticated,
       sessionExpired: sessionExpired,
     );
 
-    // Invalidate all data providers to prevent data leakage
-    ref.invalidate(personalInformationProvider);
+    // Invalidate non-reactive state providers to prevent data leakage.
+    // Reactive providers (like personalInformationProvider, paginatedJobsProvider,
+    // favoriteJobsProvider, applicationsProvider, recommendedJobsProvider,
+    // jobsNotifierProvider, resumeProvider) automatically reset because they watch authProvider.
     ref.invalidate(appliedJobsLocalProvider);
-    ref.invalidate(favoriteJobsProvider);
-    ref.invalidate(applicationsProvider);
-    ref.invalidate(jobsNotifierProvider);
-    ref.invalidate(paginatedJobsProvider);
-    ref.invalidate(recommendedJobsProvider);
     ref.invalidate(favoritesControllerProvider);
     ref.invalidate(applyControllerProvider);
     ref.invalidate(jobCommentsNotifierProvider);
     ref.invalidate(jobsFilterProvider);
-    ref.invalidate(resumeProvider);
-    print('[DEBUG] All providers invalidated');
+    AppLogger.debug('[DEBUG] Non-reactive state providers invalidated');
 
     // Clear local applied jobs set
     ref.read(appliedJobsLocalProvider.notifier).state = {};
-    print('[DEBUG] appliedJobsLocalProvider cleared');
+    AppLogger.debug('[DEBUG] appliedJobsLocalProvider cleared');
 
-    print('[DEBUG] === LOGOUT COMPLETE ===');
+    AppLogger.debug('[DEBUG] === LOGOUT COMPLETE ===');
   }
 
   Future<void> _registerFcmToken(int userId) async {
@@ -224,10 +221,10 @@ class AuthNotifier extends Notifier<AuthState> {
           token: currentToken,
           deviceType: Platform.isIOS ? 'iOS' : 'Android',
         );
-        print('[DEBUG] FCM token registered successfully');
+        AppLogger.debug('[DEBUG] FCM token registered successfully');
       }
     } catch (e) {
-      print('[DEBUG] Error registering FCM token: $e');
+      AppLogger.error('[DEBUG] Error registering FCM token: $e');
     }
   }
 }

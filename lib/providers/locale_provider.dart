@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:job_seeker/core/logger.dart';
 
 const _localeKey = 'app_locale';
 
@@ -21,7 +22,7 @@ class LocaleNotifier extends Notifier<Locale> {
         state = Locale(saved);
       }
     } catch (e) {
-      debugPrint('Error loading locale: $e');
+      AppLogger.error('Error loading locale: $e');
     }
   }
 
