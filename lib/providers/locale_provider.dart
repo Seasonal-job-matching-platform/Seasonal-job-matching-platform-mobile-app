@@ -12,6 +12,7 @@ class LocaleNotifier extends Notifier<Locale> {
 
   @override
   Locale build() {
+    init();
     return const Locale('en');
   }
 
