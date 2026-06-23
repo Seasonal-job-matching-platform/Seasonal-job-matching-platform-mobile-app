@@ -44,18 +44,12 @@ final dioProvider = Provider<Dio>((ref) {
           '[DEBUG] Interceptor: Received ${error.response?.statusCode} for $requestPath',
         );
 
-        final cleanPath = requestPath.toLowerCase();
-        final method = error.requestOptions.method.toUpperCase();
-
-        // Skip auth endpoints - they might return 401/403 during authentication flows
-        final isAuthEndpoint = cleanPath.contains('auth/') ||
-            cleanPath.contains('users/login') ||
-            cleanPath.contains('users/signup') ||
-            (cleanPath == 'users' && method == 'POST');
-
-        if (isAuthEndpoint) {
-          AppLogger.debug(
-            '[DEBUG] Interceptor blocked: Auth/Public endpoint - skipping check',
+        // Skip auth endpoints - they might return 403 during login flow
+        if (requestPath.contains('/auth/') ||
+            requestPath.contains('/users/login') ||
+            requestPath.contains('/users/signup')) {
+          print(
+            '[DEBUG] Interceptor blocked: Auth endpoint - skipping 403 check',
           );
           handler.next(error);
           return;
@@ -63,12 +57,15 @@ final dioProvider = Provider<Dio>((ref) {
 
         // Check if user is on auth screen - if so, silently handle
         if (NavigationService().isOnAuthScreen()) {
-          AppLogger.debug('[DEBUG] Interceptor blocked: User is on auth screen');
+          AppLogger.debug(
+            '[DEBUG] Interceptor blocked: User is on auth screen',
+          );
           handler.next(error);
           return;
         }
 
-        if (error.response?.statusCode == 401 || error.response?.statusCode == 403) {
+        if (error.response?.statusCode == 401 ||
+            error.response?.statusCode == 403) {
           AppLogger.debug(
             '[DEBUG] Interceptor: ${error.response?.statusCode} detected - checking if already handled',
           );
@@ -83,7 +80,9 @@ final dioProvider = Provider<Dio>((ref) {
           }
 
           AuthDialogManager().markSessionExpiredHandled();
-          AppLogger.warning('[DEBUG] Interceptor: Clearing storage and logging out');
+          AppLogger.warning(
+            '[DEBUG] Interceptor: Clearing storage and logging out',
+          );
           await storage.clearToken();
           await storage.clearUserId();
           ref.read(authProvider.notifier).logout(sessionExpired: true);

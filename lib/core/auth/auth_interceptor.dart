@@ -26,7 +26,11 @@ class AuthInterceptor extends Interceptor {
       // Allow public endpoints to proceed without token
       super.onRequest(options, handler);
     } else {
+<<<<<<< HEAD
       AppLogger.warning('[DEBUG] AuthInterceptor: Blocking request to ${options.path} - No token available');
+=======
+      print('[DEBUG] AuthInterceptor: Blocking request to ${options.path} - No token available');
+>>>>>>> 11450b5047d835f67cd4061902dd7b1822ee5e9f
       handler.reject(
         DioException(
           requestOptions: options,
