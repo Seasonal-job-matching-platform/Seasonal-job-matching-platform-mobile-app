@@ -8,13 +8,17 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this._getToken);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await _getToken();
-    
+
     final path = options.path.toLowerCase();
     final method = options.method.toUpperCase();
-    
-    final isAuthEndpoint = path.contains('auth/') ||
+
+    final isAuthEndpoint =
+        path.contains('auth/') ||
         path.contains('users/login') ||
         path.contains('users/signup') ||
         (path == 'users' && method == 'POST');
@@ -26,11 +30,9 @@ class AuthInterceptor extends Interceptor {
       // Allow public endpoints to proceed without token
       super.onRequest(options, handler);
     } else {
-<<<<<<< HEAD
-      AppLogger.warning('[DEBUG] AuthInterceptor: Blocking request to ${options.path} - No token available');
-=======
-      print('[DEBUG] AuthInterceptor: Blocking request to ${options.path} - No token available');
->>>>>>> 11450b5047d835f67cd4061902dd7b1822ee5e9f
+      AppLogger.warning(
+        '[DEBUG] AuthInterceptor: Blocking request to ${options.path} - No token available',
+      );
       handler.reject(
         DioException(
           requestOptions: options,
@@ -42,5 +44,3 @@ class AuthInterceptor extends Interceptor {
     }
   }
 }
-
-
