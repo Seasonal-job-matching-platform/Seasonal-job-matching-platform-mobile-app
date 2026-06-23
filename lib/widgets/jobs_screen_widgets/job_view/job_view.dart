@@ -11,6 +11,7 @@ import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_apply_dialog
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_comments_section.dart';
 
 import 'package:job_seeker/utils/job_color_util.dart';
+import 'package:job_seeker/utils/translation_utils.dart';
 
 class JobView extends ConsumerWidget {
   final JobModel job;
@@ -154,7 +155,7 @@ class JobView extends ConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           _JobTag(
-                            text: job.type,
+                            text: TranslationUtils.translateJobType(job.type, l10n),
                             icon: Icons.access_time_rounded,
                             color: Colors.purple.shade50,
                             textColor: Colors.purple.shade700,

@@ -228,7 +228,7 @@ class _TimelineApplicationCard extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  app.applicationStatus,
+                                  TranslationUtils.translateStatus(app.applicationStatus, l10n),
                                   style: theme.textTheme.titleSmall?.copyWith(
                                     color: statusColor,
                                     fontWeight: FontWeight.w700,
@@ -275,7 +275,7 @@ class _TimelineApplicationCard extends StatelessWidget {
                               ),
                               _InfoRow(
                                 icon: Icons.work_outline,
-                                text: job.type,
+                                text: TranslationUtils.translateJobType(job.type, l10n),
                               ),
                               ...job.categories
                                   .take(2)

@@ -1,40 +1,156 @@
 import 'package:job_seeker/l10n/app_localizations.dart';
 
+enum JobType {
+  fullTime,
+  partTime,
+  freelance,
+  contract,
+  temporary,
+  volunteer,
+  internship,
+  unknown;
+
+  static JobType fromString(String? typeStr) {
+    if (typeStr == null || typeStr.isEmpty) return JobType.unknown;
+    final normalized = typeStr.toLowerCase().replaceAll('_', '');
+    if (normalized.contains('fulltime')) return JobType.fullTime;
+    if (normalized.contains('parttime')) return JobType.partTime;
+    if (normalized.contains('freelance')) return JobType.freelance;
+    if (normalized.contains('contract')) return JobType.contract;
+    if (normalized.contains('temporary') || normalized.contains('temp')) return JobType.temporary;
+    if (normalized.contains('volunteer')) return JobType.volunteer;
+    if (normalized.contains('internship') || normalized.contains('intern')) return JobType.internship;
+    return JobType.unknown;
+  }
+
+  String getEnglishLabel() {
+    switch (this) {
+      case JobType.fullTime:
+        return 'Full Time';
+      case JobType.partTime:
+        return 'Part Time';
+      case JobType.freelance:
+        return 'Freelance';
+      case JobType.contract:
+        return 'Contract';
+      case JobType.temporary:
+        return 'Temporary';
+      case JobType.volunteer:
+        return 'Volunteer';
+      case JobType.internship:
+        return 'Internship';
+      case JobType.unknown:
+        return 'Unknown';
+    }
+  }
+
+  String getLocalizedLabel(AppLocalizations l10n) {
+    switch (this) {
+      case JobType.fullTime:
+        return l10n.fullTime;
+      case JobType.partTime:
+        return l10n.partTime;
+      case JobType.freelance:
+        return l10n.freelance;
+      case JobType.contract:
+        return l10n.contract;
+      case JobType.temporary:
+        return l10n.temporary;
+      case JobType.volunteer:
+        return l10n.volunteer;
+      case JobType.internship:
+        return l10n.internship;
+      case JobType.unknown:
+        return l10n.notSet;
+    }
+  }
+}
+
+enum ApplicationStatus {
+  pending,
+  accepted,
+  rejected,
+  interview,
+  submitted,
+  closed,
+  open,
+  unknown;
+
+  static ApplicationStatus fromString(String? statusStr) {
+    if (statusStr == null || statusStr.isEmpty) return ApplicationStatus.unknown;
+    final normalized = statusStr.toLowerCase();
+    if (normalized.contains('pending')) return ApplicationStatus.pending;
+    if (normalized.contains('accepted') || normalized.contains('approved')) return ApplicationStatus.accepted;
+    if (normalized.contains('rejected') || normalized.contains('declined')) return ApplicationStatus.rejected;
+    if (normalized.contains('interview')) return ApplicationStatus.interview;
+    if (normalized.contains('submitted')) return ApplicationStatus.submitted;
+    if (normalized.contains('closed')) return ApplicationStatus.closed;
+    if (normalized.contains('open')) return ApplicationStatus.open;
+    return ApplicationStatus.unknown;
+  }
+
+  String getEnglishLabel() {
+    switch (this) {
+      case ApplicationStatus.pending:
+        return 'Pending';
+      case ApplicationStatus.accepted:
+        return 'Accepted';
+      case ApplicationStatus.rejected:
+        return 'Rejected';
+      case ApplicationStatus.interview:
+        return 'Interview';
+      case ApplicationStatus.submitted:
+        return 'Submitted';
+      case ApplicationStatus.closed:
+        return 'Closed';
+      case ApplicationStatus.open:
+        return 'Open';
+      case ApplicationStatus.unknown:
+        return 'Unknown';
+    }
+  }
+
+  String getLocalizedLabel(AppLocalizations l10n) {
+    switch (this) {
+      case ApplicationStatus.pending:
+        return l10n.statusPending;
+      case ApplicationStatus.accepted:
+        return l10n.statusAccepted;
+      case ApplicationStatus.rejected:
+        return l10n.statusRejected;
+      case ApplicationStatus.interview:
+        return l10n.statusInterview;
+      case ApplicationStatus.submitted:
+        return l10n.statusSubmitted;
+      case ApplicationStatus.closed:
+        return l10n.statusClosed;
+      case ApplicationStatus.open:
+        return l10n.statusOpen;
+      case ApplicationStatus.unknown:
+        return l10n.notSet;
+    }
+  }
+}
+
 class TranslationUtils {
   /// Translates application status strings like 'PENDING', 'ACCEPTED', etc.
   static String translateStatus(String? apiStatus, AppLocalizations l10n) {
     if (apiStatus == null || apiStatus.isEmpty) return l10n.notSet;
-
-    final status = apiStatus.toLowerCase();
-    
-    if (status.contains('pending')) return l10n.statusPending;
-    if (status.contains('accepted') || status.contains('approved')) return l10n.statusAccepted;
-    if (status.contains('rejected') || status.contains('declined')) return l10n.statusRejected;
-    if (status.contains('interview')) return l10n.statusInterview;
-    if (status.contains('submitted')) return l10n.statusSubmitted;
-    if (status.contains('closed')) return l10n.statusClosed;
-    if (status.contains('open')) return l10n.statusOpen;
-
-    // Fallback if not mapped
-    return apiStatus;
+    final statusEnum = ApplicationStatus.fromString(apiStatus);
+    if (statusEnum == ApplicationStatus.unknown) {
+      return apiStatus;
+    }
+    return statusEnum.getLocalizedLabel(l10n);
   }
 
   /// Translates job type strings like 'FULL_TIME', 'PART_TIME', etc.
   static String translateJobType(String? apiJobType, AppLocalizations l10n) {
     if (apiJobType == null || apiJobType.isEmpty) return l10n.notSet;
-
-    final type = apiJobType.toLowerCase().replaceAll('_', '');
-
-    if (type.contains('fulltime')) return l10n.fullTime;
-    if (type.contains('parttime')) return l10n.partTime;
-    if (type.contains('freelance')) return l10n.freelance;
-    if (type.contains('contract')) return l10n.contract;
-    if (type.contains('temporary') || type.contains('temp')) return l10n.temporary;
-    if (type.contains('volunteer')) return l10n.volunteer;
-    if (type.contains('internship') || type.contains('intern')) return l10n.internship;
-
-    // Fallback if not mapped
-    return apiJobType;
+    final typeEnum = JobType.fromString(apiJobType);
+    if (typeEnum == JobType.unknown) {
+      return apiJobType;
+    }
+    return typeEnum.getLocalizedLabel(l10n);
   }
 
   /// Translates salary type strings like 'HOURLY', 'MONTHLY', etc.

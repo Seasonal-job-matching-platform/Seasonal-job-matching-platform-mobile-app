@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/services/applications_screen_services/applications_service.dart';
 import 'package:job_seeker/widgets/common/app_card.dart';
+import 'package:job_seeker/utils/translation_utils.dart';
 
 class ApplicationDetailScreen extends StatelessWidget {
   final ApplicationWithJob item;
@@ -129,7 +130,7 @@ class ApplicationDetailScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      app.applicationStatus,
+                                      TranslationUtils.translateStatus(app.applicationStatus, l10n),
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: statusColor,
@@ -246,7 +247,7 @@ class ApplicationDetailScreen extends StatelessWidget {
                           const SizedBox(height: 12),
                           _InfoRow(
                             icon: Icons.work_outline,
-                            text: job.type,
+                            text: TranslationUtils.translateJobType(job.type, l10n),
                             color: const Color(0xFF8B5CF6),
                           ),
                           if (job.categories.isNotEmpty) ...[

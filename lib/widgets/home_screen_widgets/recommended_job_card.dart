@@ -7,6 +7,8 @@ import 'package:job_seeker/providers/home_screen_providers/favorites_controller.
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_view.dart';
 import 'package:job_seeker/utils/job_color_util.dart';
+import 'package:job_seeker/utils/translation_utils.dart';
+import 'package:job_seeker/l10n/app_localizations.dart';
 
 class RecommendedJobCard extends ConsumerWidget {
   final JobModel job;
@@ -15,6 +17,7 @@ class RecommendedJobCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     // Dynamic Bold Color
     final Color cardColor = JobColorUtil.getJobColor(job.id, job.title);
 
@@ -105,7 +108,7 @@ class RecommendedJobCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _WhiteTag(
-                        text: job.type,
+                        text: TranslationUtils.translateJobType(job.type, l10n),
                         icon: Icons.access_time_filled_rounded,
                       ),
                       const SizedBox(height: 8),
