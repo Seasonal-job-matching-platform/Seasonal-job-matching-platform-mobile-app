@@ -20,8 +20,8 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       
-      - name: List build outputs
-        run: ls -lh build/app/outputs/release/
+      - name: Find APK file
+        run: find build -name "*.apk" -type f
       
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
@@ -29,8 +29,19 @@ jobs:
           tag_name: v${{ github.run_number }}
           name: Release v${{ github.run_number }}
           body: |
-
-          files: build/app/outputs/release/app-release.apk
+            📱 **Automated Release Build**
+            
+            **Build Info:**
+            - Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            - Branch: ${{ github.ref_name }}
+            - Author: ${{ github.actor }}
+            
+            **How to Install:**
+            1. Download the APK file below
+            2. Transfer to your Android phone
+            3. Open the APK file and tap Install
+            4. If prompted, enable "Install from Unknown Sources"
+          files: build/app/outputs/apk/release/app-release.apk
           draft: false
           prerelease: false
         env:
