@@ -2,6 +2,7 @@ name: Build and Release APK
 on:
   push:
     branches: [ "main" ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,14 +20,16 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       
+      - name: List build outputs
+        run: ls -lh build/app/outputs/release/
+      
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
           name: Release v${{ github.run_number }}
           body: |
-            Automated release build
-            Commit: ${{ github.sha }}
+
           files: build/app/outputs/release/app-release.apk
           draft: false
           prerelease: false
