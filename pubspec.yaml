@@ -50,6 +50,7 @@ dependencies:
   flutter_local_notifications: ^19.2.1
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -77,10 +78,11 @@ flutter:
   # Required for Flutter localization generation
   generate: true
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - images/emptyState/
+    - images/error/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

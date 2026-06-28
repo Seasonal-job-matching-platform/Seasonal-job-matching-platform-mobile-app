@@ -26,24 +26,23 @@ class ApplicationsService {
     try {
       // Fetch user's applications (which already include nested job data)
       final response = await _dio.get("$APPLICATIONS/user/$userId");
-      
-      AppLogger.info('Applications response: ${response.data}');
-      
+
+      // AppLogger.info('Applications response: ${response.data}');
+
       // Parse the response
       final List appDataList = response.data as List;
-      
+
       // Map to ApplicationWithJob - job is already nested in the response!
       final result = appDataList.map((item) {
         final application = ApplicationModel.fromJson(item);
-        
+
         return ApplicationWithJob(
           application: application,
           job: application.job, // Job is already parsed from nested data!
         );
       }).toList();
-      
+
       return result;
-      
     } catch (e) {
       AppLogger.error('Error fetching applications: $e');
       rethrow;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/constants/constants.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
@@ -334,7 +335,19 @@ TextButton(
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, s) => Center(child: Text('Error: $e')),
+          error: (e, s) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'images/error/profile-error.svg',
+                  height: 120,
+                ),
+                const SizedBox(height: 16),
+                Text('Error: $e'),
+              ],
+            ),
+          ),
         ),
       ),
     );

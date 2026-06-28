@@ -14,11 +14,13 @@ class ApplicationsNotifier extends AsyncNotifier<List<ApplicationWithJob>> {
 
   @override
   Future<List<ApplicationWithJob>> build() async {
-    // Watch user changes to rebuild when personal info updates
-    final user = await ref.watch(personalInformationProvider.future);
+    // Watch only user ID changes to avoid redundant requests when other profile fields (like favorites) update
+    final userId = await ref.watch(
+      personalInformationProvider.selectAsync((data) => data.id),
+    );
     
     // Fetch all applications for this user
-    final result = await _service.getApplicationsForUser(user.id.toString());
+    final result = await _service.getApplicationsForUser(userId.toString());
     
     return result;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
 import 'package:job_seeker/providers/home_screen_providers/recommended_jobs_provider.dart';
@@ -22,10 +23,15 @@ class HomeScreen extends ConsumerWidget {
         // Refresh both recommended and favorite jobs
         ref.invalidate(recommendedJobsProvider);
         ref.invalidate(favoriteJobsProvider);
-        await Future.wait([
-          ref.read(recommendedJobsProvider.future),
-          ref.read(favoriteJobsProvider.future),
-        ]);
+        try {
+          await Future.wait([
+            ref.read(recommendedJobsProvider.future),
+            ref.read(favoriteJobsProvider.future),
+          ]);
+        } catch (_) {
+          // Suppress errors during refresh to let RefreshIndicator complete gracefully.
+          // The error will still be caught and displayed by the UI's AsyncValue widgets.
+        }
       },
       color: const Color(0xFF1C1C1E),
       backgroundColor: Colors.white,
@@ -137,24 +143,9 @@ class _EmptyState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Icon(
-              Icons.search_off_rounded,
-              size: 32,
-              color: Colors.grey.shade400,
-            ),
+          SvgPicture.asset(
+            'images/emptyState/recomended-jobs-empty-state.svg',
+            height: 140,
           ),
           const SizedBox(height: 16),
           Text(
@@ -194,6 +185,11 @@ class _ErrorState extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
+          SvgPicture.asset(
+            'images/error/recomended-jobs-error-state.svg',
+            height: 140,
+          ),
+          const SizedBox(height: 16),
           Text(message),
           TextButton(onPressed: onRetry, child: const Text("Retry")),
         ],

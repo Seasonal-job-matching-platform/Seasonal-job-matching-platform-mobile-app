@@ -6,6 +6,7 @@ import 'package:job_seeker/services/jobs_screen_services/jobs_services_provider.
 
 final recommendedJobsProvider =
     AsyncNotifierProvider<RecommendedJobsNotifier, RecommendedJobsResponse>(
+      retry: (retryCount, error) => null,
       RecommendedJobsNotifier.new,
     );
 

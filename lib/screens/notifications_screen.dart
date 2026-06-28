@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/auth_provider.dart';
 import 'package:job_seeker/providers/notification_provider.dart';
@@ -114,20 +115,9 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Icon(Icons.notifications_none_rounded, size: 64, color: Colors.grey.shade300),
+          SvgPicture.asset(
+            'images/emptyState/notifactions-empty-state.svg',
+            height: 160,
           ),
           const SizedBox(height: 24),
           Text(

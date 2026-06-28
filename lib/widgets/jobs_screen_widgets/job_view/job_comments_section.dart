@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_comment_model.dart';
 import 'package:job_seeker/providers/auth_provider.dart';
@@ -117,8 +118,25 @@ class _JobCommentsSectionState extends ConsumerState<JobCommentsSection> {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('Error: $error')),
+          error: (error, _) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'images/error/job-view-error.svg',
+                  height: 80,
+                ),
+                const SizedBox(height: 8),
+                Text('Error: $error'),
+              ],
+            ),
+          ),
+          loading: () => const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: CircularProgressIndicator(),
+            ),
+          ),
         ),
       ],
     );
@@ -200,10 +218,9 @@ class _EmptyComments extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.question_answer_outlined,
-            size: 48,
-            color: Colors.grey.shade400,
+          SvgPicture.asset(
+            'images/emptyState/comment-section_empty-state.svg',
+            height: 120,
           ),
           const SizedBox(height: 12),
           Text(

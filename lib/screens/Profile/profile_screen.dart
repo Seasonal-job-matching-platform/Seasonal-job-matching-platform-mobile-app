@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/screens/Profile/resume_screen.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
@@ -48,7 +49,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 error: (e, s) => SizedBox(
                   height: 300,
-                  child: Center(child: Text('${l10n.error}: $e')),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'images/error/profile-error.svg',
+                          height: 120,
+                        ),
+                        const SizedBox(height: 16),
+                        Text('${l10n.error}: $e'),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

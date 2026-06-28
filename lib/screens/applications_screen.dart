@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/providers/applications_screen_providers/applications_provider.dart';
 import 'package:job_seeker/services/applications_screen_services/applications_service.dart';
 import 'package:job_seeker/theme/app_theme.dart';
@@ -589,24 +590,9 @@ class _EmptyApplicationsState extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: Container(
-                padding: const EdgeInsets.all(AppTheme.spaceLg),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      colorScheme.secondary.withValues(alpha: 0.2),
-                      colorScheme.primary.withValues(alpha: 0.1),
-                    ],
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.description_outlined,
-                  size: 56,
-                  color: colorScheme.primary,
-                ),
+              child: SvgPicture.asset(
+                'images/emptyState/appications-empty-state.svg',
+                height: 180,
               ),
             ),
             const SizedBox(height: AppTheme.spaceLg),

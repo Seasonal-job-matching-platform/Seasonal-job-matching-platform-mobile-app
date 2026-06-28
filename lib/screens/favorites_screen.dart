@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
 import 'package:job_seeker/widgets/common/async_value_view.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_card.dart';
@@ -53,7 +54,11 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
             return RefreshIndicator(
               onRefresh: () async {
                 ref.invalidate(favoriteJobsProvider);
-                await ref.read(favoriteJobsProvider.future);
+                try {
+                  await ref.read(favoriteJobsProvider.future);
+                } catch (_) {
+                  // Suppress error so that the RefreshIndicator completes gracefully.
+                }
               },
               color: Theme.of(context).colorScheme.primary,
               child: CustomScrollView(
@@ -275,25 +280,9 @@ class _EmptyFavoritesState extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      theme.colorScheme.primaryContainer,
-                      theme.colorScheme.secondaryContainer,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.favorite_border_rounded,
-                  size: 72,
-                  color: theme.colorScheme.primary,
-                ),
+              child: SvgPicture.asset(
+                'images/emptyState/fav-jobs-empty-state.svg',
+                height: 160,
               ),
             ),
             const SizedBox(height: 32),

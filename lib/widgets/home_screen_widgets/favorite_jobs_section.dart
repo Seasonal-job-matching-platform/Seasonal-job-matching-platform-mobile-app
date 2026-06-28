@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
@@ -158,24 +159,10 @@ class _EmptyFavoritesState extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Icon(
-              Icons.favorite_border_rounded,
-              size: 24,
-              color: Colors.grey.shade400,
-            ),
+          SvgPicture.asset(
+            'images/emptyState/fav-jobs-empty-state.svg',
+            height: 60,
+            width: 60,
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -244,10 +231,10 @@ class _FavoritesErrorState extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.error_outline_rounded,
-            size: 32,
-            color: theme.colorScheme.error,
+          SvgPicture.asset(
+            'images/error/fav-jobs-error.svg',
+            height: 48,
+            width: 48,
           ),
           const SizedBox(width: 16),
           Expanded(

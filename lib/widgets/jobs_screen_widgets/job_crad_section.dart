@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/providers/jobs_screen_providers/paginated_jobs_provider.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_card.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/jobs_pagination_footer.dart';
@@ -319,25 +320,9 @@ class _EmptyState extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      theme.colorScheme.primaryContainer,
-                      theme.colorScheme.secondaryContainer,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.work_outline_rounded,
-                  size: 72,
-                  color: theme.colorScheme.primary,
-                ),
+              child: SvgPicture.asset(
+                'images/emptyState/jobs-no-jobs-found.svg',
+                height: 160,
               ),
             ),
             const SizedBox(height: 32),
@@ -404,18 +389,9 @@ class _ErrorState extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.errorContainer,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 72,
-                  color: theme.colorScheme.error,
-                ),
+              child: SvgPicture.asset(
+                'images/error/job-view-error.svg',
+                height: 160,
               ),
             ),
             const SizedBox(height: 32),

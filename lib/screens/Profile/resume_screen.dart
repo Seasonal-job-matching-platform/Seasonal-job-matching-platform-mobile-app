@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/profile_screen_providers/resume_provider.dart';
 import 'package:job_seeker/models/profile_screen_models/resume_model.dart';
@@ -220,7 +221,10 @@ class _ResumeScreenState extends ConsumerState<ResumeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.description_outlined, size: 64, color: Colors.grey),
+          SvgPicture.asset(
+            'images/emptyState/resume_empty-state.svg',
+            height: 140,
+          ),
           const SizedBox(height: 16),
           const Text(
             'No resume created yet.',

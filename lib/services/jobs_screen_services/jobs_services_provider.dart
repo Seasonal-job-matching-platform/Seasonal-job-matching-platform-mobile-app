@@ -22,7 +22,7 @@ class JobsServicesProvider {
   Future<List<JobModel>> fetchJobs() async {
     try {
       final response = await _dio.get(jobsPath);
-      AppLogger.info('Jobs API response: \nresponse.data=${response.data}');
+      // AppLogger.info('Jobs API response: \nresponse.data=${response.data}');
       final List dataList = response.data as List;
       // Map id - ensure string
       final jobs = dataList.map((json) {
@@ -46,7 +46,7 @@ class JobsServicesProvider {
   Future<PaginatedJobsResponse> fetchJobsPage(int page) async {
     try {
       final response = await _dio.get('$jobsPath?page=$page');
-      AppLogger.info('Jobs page $page API response: ${response.data}');
+      // AppLogger.info('Jobs page $page API response: ${response.data}');
       return PaginatedJobsResponse.fromJson(response.data);
     } on DioException catch (e) {
       AppLogger.error('fetchJobsPage error: $e');
@@ -67,18 +67,23 @@ class JobsServicesProvider {
   }) async {
     try {
       final Map<String, dynamic> queryParams = {'page': page};
-      
+
       // Map to the specific parameter names provided: title, jobTypes, location
       if (query != null && query.isNotEmpty) queryParams['title'] = query;
       if (type != null && type.isNotEmpty) queryParams['jobTypes'] = type;
-      if (location != null && location.isNotEmpty) queryParams['location'] = location;
-      
-      // arrangements, jobTypes, salaryTypes, location, title
-      if (salaryType != null && salaryType.isNotEmpty) queryParams['salaryTypes'] = salaryType;
+      if (location != null && location.isNotEmpty)
+        queryParams['location'] = location;
 
-      final response = await _dio.get('$jobsPath/filter', queryParameters: queryParams);
-      
-      AppLogger.info('Search Jobs page $page API response: ${response.data}');
+      // arrangements, jobTypes, salaryTypes, location, title
+      if (salaryType != null && salaryType.isNotEmpty)
+        queryParams['salaryTypes'] = salaryType;
+
+      final response = await _dio.get(
+        '$jobsPath/filter',
+        queryParameters: queryParams,
+      );
+
+      // AppLogger.info('Search Jobs page $page API response: ${response.data}');
       return PaginatedJobsResponse.fromJson(response.data);
     } on DioException catch (e) {
       AppLogger.error('searchJobs error: $e');
@@ -92,7 +97,7 @@ class JobsServicesProvider {
   Future<JobModel> fetchJobById(String jobId) async {
     try {
       final response = await _dio.get('$jobsPath/$jobId');
-      AppLogger.info('JobById API response: ${response.data}');
+      // AppLogger.info('JobById API response: ${response.data}');
       final fixed = Map<String, dynamic>.from(response.data as Map);
       if (fixed['id'] != null && fixed['id'] is! String) {
         fixed['id'] = fixed['id'].toString();
@@ -110,7 +115,7 @@ class JobsServicesProvider {
   Future<RecommendedJobsResponse> fetchRecommendedJobs(String userId) async {
     try {
       final response = await _dio.get(getRecommendedJobs(userId));
-      AppLogger.info('RecommendedJobs API response: ${response.data}');
+      // AppLogger.info('RecommendedJobs API response: ${response.data}');
       return RecommendedJobsResponse.fromJson(response.data);
     } on DioException catch (e) {
       AppLogger.error('fetchRecommendedJobs error: $e');

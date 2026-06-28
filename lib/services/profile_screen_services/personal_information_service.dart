@@ -32,7 +32,7 @@ class PersonalInformationService {
     final userId = await _getUserId();
     final userPath = userById(userId);
     final response = await _dio.get(userPath);
-    AppLogger.info('Profile API response: ${response.data}');
+    // AppLogger.info('Profile API response: ${response.data}');
     // final fixed = Map<String, dynamic>.from(response.data);
     // if (fixed['id'] != null && fixed['id'] is! String) fixed['id'] = fixed['id'].toString();
     try {

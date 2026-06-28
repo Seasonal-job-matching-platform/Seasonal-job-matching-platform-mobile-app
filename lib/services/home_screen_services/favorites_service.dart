@@ -62,7 +62,7 @@ class FavoritesService {
   /// Returns null if the request fails for any reason.
   Future<JobModel?> _fetchSingleJob(String id) async {
     try {
-      AppLogger.info('FavoritesService: Fetching job $id from $JOBS/$id');
+      // AppLogger.info('FavoritesService: Fetching job $id from $JOBS/$id');
       final response = await _dio.get(
         '$JOBS/$id',
         options: Options(
@@ -70,13 +70,13 @@ class FavoritesService {
           receiveTimeout: requestTimeout,
         ),
       );
-      AppLogger.info('FavoritesService: Response for job $id - ${response.statusCode}');
+      // AppLogger.info('FavoritesService: Response for job $id - ${response.statusCode}');
       final data = Map<String, dynamic>.from(response.data as Map);
       if (data['id'] != null && data['id'] is! String) {
         data['id'] = data['id'].toString();
       }
       final job = JobModel.fromJson(data);
-      AppLogger.info('FavoritesService: Successfully parsed job $id - ${job.title}');
+      // AppLogger.info('FavoritesService: Successfully parsed job $id - ${job.title}');
       return job;
     } on DioException catch (e) {
       // Log the error type for debugging
@@ -84,7 +84,11 @@ class FavoritesService {
       return null;
     } catch (e, st) {
       // Handle any other parsing errors
-      AppLogger.error('FavoritesService: Parsing error for job $id - $e', error: e, stackTrace: st);
+      AppLogger.error(
+        'FavoritesService: Parsing error for job $id - $e',
+        error: e,
+        stackTrace: st,
+      );
       return null;
     }
   }
@@ -101,6 +105,8 @@ class FavoritesService {
       DioExceptionType.connectionError => 'Connection error',
       _ => 'Unknown error',
     };
-    AppLogger.error('FavoritesService: Failed to fetch job $jobId - $errorType');
+    AppLogger.error(
+      'FavoritesService: Failed to fetch job $jobId - $errorType',
+    );
   }
 }
