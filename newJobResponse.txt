@@ -1,0 +1,29 @@
+"title": "Clinical A research Assistant",
+            "description": "Healthcare facility seeking a Clinical Research Assistant to support patient care. Key responsibilities include assisting clinical procedures, maintaining medical records. Required skills: Patient Care, Medical Reporting, HIPAA, Diagnostics.",
+            "id": 61263,
+            "type": "TEMPORARY",
+            "location": "Port Patrick",
+            "startDate": "30-03-2026",
+            "amount": 10302.24,
+            "currency": "EGP",
+            "salary": "YEARLY",
+            "duration": 7,
+            "status": "OPEN",
+            "numOfPositions": 1,
+            "workArrangement": "HYBRID",
+            "createdAt": "2026-06-29",
+            "jobposterId": 100,
+            "jobposterName": "Riya Senn",
+            "requirements": [
+                "Patient Care",
+                "Medical Reporting",
+                "HIPAA",
+                "Diagnostics"
+            ],
+            "categories": [
+                "Healthcare"
+            ],
+            "benefits": [
+                "Health Insurance",
+                "Paid Leave"
+            ]

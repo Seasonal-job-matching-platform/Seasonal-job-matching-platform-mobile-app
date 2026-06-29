@@ -17,6 +17,7 @@ abstract class PersonalInformationModel with _$PersonalInformationModel {
     @Default([]) List<int> ownedapplications,
     @Default([]) List<int> resume,
     @JsonKey(name: "fieldsOfInterest") List<String>? fieldsOfInterest,
+    @JsonKey(name: "currency") String? currency,
   }) = _PersonalInformationModel;
 
   factory PersonalInformationModel.fromJson(Map<String, dynamic> json) =>

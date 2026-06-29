@@ -18,6 +18,11 @@ class RecommendedJobCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final personal = ref.watch(personalInformationProvider);
+    final currencyCode = personal.maybeWhen(
+      data: (u) => u.currency,
+      orElse: () => null,
+    ) ?? job.currency ?? 'USD';
     // Dynamic Bold Color
     final Color cardColor = JobColorUtil.getJobColor(job.id, job.title);
 
@@ -159,7 +164,10 @@ class RecommendedJobCard extends ConsumerWidget {
                               alignment: Alignment.centerLeft,
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                '\$${NumberFormat('#,##0').format(job.amount)}',
+                                NumberFormat.simpleCurrency(
+                                  name: currencyCode,
+                                  decimalDigits: 0,
+                                ).format(job.amount),
                                 style: const TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w900,

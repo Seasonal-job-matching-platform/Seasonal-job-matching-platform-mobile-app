@@ -82,6 +82,16 @@ class PersonalInformationService {
     }
   }
 
+  Future<void> updateCurrency(String currency) async {
+    final userId = await _getUserId();
+    final editPath = editUserById(userId);
+    try {
+      await _dio.patch(editPath, data: {'currency': currency});
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   Future<void> updateFavoriteJobs(List<int> favoriteJobs) async {
     final userId = await _getUserId();
     final editPath = editUserById(userId);

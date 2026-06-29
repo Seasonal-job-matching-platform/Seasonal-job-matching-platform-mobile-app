@@ -107,6 +107,11 @@ class _JobCardState extends ConsumerState<JobCard>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context)!;
+    final personal = ref.watch(personalInformationProvider);
+    final currencyCode = personal.maybeWhen(
+      data: (u) => u.currency,
+      orElse: () => null,
+    ) ?? widget.job.currency ?? 'USD';
     final formattedStart = _formatDate(widget.job.startDate);
     final isOpen = widget.job.status.toLowerCase() == 'open';
     final isRecent = _isRecentlyPosted(widget.job.startDate);
@@ -323,7 +328,10 @@ class _JobCardState extends ConsumerState<JobCard>
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
-                                      '\$${NumberFormat('#,##0').format(widget.job.amount)}',
+                                      NumberFormat.simpleCurrency(
+                                        name: currencyCode,
+                                        decimalDigits: 0,
+                                      ).format(widget.job.amount),
                                       style: theme.textTheme.titleSmall
                                           ?.copyWith(
                                             fontWeight: FontWeight.w700,

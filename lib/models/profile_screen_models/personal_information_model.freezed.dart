@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PersonalInformationModel {
 
-@JsonKey(name: "id") int get id;@JsonKey(name: "name") String get name;@JsonKey(name: "country") String get country;@JsonKey(name: "number") String get number;@JsonKey(name: "email") String get email;@JsonKey(name: "wantsEmails") bool? get wantsEmails;@JsonKey(name: "favoriteJobIds") List<int> get favoriteJobs; List<int> get ownedjobs; List<int> get ownedapplications; List<int> get resume;@JsonKey(name: "fieldsOfInterest") List<String>? get fieldsOfInterest;
+@JsonKey(name: "id") int get id;@JsonKey(name: "name") String get name;@JsonKey(name: "country") String get country;@JsonKey(name: "number") String get number;@JsonKey(name: "email") String get email;@JsonKey(name: "wantsEmails") bool? get wantsEmails;@JsonKey(name: "favoriteJobIds") List<int> get favoriteJobs; List<int> get ownedjobs; List<int> get ownedapplications; List<int> get resume;@JsonKey(name: "fieldsOfInterest") List<String>? get fieldsOfInterest;@JsonKey(name: "currency") String? get currency;
 /// Create a copy of PersonalInformationModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PersonalInformationModelCopyWith<PersonalInformationModel> get copyWith => _$Pe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalInformationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.country, country) || other.country == country)&&(identical(other.number, number) || other.number == number)&&(identical(other.email, email) || other.email == email)&&(identical(other.wantsEmails, wantsEmails) || other.wantsEmails == wantsEmails)&&const DeepCollectionEquality().equals(other.favoriteJobs, favoriteJobs)&&const DeepCollectionEquality().equals(other.ownedjobs, ownedjobs)&&const DeepCollectionEquality().equals(other.ownedapplications, ownedapplications)&&const DeepCollectionEquality().equals(other.resume, resume)&&const DeepCollectionEquality().equals(other.fieldsOfInterest, fieldsOfInterest));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalInformationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.country, country) || other.country == country)&&(identical(other.number, number) || other.number == number)&&(identical(other.email, email) || other.email == email)&&(identical(other.wantsEmails, wantsEmails) || other.wantsEmails == wantsEmails)&&const DeepCollectionEquality().equals(other.favoriteJobs, favoriteJobs)&&const DeepCollectionEquality().equals(other.ownedjobs, ownedjobs)&&const DeepCollectionEquality().equals(other.ownedapplications, ownedapplications)&&const DeepCollectionEquality().equals(other.resume, resume)&&const DeepCollectionEquality().equals(other.fieldsOfInterest, fieldsOfInterest)&&(identical(other.currency, currency) || other.currency == currency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,country,number,email,wantsEmails,const DeepCollectionEquality().hash(favoriteJobs),const DeepCollectionEquality().hash(ownedjobs),const DeepCollectionEquality().hash(ownedapplications),const DeepCollectionEquality().hash(resume),const DeepCollectionEquality().hash(fieldsOfInterest));
+int get hashCode => Object.hash(runtimeType,id,name,country,number,email,wantsEmails,const DeepCollectionEquality().hash(favoriteJobs),const DeepCollectionEquality().hash(ownedjobs),const DeepCollectionEquality().hash(ownedapplications),const DeepCollectionEquality().hash(resume),const DeepCollectionEquality().hash(fieldsOfInterest),currency);
 
 @override
 String toString() {
-  return 'PersonalInformationModel(id: $id, name: $name, country: $country, number: $number, email: $email, wantsEmails: $wantsEmails, favoriteJobs: $favoriteJobs, ownedjobs: $ownedjobs, ownedapplications: $ownedapplications, resume: $resume, fieldsOfInterest: $fieldsOfInterest)';
+  return 'PersonalInformationModel(id: $id, name: $name, country: $country, number: $number, email: $email, wantsEmails: $wantsEmails, favoriteJobs: $favoriteJobs, ownedjobs: $ownedjobs, ownedapplications: $ownedapplications, resume: $resume, fieldsOfInterest: $fieldsOfInterest, currency: $currency)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PersonalInformationModelCopyWith<$Res>  {
   factory $PersonalInformationModelCopyWith(PersonalInformationModel value, $Res Function(PersonalInformationModel) _then) = _$PersonalInformationModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: "id") int id,@JsonKey(name: "name") String name,@JsonKey(name: "country") String country,@JsonKey(name: "number") String number,@JsonKey(name: "email") String email,@JsonKey(name: "wantsEmails") bool? wantsEmails,@JsonKey(name: "favoriteJobIds") List<int> favoriteJobs, List<int> ownedjobs, List<int> ownedapplications, List<int> resume,@JsonKey(name: "fieldsOfInterest") List<String>? fieldsOfInterest
+@JsonKey(name: "id") int id,@JsonKey(name: "name") String name,@JsonKey(name: "country") String country,@JsonKey(name: "number") String number,@JsonKey(name: "email") String email,@JsonKey(name: "wantsEmails") bool? wantsEmails,@JsonKey(name: "favoriteJobIds") List<int> favoriteJobs, List<int> ownedjobs, List<int> ownedapplications, List<int> resume,@JsonKey(name: "fieldsOfInterest") List<String>? fieldsOfInterest,@JsonKey(name: "currency") String? currency
 });
 
 
@@ -65,7 +65,7 @@ class _$PersonalInformationModelCopyWithImpl<$Res>
 
 /// Create a copy of PersonalInformationModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? country = null,Object? number = null,Object? email = null,Object? wantsEmails = freezed,Object? favoriteJobs = null,Object? ownedjobs = null,Object? ownedapplications = null,Object? resume = null,Object? fieldsOfInterest = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? country = null,Object? number = null,Object? email = null,Object? wantsEmails = freezed,Object? favoriteJobs = null,Object? ownedjobs = null,Object? ownedapplications = null,Object? resume = null,Object? fieldsOfInterest = freezed,Object? currency = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,8 @@ as List<int>,ownedjobs: null == ownedjobs ? _self.ownedjobs : ownedjobs // ignor
 as List<int>,ownedapplications: null == ownedapplications ? _self.ownedapplications : ownedapplications // ignore: cast_nullable_to_non_nullable
 as List<int>,resume: null == resume ? _self.resume : resume // ignore: cast_nullable_to_non_nullable
 as List<int>,fieldsOfInterest: freezed == fieldsOfInterest ? _self.fieldsOfInterest : fieldsOfInterest // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as List<String>?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -163,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest, @JsonKey(name: "currency")  String? currency)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PersonalInformationModel() when $default != null:
-return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest);case _:
+return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest,_that.currency);case _:
   return orElse();
 
 }
@@ -184,10 +185,10 @@ return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest, @JsonKey(name: "currency")  String? currency)  $default,) {final _that = this;
 switch (_that) {
 case _PersonalInformationModel():
-return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest);case _:
+return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest,_that.currency);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +205,10 @@ return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: "id")  int id, @JsonKey(name: "name")  String name, @JsonKey(name: "country")  String country, @JsonKey(name: "number")  String number, @JsonKey(name: "email")  String email, @JsonKey(name: "wantsEmails")  bool? wantsEmails, @JsonKey(name: "favoriteJobIds")  List<int> favoriteJobs,  List<int> ownedjobs,  List<int> ownedapplications,  List<int> resume, @JsonKey(name: "fieldsOfInterest")  List<String>? fieldsOfInterest, @JsonKey(name: "currency")  String? currency)?  $default,) {final _that = this;
 switch (_that) {
 case _PersonalInformationModel() when $default != null:
-return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest);case _:
+return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that.wantsEmails,_that.favoriteJobs,_that.ownedjobs,_that.ownedapplications,_that.resume,_that.fieldsOfInterest,_that.currency);case _:
   return null;
 
 }
@@ -219,7 +220,7 @@ return $default(_that.id,_that.name,_that.country,_that.number,_that.email,_that
 @JsonSerializable()
 
 class _PersonalInformationModel implements PersonalInformationModel {
-  const _PersonalInformationModel({@JsonKey(name: "id") required this.id, @JsonKey(name: "name") required this.name, @JsonKey(name: "country") required this.country, @JsonKey(name: "number") required this.number, @JsonKey(name: "email") required this.email, @JsonKey(name: "wantsEmails") this.wantsEmails, @JsonKey(name: "favoriteJobIds") final  List<int> favoriteJobs = const [], final  List<int> ownedjobs = const [], final  List<int> ownedapplications = const [], final  List<int> resume = const [], @JsonKey(name: "fieldsOfInterest") final  List<String>? fieldsOfInterest}): _favoriteJobs = favoriteJobs,_ownedjobs = ownedjobs,_ownedapplications = ownedapplications,_resume = resume,_fieldsOfInterest = fieldsOfInterest;
+  const _PersonalInformationModel({@JsonKey(name: "id") required this.id, @JsonKey(name: "name") required this.name, @JsonKey(name: "country") required this.country, @JsonKey(name: "number") required this.number, @JsonKey(name: "email") required this.email, @JsonKey(name: "wantsEmails") this.wantsEmails, @JsonKey(name: "favoriteJobIds") final  List<int> favoriteJobs = const [], final  List<int> ownedjobs = const [], final  List<int> ownedapplications = const [], final  List<int> resume = const [], @JsonKey(name: "fieldsOfInterest") final  List<String>? fieldsOfInterest, @JsonKey(name: "currency") this.currency}): _favoriteJobs = favoriteJobs,_ownedjobs = ownedjobs,_ownedapplications = ownedapplications,_resume = resume,_fieldsOfInterest = fieldsOfInterest;
   factory _PersonalInformationModel.fromJson(Map<String, dynamic> json) => _$PersonalInformationModelFromJson(json);
 
 @override@JsonKey(name: "id") final  int id;
@@ -265,6 +266,7 @@ class _PersonalInformationModel implements PersonalInformationModel {
   return EqualUnmodifiableListView(value);
 }
 
+@override@JsonKey(name: "currency") final  String? currency;
 
 /// Create a copy of PersonalInformationModel
 /// with the given fields replaced by the non-null parameter values.
@@ -279,16 +281,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PersonalInformationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.country, country) || other.country == country)&&(identical(other.number, number) || other.number == number)&&(identical(other.email, email) || other.email == email)&&(identical(other.wantsEmails, wantsEmails) || other.wantsEmails == wantsEmails)&&const DeepCollectionEquality().equals(other._favoriteJobs, _favoriteJobs)&&const DeepCollectionEquality().equals(other._ownedjobs, _ownedjobs)&&const DeepCollectionEquality().equals(other._ownedapplications, _ownedapplications)&&const DeepCollectionEquality().equals(other._resume, _resume)&&const DeepCollectionEquality().equals(other._fieldsOfInterest, _fieldsOfInterest));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PersonalInformationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.country, country) || other.country == country)&&(identical(other.number, number) || other.number == number)&&(identical(other.email, email) || other.email == email)&&(identical(other.wantsEmails, wantsEmails) || other.wantsEmails == wantsEmails)&&const DeepCollectionEquality().equals(other._favoriteJobs, _favoriteJobs)&&const DeepCollectionEquality().equals(other._ownedjobs, _ownedjobs)&&const DeepCollectionEquality().equals(other._ownedapplications, _ownedapplications)&&const DeepCollectionEquality().equals(other._resume, _resume)&&const DeepCollectionEquality().equals(other._fieldsOfInterest, _fieldsOfInterest)&&(identical(other.currency, currency) || other.currency == currency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,country,number,email,wantsEmails,const DeepCollectionEquality().hash(_favoriteJobs),const DeepCollectionEquality().hash(_ownedjobs),const DeepCollectionEquality().hash(_ownedapplications),const DeepCollectionEquality().hash(_resume),const DeepCollectionEquality().hash(_fieldsOfInterest));
+int get hashCode => Object.hash(runtimeType,id,name,country,number,email,wantsEmails,const DeepCollectionEquality().hash(_favoriteJobs),const DeepCollectionEquality().hash(_ownedjobs),const DeepCollectionEquality().hash(_ownedapplications),const DeepCollectionEquality().hash(_resume),const DeepCollectionEquality().hash(_fieldsOfInterest),currency);
 
 @override
 String toString() {
-  return 'PersonalInformationModel(id: $id, name: $name, country: $country, number: $number, email: $email, wantsEmails: $wantsEmails, favoriteJobs: $favoriteJobs, ownedjobs: $ownedjobs, ownedapplications: $ownedapplications, resume: $resume, fieldsOfInterest: $fieldsOfInterest)';
+  return 'PersonalInformationModel(id: $id, name: $name, country: $country, number: $number, email: $email, wantsEmails: $wantsEmails, favoriteJobs: $favoriteJobs, ownedjobs: $ownedjobs, ownedapplications: $ownedapplications, resume: $resume, fieldsOfInterest: $fieldsOfInterest, currency: $currency)';
 }
 
 
@@ -299,7 +301,7 @@ abstract mixin class _$PersonalInformationModelCopyWith<$Res> implements $Person
   factory _$PersonalInformationModelCopyWith(_PersonalInformationModel value, $Res Function(_PersonalInformationModel) _then) = __$PersonalInformationModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: "id") int id,@JsonKey(name: "name") String name,@JsonKey(name: "country") String country,@JsonKey(name: "number") String number,@JsonKey(name: "email") String email,@JsonKey(name: "wantsEmails") bool? wantsEmails,@JsonKey(name: "favoriteJobIds") List<int> favoriteJobs, List<int> ownedjobs, List<int> ownedapplications, List<int> resume,@JsonKey(name: "fieldsOfInterest") List<String>? fieldsOfInterest
+@JsonKey(name: "id") int id,@JsonKey(name: "name") String name,@JsonKey(name: "country") String country,@JsonKey(name: "number") String number,@JsonKey(name: "email") String email,@JsonKey(name: "wantsEmails") bool? wantsEmails,@JsonKey(name: "favoriteJobIds") List<int> favoriteJobs, List<int> ownedjobs, List<int> ownedapplications, List<int> resume,@JsonKey(name: "fieldsOfInterest") List<String>? fieldsOfInterest,@JsonKey(name: "currency") String? currency
 });
 
 
@@ -316,7 +318,7 @@ class __$PersonalInformationModelCopyWithImpl<$Res>
 
 /// Create a copy of PersonalInformationModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? country = null,Object? number = null,Object? email = null,Object? wantsEmails = freezed,Object? favoriteJobs = null,Object? ownedjobs = null,Object? ownedapplications = null,Object? resume = null,Object? fieldsOfInterest = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? country = null,Object? number = null,Object? email = null,Object? wantsEmails = freezed,Object? favoriteJobs = null,Object? ownedjobs = null,Object? ownedapplications = null,Object? resume = null,Object? fieldsOfInterest = freezed,Object? currency = freezed,}) {
   return _then(_PersonalInformationModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -329,7 +331,8 @@ as List<int>,ownedjobs: null == ownedjobs ? _self._ownedjobs : ownedjobs // igno
 as List<int>,ownedapplications: null == ownedapplications ? _self._ownedapplications : ownedapplications // ignore: cast_nullable_to_non_nullable
 as List<int>,resume: null == resume ? _self._resume : resume // ignore: cast_nullable_to_non_nullable
 as List<int>,fieldsOfInterest: freezed == fieldsOfInterest ? _self._fieldsOfInterest : fieldsOfInterest // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as List<String>?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -17,10 +17,13 @@ class RecommendedJobsNotifier extends AsyncNotifier<RecommendedJobsResponse> {
   }
 
   Future<RecommendedJobsResponse> _fetchRecommendedJobs() async {
-    // Only watch for User ID changes.
-    // This prevents the recommendations from reloading when the user favorites a job (which updates the profile but not the ID).
+    // Watch for User ID and Currency changes.
+    // This prevents the recommendations from reloading when other fields change (like favorited jobs).
     final userId = await ref.watch(
       personalInformationProvider.selectAsync((data) => data.id),
+    );
+    final currency = await ref.watch(
+      personalInformationProvider.selectAsync((data) => data.currency),
     );
 
     if (userId == 0) {

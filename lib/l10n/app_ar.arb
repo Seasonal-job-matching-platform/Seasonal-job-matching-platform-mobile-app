@@ -222,5 +222,7 @@
   "browseOpportunities": "تصفح آلاف الفرص",
   "saveFavorites": "حفظ المفضلة",
   "stayUpdated": "ابق على اطلاع",
-  "getNotifiedAboutSavedPositions": "احصل على إشعارات حول المناصب المحفوظة"
+  "getNotifiedAboutSavedPositions": "احصل على إشعارات حول المناصب المحفوظة",
+  "currencyLabel": "العملة المفضلة",
+  "selectCurrency": "اختر العملة المفضلة"
 }

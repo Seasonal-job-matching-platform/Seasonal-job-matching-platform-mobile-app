@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:job_seeker/models/jobs_screen_models/job_model.dart';
 import 'package:job_seeker/services/jobs_screen_services/jobs_services_provider.dart';
 import 'package:job_seeker/providers/jobs_screen_providers/jobs_filter_provider.dart';
 import 'package:job_seeker/providers/auth_provider.dart';
+import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 
 part 'paginated_jobs_provider.g.dart';
 
@@ -92,7 +94,10 @@ class PaginatedJobs extends _$PaginatedJobs {
 
     // Watch filters so we rebuild (refresh) when they change
     ref.watch(jobsFilterProvider);
-    
+
+    // Watch currency to trigger refetch when it changes
+    ref.watch(personalInformationProvider.select((u) => u.value?.currency));
+
     // Initial load - page 0
     return _loadPage(0, isInitial: true);
   }
@@ -105,7 +110,8 @@ class PaginatedJobs extends _$PaginatedJobs {
     final service = ref.read(jobServiceProvider);
     final filterState = ref.read(jobsFilterProvider);
 
-    final isFiltered = filterState.searchQuery.isNotEmpty ||
+    final isFiltered =
+        filterState.searchQuery.isNotEmpty ||
         filterState.selectedType != null ||
         filterState.selectedLocation != null ||
         filterState.salaryType != null;
@@ -125,8 +131,9 @@ class PaginatedJobs extends _$PaginatedJobs {
 
     // Prevent duplicates by checking IDs
     final existingIds = currentJobs.map((j) => j.id).toSet();
-    final newUniqueJobs =
-        response.content.where((job) => !existingIds.contains(job.id)).toList();
+    final newUniqueJobs = response.content
+        .where((job) => !existingIds.contains(job.id))
+        .toList();
 
     return PaginatedJobsState(
       jobs: [...currentJobs, ...newUniqueJobs],

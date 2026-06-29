@@ -625,4 +625,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get getNotifiedAboutSavedPositions =>
       'احصل على إشعارات حول المناصب المحفوظة';
+
+  @override
+  String get currencyLabel => 'العملة المفضلة';
+
+  @override
+  String get selectCurrency => 'اختر العملة المفضلة';
 }

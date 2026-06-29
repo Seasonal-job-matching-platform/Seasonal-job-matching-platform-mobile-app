@@ -1309,6 +1309,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get notified about saved positions'**
   String get getNotifiedAboutSavedPositions;
+
+  /// No description provided for @currencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Currency'**
+  String get currencyLabel;
+
+  /// No description provided for @selectCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Select preferred currency'**
+  String get selectCurrency;
 }
 
 class _AppLocalizationsDelegate

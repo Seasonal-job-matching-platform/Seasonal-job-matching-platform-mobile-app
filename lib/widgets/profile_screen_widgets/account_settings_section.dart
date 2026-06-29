@@ -6,6 +6,7 @@ import 'package:job_seeker/providers/auth_provider.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 import 'package:job_seeker/providers/locale_provider.dart';
 import 'package:job_seeker/screens/auth/login_screen.dart';
+import 'package:job_seeker/utils/currency_constants.dart';
 
 class AccountSettingsSection extends ConsumerWidget {
   const AccountSettingsSection({super.key});
@@ -189,6 +190,9 @@ class AccountSettingsSection extends ConsumerWidget {
     final wantsEmails = personalInfo.whenOrNull(
       data: (user) => user.wantsEmails ?? false,
     ) ?? false;
+    final selectedCurrency = personalInfo.whenOrNull(
+      data: (user) => user.currency,
+    ) ?? 'USD';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,6 +253,65 @@ class AccountSettingsSection extends ConsumerWidget {
           ),
         ),
         
+        const SizedBox(height: 12),
+
+        // Currency selector
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: Colors.grey.shade200),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF10B981).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.payments_outlined, color: Color(0xFF10B981), size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.currencyLabel, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 4),
+                    Text(selectedCurrency,
+                        style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+                  ],
+                ),
+              ),
+              DropdownButton<String>(
+                value: selectedCurrency,
+                underline: const SizedBox(),
+                menuMaxHeight: 300,
+                items: CurrencyConstants.supportedCurrencies
+                    .map((currency) => DropdownMenuItem(
+                          value: currency,
+                          child: Text(currency),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    ref.read(personalInformationProvider.notifier).updateCurrency(value);
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+
         const SizedBox(height: 12),
 
         // Email toggle

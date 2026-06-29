@@ -222,5 +222,7 @@
   "browseOpportunities": "Browse thousands of opportunities",
   "saveFavorites": "Save Favorites",
   "stayUpdated": "Stay Updated",
-  "getNotifiedAboutSavedPositions": "Get notified about saved positions"
+  "getNotifiedAboutSavedPositions": "Get notified about saved positions",
+  "currencyLabel": "Preferred Currency",
+  "selectCurrency": "Select preferred currency"
 }

@@ -12,6 +12,7 @@ import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_comments_sec
 
 import 'package:job_seeker/utils/job_color_util.dart';
 import 'package:job_seeker/utils/translation_utils.dart';
+import 'package:intl/intl.dart';
 
 class JobView extends ConsumerWidget {
   final JobModel job;
@@ -27,6 +28,10 @@ class JobView extends ConsumerWidget {
       data: (u) => u.favoriteJobs.contains(job.id),
       orElse: () => false,
     );
+    final currencyCode = personal.maybeWhen(
+      data: (u) => u.currency,
+      orElse: () => null,
+    ) ?? job.currency ?? 'USD';
     final theme = Theme.of(context);
     final companyColor = JobColorUtil.getJobColor(job.id, job.title);
 
@@ -231,7 +236,10 @@ class JobView extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$${job.amount.toStringAsFixed(0)}',
+                                  NumberFormat.simpleCurrency(
+                                    name: currencyCode,
+                                    decimalDigits: 0,
+                                  ).format(job.amount),
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w800,

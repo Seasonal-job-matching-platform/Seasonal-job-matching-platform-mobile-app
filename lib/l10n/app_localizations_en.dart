@@ -630,4 +630,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get getNotifiedAboutSavedPositions =>
       'Get notified about saved positions';
+
+  @override
+  String get currencyLabel => 'Preferred Currency';
+
+  @override
+  String get selectCurrency => 'Select preferred currency';
 }

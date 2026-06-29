@@ -15,6 +15,7 @@ abstract class JobModel with _$JobModel {
     @JsonKey(fromJson: _forceString) required String location,
     @JsonKey(fromJson: _forceString) required String startDate,
     @JsonKey(fromJson: _forceDouble) required double amount,
+    @JsonKey(fromJson: _forceStringNullable) String? currency,
     @JsonKey(fromJson: _forceString) required String salary,
     @JsonKey(fromJson: _forceStringNullable) String? duration,
     @JsonKey(fromJson: _forceString) required String status,

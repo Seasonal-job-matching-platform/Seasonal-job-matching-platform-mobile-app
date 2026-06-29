@@ -102,6 +102,14 @@ class PersonalInformationAsyncNotifier
     });
   }
 
+  Future<void> updateCurrency(String value) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await _service.updateCurrency(value);
+      return state.value!.copyWith(currency: value);
+    });
+  }
+
   Future<void> toggleFavoriteJob(String jobId) async {
     final intId = int.tryParse(jobId);
     if (intId == null) return;

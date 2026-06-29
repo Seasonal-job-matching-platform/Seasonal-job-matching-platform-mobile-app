@@ -9,6 +9,7 @@ import 'package:job_seeker/services/jobs_screen_services/jobs_services_provider.
 
 
 import 'package:job_seeker/providers/auth_provider.dart';
+import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 
 final jobsNotifierProvider = AsyncNotifierProvider<JobNotifier, List<JobModel>>(JobNotifier.new);
 
@@ -19,6 +20,8 @@ class JobNotifier extends AsyncNotifier<List<JobModel>> {
     if (authState.status != AuthStatus.authenticated) {
       return const [];
     }
+    // Watch currency to trigger refetch when it changes
+    ref.watch(personalInformationProvider.select((u) => u.value?.currency));
     return _fetchJobs();
   }
   

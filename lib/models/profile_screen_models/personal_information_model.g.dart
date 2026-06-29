@@ -38,6 +38,7 @@ _PersonalInformationModel _$PersonalInformationModelFromJson(
   fieldsOfInterest: (json['fieldsOfInterest'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
+  currency: json['currency'] as String?,
 );
 
 Map<String, dynamic> _$PersonalInformationModelToJson(
@@ -54,4 +55,5 @@ Map<String, dynamic> _$PersonalInformationModelToJson(
   'ownedapplications': instance.ownedapplications,
   'resume': instance.resume,
   'fieldsOfInterest': instance.fieldsOfInterest,
+  'currency': instance.currency,
 };

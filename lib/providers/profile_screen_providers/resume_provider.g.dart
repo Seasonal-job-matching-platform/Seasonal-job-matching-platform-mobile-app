@@ -33,7 +33,7 @@ final class ResumeNotifierProvider
   ResumeNotifier create() => ResumeNotifier();
 }
 
-String _$resumeNotifierHash() => r'7c0bf545e5b8a5e6e4fac9fed39f25926560249c';
+String _$resumeNotifierHash() => r'483b9ee96f827ad1adc7acd2de743affb2d6b352';
 
 abstract class _$ResumeNotifier extends $AsyncNotifier<ResumeModel?> {
   FutureOr<ResumeModel?> build();

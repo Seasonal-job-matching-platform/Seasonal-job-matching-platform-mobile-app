@@ -39,7 +39,7 @@ final class PaginatedJobsProvider
   PaginatedJobs create() => PaginatedJobs();
 }
 
-String _$paginatedJobsHash() => r'bf47c523e426ea71b38f72205283fd4278601136';
+String _$paginatedJobsHash() => r'5ad495592f9eafe7c36da67e0ce43d87980f56ed';
 
 /// Paginated jobs provider with infinite scroll + load more support
 /// Uses @riverpod generator for cleaner code
