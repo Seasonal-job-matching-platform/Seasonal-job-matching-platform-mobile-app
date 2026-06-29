@@ -223,7 +223,7 @@ class JobView extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Salary Rate',
+                                  l10n.salaryRate,
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey.shade500,
@@ -242,10 +242,7 @@ class JobView extends ConsumerWidget {
                             ),
                             const Spacer(),
                             Text(
-                              job.salary
-                                  .toLowerCase()
-                                  .replaceAll("salary", "")
-                                  .trim(),
+                              TranslationUtils.translateSalaryType(job.salary, l10n),
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey.shade500,

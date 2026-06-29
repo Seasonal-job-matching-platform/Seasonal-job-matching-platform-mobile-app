@@ -226,9 +226,9 @@ class _ResumeScreenState extends ConsumerState<ResumeScreen> {
             height: 140,
           ),
           const SizedBox(height: 16),
-          const Text(
-            'No resume created yet.',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+          Text(
+            l10n.noResumeCreated,
+            style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(

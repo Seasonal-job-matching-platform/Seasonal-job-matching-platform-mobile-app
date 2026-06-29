@@ -133,6 +133,7 @@ class _RecommendedJobsSkeletonLoader extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -149,7 +150,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            "No Recommendations Yet",
+            l10n.noRecommendationsYet,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -158,7 +159,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "Complete your profile or update your interests to get better matches.",
+            l10n.completeProfile,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -181,6 +182,7 @@ class _ErrorState extends StatelessWidget {
   const _ErrorState({required this.message, required this.onRetry});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -191,7 +193,7 @@ class _ErrorState extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(message),
-          TextButton(onPressed: onRetry, child: const Text("Retry")),
+          TextButton(onPressed: onRetry, child: Text(l10n.retry)),
         ],
       ),
     );

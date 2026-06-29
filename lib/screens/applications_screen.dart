@@ -605,7 +605,7 @@ class _EmptyApplicationsState extends StatelessWidget {
             ),
             const SizedBox(height: AppTheme.spaceSm),
             Text(
-              'You haven\'t applied to any jobs yet.\nStart exploring opportunities!',
+              l10n.noApplicationsDescription,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,

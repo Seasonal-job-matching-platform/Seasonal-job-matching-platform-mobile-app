@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 import 'package:job_seeker/services/profile_screen_services/personal_information_service.dart';
 import 'package:job_seeker/widgets/common/app_card.dart';
@@ -224,6 +225,7 @@ class _FieldsOfInterestSectionState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final personalInfo = ref.watch(personalInformationProvider);
 
     return personalInfo.when(
@@ -323,7 +325,7 @@ class _FieldsOfInterestSectionState
                   padding: const EdgeInsets.symmetric(vertical: 32),
                   alignment: Alignment.center,
                   child: Text(
-                    'No interests added yet',
+                    l10n.noInterestsAdded,
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey.shade500,

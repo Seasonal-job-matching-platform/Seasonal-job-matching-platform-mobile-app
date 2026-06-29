@@ -130,7 +130,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "We'll let you know when there's an update.",
+            l10n.noNotificationsDescription,
             style: TextStyle(fontSize: 15, color: Colors.grey.shade500),
           ),
         ],

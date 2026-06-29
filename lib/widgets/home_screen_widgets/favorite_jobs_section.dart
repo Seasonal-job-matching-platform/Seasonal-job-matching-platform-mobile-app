@@ -178,7 +178,7 @@ class _EmptyFavoritesState extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Tap the heart icon on any job to save it here',
+                  l10n.tapHeartToSave,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.grey.shade500,
                   ),

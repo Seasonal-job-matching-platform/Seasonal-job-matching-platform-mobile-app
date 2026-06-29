@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:job_seeker/l10n/app_localizations.dart';
 import 'package:job_seeker/providers/home_screen_providers/favorites_provider.dart';
 import 'package:job_seeker/widgets/common/async_value_view.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_card.dart';
@@ -147,6 +148,7 @@ class _RetryBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -165,7 +167,7 @@ class _RetryBanner extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              '$failedCount ${failedCount == 1 ? 'job' : 'jobs'} failed to load',
+              '$failedCount ${failedCount == 1 ? l10n.jobFailedToLoad : l10n.jobsFailedToLoad}',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onErrorContainer,
               ),
@@ -174,7 +176,7 @@ class _RetryBanner extends StatelessWidget {
           TextButton(
             onPressed: onRetry,
             child: Text(
-              'Retry',
+              l10n.retry,
               style: TextStyle(color: theme.colorScheme.onErrorContainer),
             ),
           ),
@@ -198,6 +200,7 @@ class _FavoritesHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -240,14 +243,14 @@ class _FavoritesHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Your Favorites',
+                  l10n.savedJobs,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '$jobCount ${jobCount == 1 ? 'job' : 'jobs'} saved',
+                  '$jobCount ${jobCount == 1 ? l10n.jobSaved : l10n.jobsSaved}',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),
@@ -265,6 +268,7 @@ class _EmptyFavoritesState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Center(
       child: SingleChildScrollView(
@@ -289,7 +293,7 @@ class _EmptyFavoritesState extends StatelessWidget {
 
             // Main message
             Text(
-              'No Favorites Yet',
+              l10n.noFavoritesYet,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: theme.colorScheme.onSurface,
@@ -300,7 +304,7 @@ class _EmptyFavoritesState extends StatelessWidget {
 
             // Description
             Text(
-              'Start building your dream job collection by marking positions you love',
+              l10n.startBuildingDreamJobCollection,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                 height: 1.5,
@@ -312,22 +316,22 @@ class _EmptyFavoritesState extends StatelessWidget {
             // Feature cards
             _FeatureCard(
               icon: Icons.search_rounded,
-              title: 'Explore Jobs',
-              description: 'Browse thousands of opportunities',
+              title: l10n.exploreJobs,
+              description: l10n.browseOpportunities,
               color: theme.colorScheme.primaryContainer,
             ),
             const SizedBox(height: 12),
             _FeatureCard(
               icon: Icons.favorite_rounded,
-              title: 'Save Favorites',
-              description: 'Tap the heart icon on any job card',
+              title: l10n.saveFavorites,
+              description: l10n.tapHeartOnJobCard,
               color: theme.colorScheme.tertiaryContainer,
             ),
             const SizedBox(height: 12),
             _FeatureCard(
               icon: Icons.notifications_active_rounded,
-              title: 'Stay Updated',
-              description: 'Get notified about saved positions',
+              title: l10n.stayUpdated,
+              description: l10n.getNotifiedAboutSavedPositions,
               color: theme.colorScheme.secondaryContainer,
             ),
           ],

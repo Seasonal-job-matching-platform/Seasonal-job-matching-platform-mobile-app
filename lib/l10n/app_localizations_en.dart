@@ -384,6 +384,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noNotificationsYet => 'No notifications yet';
 
   @override
+  String get noNotificationsDescription =>
+      'We\'ll let you know when there\'s an update.';
+
+  @override
   String get notSet => 'Not set';
 
   @override
@@ -575,4 +579,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statusOpen => 'Open';
+
+  @override
+  String get salaryRate => 'Salary Rate';
+
+  @override
+  String get tapHeartToSave => 'Tap the heart icon on any job to save it here';
+
+  @override
+  String get tapHeartOnJobCard => 'Tap the heart icon on any job card';
+
+  @override
+  String get noResumeCreated => 'No resume created yet.';
+
+  @override
+  String get jobSaved => 'job saved';
+
+  @override
+  String get jobsSaved => 'jobs saved';
+
+  @override
+  String get jobFailedToLoad => 'job failed to load';
+
+  @override
+  String get jobsFailedToLoad => 'jobs failed to load';
+
+  @override
+  String get noInterestsAdded => 'No interests added yet';
+
+  @override
+  String get noApplicationsDescription =>
+      'You haven\'t applied to any jobs yet.\nStart exploring opportunities!';
+
+  @override
+  String get noFavoritesYet => 'No Favorites Yet';
+
+  @override
+  String get startBuildingDreamJobCollection =>
+      'Start building your dream job collection by marking positions you love';
+
+  @override
+  String get browseOpportunities => 'Browse thousands of opportunities';
+
+  @override
+  String get saveFavorites => 'Save Favorites';
+
+  @override
+  String get stayUpdated => 'Stay Updated';
+
+  @override
+  String get getNotifiedAboutSavedPositions =>
+      'Get notified about saved positions';
 }

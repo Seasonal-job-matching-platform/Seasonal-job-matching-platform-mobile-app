@@ -383,6 +383,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noNotificationsYet => 'لا توجد إشعارات بعد';
 
   @override
+  String get noNotificationsDescription => 'سنخبرك عندما يكون هناك تحديث جديد.';
+
+  @override
   String get notSet => 'غير محدد';
 
   @override
@@ -571,4 +574,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statusOpen => 'مفتوح';
+
+  @override
+  String get salaryRate => 'معدل الراتب';
+
+  @override
+  String get tapHeartToSave => 'اضغط على أيقونة القلب في أي وظيفة لحفظها هنا';
+
+  @override
+  String get tapHeartOnJobCard => 'اضغط على أيقونة القلب في أي بطاقة وظيفة';
+
+  @override
+  String get noResumeCreated => 'لم يتم إنشاء سيرة ذاتية بعد.';
+
+  @override
+  String get jobSaved => 'وظيفة محفوظة';
+
+  @override
+  String get jobsSaved => 'وظائف محفوظة';
+
+  @override
+  String get jobFailedToLoad => 'فشل تحميل وظيفة';
+
+  @override
+  String get jobsFailedToLoad => 'فشل تحميل وظائف';
+
+  @override
+  String get noInterestsAdded => 'لم يتم إضافة اهتمامات بعد';
+
+  @override
+  String get noApplicationsDescription =>
+      'لم تتقدم بطلب لأي وظيفة بعد.\nابدأ في استكشاف الفرص!';
+
+  @override
+  String get noFavoritesYet => 'لا توجد مفضلات بعد';
+
+  @override
+  String get startBuildingDreamJobCollection =>
+      'ابدأ في بناء مجموعة وظائف أحلامك عن طريق تحديد المناصب التي تحبها';
+
+  @override
+  String get browseOpportunities => 'تصفح آلاف الفرص';
+
+  @override
+  String get saveFavorites => 'حفظ المفضلة';
+
+  @override
+  String get stayUpdated => 'ابق على اطلاع';
+
+  @override
+  String get getNotifiedAboutSavedPositions =>
+      'احصل على إشعارات حول المناصب المحفوظة';
 }

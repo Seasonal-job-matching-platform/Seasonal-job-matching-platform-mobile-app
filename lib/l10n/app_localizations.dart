@@ -842,6 +842,12 @@ abstract class AppLocalizations {
   /// **'No notifications yet'**
   String get noNotificationsYet;
 
+  /// No description provided for @noNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll let you know when there\'s an update.'**
+  String get noNotificationsDescription;
+
   /// No description provided for @notSet.
   ///
   /// In en, this message translates to:
@@ -1207,6 +1213,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get statusOpen;
+
+  /// No description provided for @salaryRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary Rate'**
+  String get salaryRate;
+
+  /// No description provided for @tapHeartToSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the heart icon on any job to save it here'**
+  String get tapHeartToSave;
+
+  /// No description provided for @tapHeartOnJobCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the heart icon on any job card'**
+  String get tapHeartOnJobCard;
+
+  /// No description provided for @noResumeCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'No resume created yet.'**
+  String get noResumeCreated;
+
+  /// No description provided for @jobSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'job saved'**
+  String get jobSaved;
+
+  /// No description provided for @jobsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'jobs saved'**
+  String get jobsSaved;
+
+  /// No description provided for @jobFailedToLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'job failed to load'**
+  String get jobFailedToLoad;
+
+  /// No description provided for @jobsFailedToLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'jobs failed to load'**
+  String get jobsFailedToLoad;
+
+  /// No description provided for @noInterestsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'No interests added yet'**
+  String get noInterestsAdded;
+
+  /// No description provided for @noApplicationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t applied to any jobs yet.\nStart exploring opportunities!'**
+  String get noApplicationsDescription;
+
+  /// No description provided for @noFavoritesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No Favorites Yet'**
+  String get noFavoritesYet;
+
+  /// No description provided for @startBuildingDreamJobCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Start building your dream job collection by marking positions you love'**
+  String get startBuildingDreamJobCollection;
+
+  /// No description provided for @browseOpportunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse thousands of opportunities'**
+  String get browseOpportunities;
+
+  /// No description provided for @saveFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Favorites'**
+  String get saveFavorites;
+
+  /// No description provided for @stayUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay Updated'**
+  String get stayUpdated;
+
+  /// No description provided for @getNotifiedAboutSavedPositions.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified about saved positions'**
+  String get getNotifiedAboutSavedPositions;
 }
 
 class _AppLocalizationsDelegate
