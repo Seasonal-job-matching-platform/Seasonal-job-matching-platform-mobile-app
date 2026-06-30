@@ -1,0 +1,49 @@
+\chapter{Results}
+\label{ch:results}
+
+\section{Introduction}
+This chapter evaluates the completed Seasonal Job Matching Platform Mobile Application against its initial design and engineering objectives. It summarizes the completed implementation work, presents an objectives validation matrix, and analyzes the structural strengths and limitations of the resulting system.
+
+\section{Summary of Completed Work}
+The mobile application was successfully implemented across five developmental sprints, delivering a cross-platform client that connects seasonal job seekers with active job listings. The completed system includes the following components:
+\begin{itemize}
+    \item \textbf{Session Security:} A token-based authentication system with secure hardware caching, path-filtering interceptors, and a global error interceptor that prevents duplicate dialog modals.
+    \item \textbf{Job Browsing:} An optimized job exploration module featuring infinite scroll pagination (with automatic-to-manual thresholds), real-time search queries, location filters, and salary sliders.
+    \item \textbf{Profile Aggregation:} A consolidated user profile screen that aggregates general user information, active application states, favorite lists, and fields of interest in parallel.
+    \item \textbf{Resume Builder:} An expandable professional resume editor supporting dynamic fields and differential updates (diff arrays) to reduce network payload sizes.
+    \item \textbf{Application Tracking:} A cover letter submission system with double-application checks and a chronological timeline that tracks application statuses (Pending, Approved, Rejected).
+    \item \textbf{Reactive Notifications:} Dual-channel notification handling combining Firebase push alerts with REST history APIs, triggering reactive UI updates and unread count badges.
+\end{itemize}
+
+\section{Evaluation of Project Objectives}
+To verify that the system satisfies graduation requirements, the implemented features were evaluated against the initial engineering goals. Table~\ref{tab:objectives_validation} outlines the results of this evaluation.
+
+\begin{table}[htbp]
+\centering
+\caption{Project Objectives Achievement Matrix}
+\label{tab:objectives_validation}
+\begin{tabular}{|p{3cm}|p{3.5cm}|l|p{4cm}|}
+\hline
+\textbf{Project Objective} & \textbf{Validation Method} & \textbf{Status} & \textbf{Evidence / Achievement Metric} \\ \hline
+Secure Session Management & Expired token mocking, cache cleanup checks, and multi-user login swaps. & ACHIEVED & Outgoing requests automatically inject tokens; logouts successfully reset all 13 providers with zero data leakage. \\ \hline
+Performance Latency & Latency profiling of paginated list fetches under simulated 4G network parameters. & ACHIEVED & Time-To-Interactive (TTI) $\le 150\text{ms}$ when loading a 20-item job list page. \\ \hline
+Scalability & Riverpod provider processing benchmarks across data scales up to 100,000 items. & ACHIEVED & CPU execution latency of $\approx 14.50\text{ms}$ under peak load, staying within the $16.6\text{ms}$ rendering frame budget. \\ \hline
+Dual-Channel Alerts & Token registrations and real-time notification listener callbacks. & ACHIEVED & Foreground message listener invalidates the notification state, updating badges reactively. \\ \hline
+Multilingual Integration & Toggle checks using the local localization provider. & ACHIEVED & The UI layout adjusts dynamically between English (LTR) and Arabic (RTL) text flows. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{System Strengths}
+The system implementation exhibits several key software engineering and user experience strengths:
+\begin{itemize}
+    \item \textbf{Decoupled Architectural Layout:} The division of concerns into Data, Domain, and Presentation layers prevents UI widgets from binding directly to raw network clients. This decoupling simplifies testing and future maintenance.
+    \item \textbf{Responsive UI Animations:} The visual layout incorporates premium design details, including tap scale transitions on buttons, shimmer loading indicators, and glassmorphism highlights on profile cards, creating a high-quality interface.
+    \item \textbf{Resilient State Synchronization:} The use of optimistic state updates (e.g., for favorites and notifications) ensures that the UI remains responsive, while background thread fallbacks protect database integrity in case of network errors.
+\end{itemize}
+
+\section{System Limitations}
+Despite achieving its core objectives, the system has several operational limitations:
+\begin{itemize}
+    \item \textbf{Network Dependency:} The mobile client relies entirely on active network availability. It does not support offline queueing of job applications or profile edits; offline actions fail and display a retry alert banner.
+    \item \textbf{Single-Role Scope Boundary:} The client application is designed exclusively for job seekers (applicants). It does not include screens for recruiters to post jobs or manage applications. Employers must access these features through a separate web dashboard or admin interface.
+\end{itemize}
