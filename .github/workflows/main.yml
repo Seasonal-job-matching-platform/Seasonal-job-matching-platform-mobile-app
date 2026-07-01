@@ -8,6 +8,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION_VAL=$(grep '^version: ' pubspec.yaml | sed 's/version: //' | tr -d '\r')
+          BUILD_NAME=$(echo $VERSION_VAL | cut -d'+' -f1)
+          BUILD_CODE=$(echo $VERSION_VAL | cut -d'+' -f2)
+          echo "build_name=$BUILD_NAME" >> $GITHUB_OUTPUT
+          echo "build_code=$BUILD_CODE" >> $GITHUB_OUTPUT
+
       - name: Set up Flutter
         run: |
           git clone https://github.com/flutter/flutter.git --depth 1 -b 3.44.3 ~/flutter
@@ -17,14 +26,20 @@ jobs:
         run: flutter pub get
       
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release \
+            --build-name=${{ steps.extract_version.outputs.build_name }} \
+            --build-number=${{ steps.extract_version.outputs.build_code }}
       
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
+          tag_name: v${{ steps.extract_version.outputs.build_name }}
+          name: >-
+            ${{ contains(github.event.head_commit.message, '[MANDATORY]') && format('v{0} [MANDATORY]', steps.extract_version.outputs.build_name) || format('v{0} [OPTIONAL]', steps.extract_version.outputs.build_name) }}
           body: |
+            This is an automated update.
+            Commit: ${{ github.event.head_commit.message }}
           files: build/app/outputs/apk/release/app-release.apk
           draft: false
           prerelease: false
