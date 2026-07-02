@@ -7,6 +7,7 @@ import 'package:job_seeker/providers/auth_provider.dart';
 import 'package:job_seeker/core/auth/auth_dialog_manager.dart';
 import 'package:job_seeker/screens/Profile/profile_screen.dart';
 import 'package:job_seeker/widgets/notification_bell_widget.dart';
+import 'package:job_seeker/services/update_service.dart';
 
 import 'applications_screen.dart';
 import 'home_screen.dart';
@@ -71,8 +72,191 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final updateState = ref.read(updateStateProvider);
+      if (updateState.status == UpdateStatus.mandatory) {
+        _showMandatoryUpdateDialog(context, updateState);
+      } else if (updateState.status == UpdateStatus.optional && !updateState.isSnoozed) {
+        _showOptionalUpdateBottomSheet(context, ref, updateState);
+      }
+    });
+  }
+
+  void _showOptionalUpdateBottomSheet(BuildContext context, WidgetRef ref, UpdateState updateState) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.system_update_rounded, color: Colors.blue, size: 28),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text(
+                      'New Update Available',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'A new version (${updateState.latestVersion}) is available. Would you like to update now?',
+                  style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.4),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          ref.read(updateStateProvider.notifier).snoozeUpdate();
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          side: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        child: const Text('Later'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          UpdateNotifier.launchUpdateUrl(updateState.apkUrl!);
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4E60FF),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Update Now'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showMandatoryUpdateDialog(BuildContext context, UpdateState updateState) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.85),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return PopScope(
+          canPop: false,
+          child: Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.security_rounded, color: Colors.red, size: 40),
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Required Update',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF1F2937)),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'To continue using the app, you must install the required version (${updateState.latestVersion}). This update contains critical bug fixes or security upgrades.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15, color: Colors.grey.shade600, height: 1.5),
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => UpdateNotifier.launchUpdateUrl(updateState.apkUrl!),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Update Now', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        onPressed: () => SystemNavigator.pop(),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey.shade500,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text('Exit App'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    ref.listen<UpdateState>(updateStateProvider, (previous, next) {
+      if (next.status == UpdateStatus.mandatory) {
+        _showMandatoryUpdateDialog(context, next);
+      } else if (next.status == UpdateStatus.optional && !next.isSnoozed) {
+        _showOptionalUpdateBottomSheet(context, ref, next);
+      }
+    });
+
+    final updateState = ref.watch(updateStateProvider);
+    final hasUpdate = updateState.status == UpdateStatus.optional;
     
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.status == AuthStatus.unauthenticated && mounted) {
@@ -148,6 +332,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         items: navItems,
         currentIndex: currentIndex,
         onTap: _onDestinationSelected,
+        hasUpdate: hasUpdate,
       ),
     );
   }
@@ -157,11 +342,13 @@ class _GlassBottomNav extends StatelessWidget {
   final List<_NavItem> items;
   final int currentIndex;
   final Function(int) onTap;
+  final bool hasUpdate;
 
   const _GlassBottomNav({
     required this.items,
     required this.currentIndex,
     required this.onTap,
+    required this.hasUpdate,
   });
 
   @override
@@ -233,14 +420,32 @@ class _GlassBottomNav extends StatelessWidget {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           curve: Curves.easeOut,
-                          child: Icon(
-                            isSelected
-                                ? items[index].activeIcon
-                                : items[index].icon,
-                            color: isSelected
-                                ? primaryColor
-                                : Colors.grey.shade500,
-                            size: 26,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Icon(
+                                isSelected
+                                    ? items[index].activeIcon
+                                    : items[index].icon,
+                                color: isSelected
+                                    ? primaryColor
+                                    : Colors.grey.shade500,
+                                size: 26,
+                              ),
+                              if (index == 3 && hasUpdate)
+                                Positioned(
+                                  top: -2,
+                                  right: -2,
+                                  child: Container(
+                                    width: 8,
+                                    height: 8,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 4),

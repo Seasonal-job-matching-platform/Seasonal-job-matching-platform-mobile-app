@@ -8,6 +8,7 @@ import 'package:job_seeker/providers/profile_screen_providers/personal_informati
 import 'package:job_seeker/widgets/common/animated_scale_button.dart';
 import 'package:job_seeker/widgets/profile_screen_widgets/account_settings_section.dart';
 import 'package:job_seeker/screens/Profile/edit_profile_screen.dart';
+import 'package:job_seeker/services/update_service.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -29,6 +30,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final personalInfo = ref.watch(personalInformationProvider);
+    final updateState = ref.watch(updateStateProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -73,6 +75,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
+                    if (updateState.status == UpdateStatus.optional) ...[
+                      _UpdateBanner(
+                        latestVersion: updateState.latestVersion ?? '',
+                        apkUrl: updateState.apkUrl ?? '',
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                     // Resume Card
                     _buildResumeCard(context, colorScheme, l10n),
                     const SizedBox(height: 24),
@@ -398,6 +407,57 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               color: Color(0xFF1F2937),
               fontWeight: FontWeight.w600,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _UpdateBanner extends ConsumerWidget {
+  final String latestVersion;
+  final String apkUrl;
+
+  const _UpdateBanner({required this.latestVersion, required this.apkUrl});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.green.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.green.withOpacity(0.2)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.system_update_rounded, color: Colors.green),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Update Available!',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF1F2937)),
+                ),
+                Text(
+                  'Version $latestVersion is ready to install.',
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => UpdateNotifier.launchUpdateUrl(apkUrl),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            ),
+            child: const Text('Update'),
           ),
         ],
       ),
