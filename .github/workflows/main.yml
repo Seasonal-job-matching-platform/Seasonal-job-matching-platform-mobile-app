@@ -36,7 +36,7 @@ jobs:
         with:
           tag_name: v${{ steps.extract_version.outputs.build_name }}.${{ github.run_number }}
           name: >-
-            ${{ contains(github.event.head_commit.message, '[MANDATORY]') && format('v{0}.{1} [MANDATORY]', steps.extract_version.outputs.build_name, github.run_number) || format('v{0}.{1} [OPTIONAL]', steps.extract_version.outputs.build_name, github.run_number) }}
+            ${{ (contains(github.event.head_commit.message, '[MANDATORY]') || contains(join(github.event.commits.*.message, ' '), '[MANDATORY]')) && format('v{0}.{1} [MANDATORY]', steps.extract_version.outputs.build_name, github.run_number) || format('v{0}.{1} [OPTIONAL]', steps.extract_version.outputs.build_name, github.run_number) }}
           body: |
             This is an automated update.
             Commit: ${{ github.event.head_commit.message }}
