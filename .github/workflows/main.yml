@@ -28,15 +28,15 @@ jobs:
       - name: Build APK
         run: |
           flutter build apk --release \
-            --build-name=${{ steps.extract_version.outputs.build_name }} \
-            --build-number=${{ steps.extract_version.outputs.build_code }}
+            --build-name=${{ steps.extract_version.outputs.build_name }}.${{ github.run_number }} \
+            --build-number=${{ github.run_number }}
       
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.extract_version.outputs.build_name }}
+          tag_name: v${{ steps.extract_version.outputs.build_name }}.${{ github.run_number }}
           name: >-
-            ${{ contains(github.event.head_commit.message, '[MANDATORY]') && format('v{0} [MANDATORY]', steps.extract_version.outputs.build_name) || format('v{0} [OPTIONAL]', steps.extract_version.outputs.build_name) }}
+            ${{ contains(github.event.head_commit.message, '[MANDATORY]') && format('v{0}.{1} [MANDATORY]', steps.extract_version.outputs.build_name, github.run_number) || format('v{0}.{1} [OPTIONAL]', steps.extract_version.outputs.build_name, github.run_number) }}
           body: |
             This is an automated update.
             Commit: ${{ github.event.head_commit.message }}
