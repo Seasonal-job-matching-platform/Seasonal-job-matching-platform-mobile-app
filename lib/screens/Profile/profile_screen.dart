@@ -9,6 +9,7 @@ import 'package:job_seeker/widgets/common/animated_scale_button.dart';
 import 'package:job_seeker/widgets/profile_screen_widgets/account_settings_section.dart';
 import 'package:job_seeker/screens/Profile/edit_profile_screen.dart';
 import 'package:job_seeker/services/update_service.dart';
+import 'package:job_seeker/providers/profile_screen_providers/feedback_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -24,6 +25,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => const ResumeScreen()));
+  }
+
+  void _showReportIssueDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Report an Issue',
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+          ),
+          child: const _ReportIssueDialog(),
+        );
+      },
+    );
   }
 
   @override
@@ -100,8 +119,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     _buildSectionTitle(context, l10n.account),
                     const SizedBox(height: 12),
                     const AccountSettingsSection(),
-
-                    const SizedBox(height: 120),
+                    const SizedBox(height: 24),
+                    Center(
+                      child: TextButton.icon(
+                        onPressed: () => _showReportIssueDialog(context),
+                        icon: const Icon(Icons.bug_report_outlined, size: 18),
+                        label: const Text('Report an issue'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey.shade600,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 96),
                   ],
                 ),
               ),
@@ -495,6 +525,167 @@ class _UpdateBanner extends ConsumerWidget {
                 ),
         );
       },
+    );
+  }
+}
+
+class _ReportIssueDialog extends ConsumerStatefulWidget {
+  const _ReportIssueDialog();
+
+  @override
+  ConsumerState<_ReportIssueDialog> createState() => _ReportIssueDialogState();
+}
+
+class _ReportIssueDialogState extends ConsumerState<_ReportIssueDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  bool _sendAnonymously = false;
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    await ref.read(feedbackProvider.notifier).submitFeedback(
+      title: _titleController.text.trim(),
+      body: _descriptionController.text.trim(),
+      anonymous: _sendAnonymously,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(feedbackProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(next.error.toString().replaceAll('Exception: ', '')),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      } else if (next is AsyncData && previous is AsyncLoading) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Feedback submitted successfully'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        Navigator.of(context).pop();
+      }
+    });
+
+    final feedbackState = ref.watch(feedbackProvider);
+    final isLoading = feedbackState is AsyncLoading;
+
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24),
+        constraints: const BoxConstraints(maxWidth: 400),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Report an Issue',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1F2937)),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    validator: (v) => v == null || v.trim().isEmpty ? 'Please enter a title' : null,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _descriptionController,
+                    maxLines: 4,
+                    decoration: InputDecoration(
+                      labelText: 'Issue description',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    validator: (v) => v == null || v.trim().isEmpty ? 'Please enter a description' : null,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      const Text(
+                        'Send anonymously',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Color(0xFF4B5563)),
+                      ),
+                      const Spacer(),
+                      Switch(
+                        value: _sendAnonymously,
+                        activeColor: const Color(0xFF4E60FF),
+                        onChanged: (val) {
+                          setState(() {
+                            _sendAnonymously = val;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            side: BorderSide(color: Colors.grey.shade300),
+                          ),
+                          child: const Text('Cancel'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: isLoading ? null : _submit,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF4E60FF),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                )
+                              : const Text('Send'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

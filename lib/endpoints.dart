@@ -25,3 +25,6 @@ String getUserFavoriteJobs(String userId) => "$USERS/$userId/favorite-jobs";
 const String NOTIFICATION_TOKEN_REGISTER = "notification-token/register-token";
 const String NOTIFICATIONS_BASE = "notifications";
 String NOTIFICATIONS(String userId) => "$NOTIFICATIONS_BASE/$userId";
+
+// Feedback routes
+const String FEEDBACK = "feedback";
