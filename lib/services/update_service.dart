@@ -176,8 +176,12 @@ class UpdateNotifier extends Notifier<UpdateState> {
 
   static Future<void> launchUpdateUrl(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
+    try {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      try {
+        await launchUrl(uri);
+      } catch (_) {}
     }
   }
 }
