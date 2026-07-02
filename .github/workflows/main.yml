@@ -2,12 +2,16 @@ name: Build and Release APK
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
@@ -21,20 +25,20 @@ jobs:
         run: |
           git clone https://github.com/flutter/flutter.git --depth 1 -b 3.44.3 ~/flutter
           echo "$HOME/flutter/bin" >> $GITHUB_PATH
-      
+
       - name: Install dependencies
         run: flutter pub get
-      
+
       - name: Build APK
         run: |
           flutter build apk --release \
             --build-name=${{ steps.extract_version.outputs.build_name }} \
             --build-number=${{ steps.extract_version.outputs.build_code }}
-      
+
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.extract_version.outputs.build_name }}
+          tag_name: v${{ steps.extract_version.outputs.build_name }}-${{ steps.extract_version.outputs.build_code }}-${{ github.run_number }}
           name: >-
             ${{ contains(github.event.head_commit.message, '[MANDATORY]') && format('v{0} [MANDATORY]', steps.extract_version.outputs.build_name) || format('v{0} [OPTIONAL]', steps.extract_version.outputs.build_name) }}
           body: |
