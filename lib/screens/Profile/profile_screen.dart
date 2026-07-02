@@ -422,45 +422,79 @@ class _UpdateBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.green.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.green.withOpacity(0.2)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.system_update_rounded, color: Colors.green),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Update Available!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF1F2937)),
-                ),
-                Text(
-                  'Version $latestVersion is ready to install.',
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-                ),
-              ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final useVerticalLayout = constraints.maxWidth < 280;
+
+        final textAndIcon = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.12),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.system_update_rounded, color: Colors.green, size: 22),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => UpdateNotifier.launchUpdateUrl(apkUrl),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Update Available!',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1F2937)),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Version $latestVersion is ready to install.',
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                  ),
+                ],
+              ),
             ),
-            child: const Text('Update'),
+          ],
+        );
+
+        final updateButton = ElevatedButton(
+          onPressed: () => UpdateNotifier.launchUpdateUrl('https://github.com/Seasonal-job-matching-platform/Seasonal-job-matching-platform-mobile-app/releases/latest'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            minimumSize: const Size(80, 36),
           ),
-        ],
-      ),
+          child: const Text('Update', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+        );
+
+        return Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.green.withOpacity(0.06),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.green.withOpacity(0.15)),
+          ),
+          child: useVerticalLayout
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    textAndIcon,
+                    const SizedBox(height: 12),
+                    updateButton,
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(child: textAndIcon),
+                    const SizedBox(width: 12),
+                    updateButton,
+                  ],
+                ),
+        );
+      },
     );
   }
 }

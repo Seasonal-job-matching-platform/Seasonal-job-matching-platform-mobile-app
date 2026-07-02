@@ -12,6 +12,7 @@ import 'package:job_seeker/services/notification_service.dart';
 import 'package:job_seeker/providers/locale_provider.dart';
 import 'package:job_seeker/providers/auth_provider.dart';
 import 'package:job_seeker/screens/layout_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:job_seeker/services/update_service.dart';
 
 void main() async {
@@ -72,7 +73,9 @@ class _SplashWrapperState extends ConsumerState<SplashWrapper> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(updateStateProvider.notifier).checkForUpdates();
+      if (!kDebugMode) {
+        ref.read(updateStateProvider.notifier).checkForUpdates();
+      }
       _checkStatus(ref.read(authProvider));
     });
   }
