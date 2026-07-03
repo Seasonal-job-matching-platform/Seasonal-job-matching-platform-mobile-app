@@ -40,6 +40,7 @@ real-time push notifications
 - **Local Storage:** Flutter Secure Storage (`^9.2.2`) for user IDs and tokens
 - **Internationalization:** Flutter Localizations (`AppLocalizations` supporting EN/AR)
 - **UI & Layout:** Material 3, Google Fonts (Inter, Outfit), Carousel Slider, Svg rendering
+- **System Services:** Package Info Plus (`^8.0.0`) for app version checks, URL Launcher (`^6.3.0`) for browser redirects.
 
 ## Backend
 
@@ -107,6 +108,9 @@ real-time push notifications
 -   Cover Letter Submission
 -   Application Tracking
 -   Push Notifications
+-   User-Selected Currency Support
+-   GitHub Releases OTA Update System
+-   Report an Issue / Feedback Form
 
 ------------------------------------------------------------------------
 
@@ -188,6 +192,8 @@ real-time push notifications
 | `freezed` / `json_serializable` | Code generation for immutable models | Active |
 | `google_fonts` | Typography system | Active |
 | `carousel_slider` | Horizontal UI sliders | Active |
+| `package_info_plus` | Accesses native platform version codes | Active |
+| `url_launcher` | Resolves and opens HTTP release download URLs | Active |
 
 ------------------------------------------------------------------------
 
@@ -204,6 +210,8 @@ real-time push notifications
 | `ResumeNotifier` | Handles resume editor sections and uploads diff states |
 | `JobsFilterNotifier` | Tracks dynamic search query filter state parameters |
 | `PaginatedJobs` | Manages paginated scrolling with lazy loading and marks viewed job cards |
+| `UpdateNotifier` | Checks GitHub Releases for updates, evaluates SemVer criteria, and caches snooze states |
+| `FeedbackNotifier` | Manages form loading, extracts user emails when not anonymous, and triggers issue submissions |
 
 ------------------------------------------------------------------------
 
@@ -214,6 +222,8 @@ real-time push notifications
 - **Hybrid Pagination Rule:** Infinite scrolling triggers automatically for the first 200 jobs; afterwards, a manual "Load More" button is rendered. This avoids frame jank and excessive widget memory overhead (1.5 KB text vs. 50x-100x widget render cost).
 - **Glassmorphism Theme Elements:** Implemented within Profile card interfaces for premium aesthetics.
 - **Optimistic Heart Icon Toggle:** Favorites update instantly in the UI, and roll back only if the backend API call fails.
+- **OTA Update Snooze Cache:** Optional updates dismissed via "Later" are cached in secure storage with a 24-hour timestamp to suppress subsequent startup bottom sheet displays.
+- **Currency-Driven Job List Refetching:** Selecting a new currency updates the user profile on the backend and triggers dynamic invalidation of `paginatedJobsProvider` and `recommendedJobsProvider` to automatically reload job listings in the new currency.
 
 ------------------------------------------------------------------------
 

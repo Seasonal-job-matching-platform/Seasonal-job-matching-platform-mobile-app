@@ -150,6 +150,7 @@ class _NotificationCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isApplicationStatus = notification.type == 'APPLICATION_STATUS';
     final isRead = notification.isRead;
 
@@ -235,7 +236,7 @@ class _NotificationCard extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          notification.jobTitle ?? (isApplicationStatus ? 'Application Update' : 'New Notification'),
+                          notification.jobTitle ?? (isApplicationStatus ? l10n.applicationUpdate : l10n.newNotification),
                           style: TextStyle(
                             fontWeight: isRead ? FontWeight.w600 : FontWeight.w800,
                             fontSize: 16,

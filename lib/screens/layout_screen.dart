@@ -85,6 +85,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   }
 
   void _showOptionalUpdateBottomSheet(BuildContext context, WidgetRef ref, UpdateState updateState) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       isDismissible: true,
@@ -110,15 +111,15 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                       child: const Icon(Icons.system_update_rounded, color: Colors.blue, size: 28),
                     ),
                     const SizedBox(width: 16),
-                    const Text(
-                      'New Update Available',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                    Text(
+                      l10n.updateAvailable,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'A new version (${updateState.latestVersion}) is available. Would you like to update now?',
+                  l10n.updateVersionReady(updateState.latestVersion ?? ''),
                   style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.4),
                 ),
                 const SizedBox(height: 24),
@@ -135,7 +136,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           side: BorderSide(color: Colors.grey.shade300),
                         ),
-                        child: const Text('Later'),
+                        child: Text(l10n.updateLater),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -152,7 +153,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                           elevation: 0,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: const Text('Update Now'),
+                        child: Text(l10n.updateAction),
                       ),
                     ),
                   ],
@@ -166,6 +167,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   }
 
   void _showMandatoryUpdateDialog(BuildContext context, UpdateState updateState) {
+    final l10n = AppLocalizations.of(context)!;
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
@@ -196,13 +198,13 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                       child: const Icon(Icons.security_rounded, color: Colors.red, size: 40),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Required Update',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF1F2937)),
+                    Text(
+                      l10n.mandatoryUpdateTitle,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF1F2937)),
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'To continue using the app, you must install the required version (${updateState.latestVersion}). This update contains critical bug fixes or security upgrades.',
+                      l10n.mandatoryUpdateBody,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15, color: Colors.grey.shade600, height: 1.5),
                     ),
@@ -218,7 +220,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                           elevation: 0,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: const Text('Update Now', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        child: Text(l10n.updateAction, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -230,7 +232,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                           foregroundColor: Colors.grey.shade500,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text('Exit App'),
+                        child: Text(l10n.exitApp),
                       ),
                     ),
                   ],

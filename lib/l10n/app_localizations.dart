@@ -1321,6 +1321,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select preferred currency'**
   String get selectCurrency;
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available!'**
+  String get updateAvailable;
+
+  /// No description provided for @updateVersionReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} is ready to install.'**
+  String updateVersionReady(String version);
+
+  /// No description provided for @updateLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updateLater;
+
+  /// No description provided for @updateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateAction;
+
+  /// No description provided for @mandatoryUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandatory Update Required'**
+  String get mandatoryUpdateTitle;
+
+  /// No description provided for @mandatoryUpdateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update the app to the latest version to continue using it.'**
+  String get mandatoryUpdateBody;
+
+  /// No description provided for @appliedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied: {date}'**
+  String appliedDate(String date);
+
+  /// No description provided for @applicationUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Update'**
+  String get applicationUpdate;
+
+  /// No description provided for @newNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'New Notification'**
+  String get newNotification;
+
+  /// No description provided for @exitApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit App'**
+  String get exitApp;
 }
 
 class _AppLocalizationsDelegate

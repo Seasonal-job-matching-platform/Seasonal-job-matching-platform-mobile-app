@@ -13,6 +13,9 @@ The mobile application was successfully implemented across five developmental sp
     \item \textbf{Resume Builder:} An expandable professional resume editor supporting dynamic fields and differential updates (diff arrays) to reduce network payload sizes.
     \item \textbf{Application Tracking:} A cover letter submission system with double-application checks and a chronological timeline that tracks application statuses (Pending, Approved, Rejected).
     \item \textbf{Reactive Notifications:} Dual-channel notification handling combining Firebase push alerts with REST history APIs, triggering reactive UI updates and unread count badges.
+    \item \textbf{OTA Update Deployment:} A startup checker querying GitHub Releases that blocks the UI during mandatory updates and prompts optional updates with a 24-hour snooze constraint.
+    \item \textbf{Multi-Currency Formatting:} Selection dropdowns in profile settings that update client salary renderings dynamically across all feed providers.
+    \item \textbf{Feedback Submission:} A reporting modal dialog supporting anonymous or user-identified bug submittals linked directly to backend REST endpoints.
 \end{itemize}
 
 \section{Evaluation of Project Objectives}
@@ -30,6 +33,9 @@ Performance Latency & Latency profiling of paginated list fetches under simulate
 Scalability & Riverpod provider processing benchmarks across data scales up to 100,000 items. & ACHIEVED & CPU execution latency of $\approx 14.50\text{ms}$ under peak load, staying within the $16.6\text{ms}$ rendering frame budget. \\ \hline
 Dual-Channel Alerts & Token registrations and real-time notification listener callbacks. & ACHIEVED & Foreground message listener invalidates the notification state, updating badges reactively. \\ \hline
 Multilingual Integration & Toggle checks using the local localization provider. & ACHIEVED & The UI layout adjusts dynamically between English (LTR) and Arabic (RTL) text flows. \\ \hline
+Automated Update Deployment & SemVer check tests, snooze database caching, and mandatory tag validations. & ACHIEVED & Outgoing queries identify releases; mandatory versions block system navigation and load blocker layouts. \\ \hline
+Multi-Currency Localization & Setting code changes and view re-render checks. & ACHIEVED & Changing settings updates the user profile and reactively formats list widgets in under 50ms. \\ \hline
+In-App Issue Feedback & Anonymous toggle payload checks and error validation. & ACHIEVED & Form submissions route correctly, dynamically filtering the user's email depending on check toggles. \\ \hline
 \end{tabular}
 \end{table}
 

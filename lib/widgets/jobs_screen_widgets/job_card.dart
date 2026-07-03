@@ -275,8 +275,8 @@ class _JobCardState extends ConsumerState<JobCard>
                                 ),
                               ),
                           if (!isOpen)
-                            const StatusBadge(
-                              status: 'Closed',
+                            StatusBadge(
+                              status: l10n.closed,
                               type: StatusType.error,
                             ),
                         ],

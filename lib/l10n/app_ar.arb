@@ -224,5 +224,29 @@
   "stayUpdated": "ابق على اطلاع",
   "getNotifiedAboutSavedPositions": "احصل على إشعارات حول المناصب المحفوظة",
   "currencyLabel": "العملة المفضلة",
-  "selectCurrency": "اختر العملة المفضلة"
+  "selectCurrency": "اختر العملة المفضلة",
+  "updateAvailable": "تحديث متاح!",
+  "updateVersionReady": "الإصدار {version} جاهز للتثبيت.",
+  "@updateVersionReady": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateLater": "لاحقاً",
+  "updateAction": "تحديث",
+  "mandatoryUpdateTitle": "مطلوب تحديث إجباري",
+  "mandatoryUpdateBody": "يرجى تحديث التطبيق إلى أحدث إصدار لمتابعة استخدامه.",
+  "appliedDate": "تم التقديم: {date}",
+  "@appliedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "applicationUpdate": "تحديث الطلب",
+  "newNotification": "إشعار جديد",
+  "exitApp": "خروج"
 }

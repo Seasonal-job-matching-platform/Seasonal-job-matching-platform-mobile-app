@@ -452,6 +452,7 @@ class _UpdateBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return LayoutBuilder(
       builder: (context, constraints) {
         final useVerticalLayout = constraints.maxWidth < 280;
@@ -472,13 +473,13 @@ class _UpdateBanner extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Update Available!',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1F2937)),
+                  Text(
+                    l10n.updateAvailable,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1F2937)),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Version $latestVersion is ready to install.',
+                    l10n.updateVersionReady(latestVersion),
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
                 ],
@@ -497,7 +498,7 @@ class _UpdateBanner extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             minimumSize: const Size(80, 36),
           ),
-          child: const Text('Update', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+          child: Text(l10n.updateAction, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
         );
 
         return Container(

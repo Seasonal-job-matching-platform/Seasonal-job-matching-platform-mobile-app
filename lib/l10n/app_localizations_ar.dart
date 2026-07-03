@@ -631,4 +631,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectCurrency => 'اختر العملة المفضلة';
+
+  @override
+  String get updateAvailable => 'تحديث متاح!';
+
+  @override
+  String updateVersionReady(String version) {
+    return 'الإصدار $version جاهز للتثبيت.';
+  }
+
+  @override
+  String get updateLater => 'لاحقاً';
+
+  @override
+  String get updateAction => 'تحديث';
+
+  @override
+  String get mandatoryUpdateTitle => 'مطلوب تحديث إجباري';
+
+  @override
+  String get mandatoryUpdateBody =>
+      'يرجى تحديث التطبيق إلى أحدث إصدار لمتابعة استخدامه.';
+
+  @override
+  String appliedDate(String date) {
+    return 'تم التقديم: $date';
+  }
+
+  @override
+  String get applicationUpdate => 'تحديث الطلب';
+
+  @override
+  String get newNotification => 'إشعار جديد';
+
+  @override
+  String get exitApp => 'خروج';
 }

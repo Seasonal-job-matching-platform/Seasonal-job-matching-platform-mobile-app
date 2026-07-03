@@ -55,6 +55,13 @@ Functional testing verifies that the application behaves correctly under standar
 \textbf{TC-APP-1} & Tap ``Apply'', submit empty note. & Visual alert warns that the cover letter description is required. & PASS \\ \hline
 \textbf{TC-APP-2} & Tap ``Apply'', submit valid cover letter. & Optimistic set updates; apply button is disabled and displays ``Applied''. & PASS \\ \hline
 \textbf{TC-FAV-1} & Tap favorites heart icon. & Heart updates status instantly; API triggers update in background. & PASS \\ \hline
+\textbf{TC-UPD-1} & Launch app (new optional release tag exists). & Modal bottom sheet query displays tag, title, and body; lets user dismiss. & PASS \\ \hline
+\textbf{TC-UPD-2} & Launch app (new mandatory version tag). & UI displays non-dismissible blocker overlay preventing layout access. & PASS \\ \hline
+\textbf{TC-UPD-3} & Dismiss optional update sheet modal. & Action sets Unix timestamp and tag in secure storage; sheet is hidden. & PASS \\ \hline
+\textbf{TC-UPD-4} & Launch app (with active 24-hr snooze flag). & App starts immediately, bypassing bottom sheet dialog prompt. & PASS \\ \hline
+\textbf{TC-CURR-1} & Select new currency code in Profile settings. & Invokes patch request, invalidates paginated feed, and reloads listings. & PASS \\ \hline
+\textbf{TC-FDBK-1} & Submit feedback (anonymous toggle unchecked). & POST payload body includes issue text and user profile email. & PASS \\ \hline
+\textbf{TC-FDBK-2} & Submit feedback (anonymous toggle checked). & POST payload body includes issue text and excludes email param. & PASS \\ \hline
 \end{tabular}
 \end{table}
 
@@ -78,12 +85,26 @@ To prevent data leakage when multiple users share a single device, account switc
 \end{itemize}
 
 \subsection{Network Latency and Offline Resilience}
-Network instability was simulated by introducing synthetic latency and disconnected states in the networking layer.
 \begin{itemize}
     \item \textbf{Procedure:} API response delays were increased to $5.0\text{ seconds}$, and network requests were subsequently blocked entirely.
     \item \textbf{Validation:} The UI was monitored to ensure it did not freeze during search or application actions, and that it recovered gracefully when connectivity was restored.
     \item \textbf{Result:} During latency, the UI rendered shimmer loading skeleton structures, maintaining interactivity. When offline, requests failed gracefully, and the application displayed a retry banner allowing the user to re-trigger the query.
+\end{itemize}
 
+\subsection{GitHub API Rate Limiting and Offline Fail-Silence}
+To ensure that version-checking calls do not impact application startup availability, resilience was evaluated against network dropouts and GitHub API rate ceilings.
+\begin{itemize}
+    \item \textbf{Procedure:} Public GitHub Releases API queries were mocked to return rate limit blockouts (HTTP 403) and connection timeouts.
+    \item \textbf{Validation:} Asserted that network errors do not propagate to the main application shell and that startup execution proceeds seamlessly.
+    \item \textbf{Result:} The \texttt{UpdateNotifier} caught all connection errors and API exceptions silently. The update state defaulted to \texttt{none}, allowing users to access the application without startup hangs.
+\end{itemize}
+
+\subsection{Secure Snooze Persistence Verification}
+To prevent update notifications from disrupting user interaction, the durability and expiry parameters of the snooze caching system were tested.
+\begin{itemize}
+    \item \textbf{Procedure:} An optional update was dismissed via the ``Later'' key. The secure storage parameters were inspected, and the system clock was subsequently advanced to check expiry boundaries.
+    \item \textbf{Validation:} Asserted that the target version and Unix epoch timestamp were written to \texttt{FlutterSecureStorage}. Verified that prompt banners were suppressed during subsequent restarts within 24 hours and rendered again post-expiry.
+    \item \textbf{Result:} Snooze caching worked correctly, writing credentials safely to secure storage. The optional bottom sheet was successfully suppressed during the 24-hour active snooze window, while settings update badges remained visible, and prompts resumed automatically after 24 hours.
 \end{itemize}
 
 \section{Performance and Computational Benchmarks}

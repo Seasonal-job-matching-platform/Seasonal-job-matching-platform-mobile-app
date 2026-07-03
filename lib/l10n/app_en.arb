@@ -224,5 +224,29 @@
   "stayUpdated": "Stay Updated",
   "getNotifiedAboutSavedPositions": "Get notified about saved positions",
   "currencyLabel": "Preferred Currency",
-  "selectCurrency": "Select preferred currency"
+  "selectCurrency": "Select preferred currency",
+  "updateAvailable": "Update Available!",
+  "updateVersionReady": "Version {version} is ready to install.",
+  "@updateVersionReady": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateLater": "Later",
+  "updateAction": "Update",
+  "mandatoryUpdateTitle": "Mandatory Update Required",
+  "mandatoryUpdateBody": "Please update the app to the latest version to continue using it.",
+  "appliedDate": "Applied: {date}",
+  "@appliedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "applicationUpdate": "Application Update",
+  "newNotification": "New Notification",
+  "exitApp": "Exit App"
 }

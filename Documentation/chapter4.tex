@@ -21,6 +21,8 @@ The mobile application is built using the Flutter SDK. Table~\ref{tab:developmen
 \texttt{flutter\_local\_notifications} & \texttt{\^{}19.2.1} & Displays in-app notification banners when messages arrive in the background. \\ \hline
 \texttt{freezed\_annotation} & \texttt{\^{}3.1.0} & Code generator for immutable data models and JSON serialization. \\ \hline
 \texttt{google\_fonts} & \texttt{\^{}6.3.3} & Custom typography, utilizing the Inter and Outfit font packages. \\ \hline
+\texttt{package\_info\_plus} & \texttt{\^{}8.0.0} & Resolves local runtime version name and version code configurations. \\ \hline
+\texttt{url\_launcher} & \texttt{\^{}6.3.0} & Launches external web browser links to execute APK update downloads. \\ \hline
 \end{tabular}
 \end{table}
 
@@ -134,6 +136,133 @@ Future<void> toggleFavorite(int jobId) async {
     state = previousState;
     AppLogger.error('Failed to update favorites: $e');
     rethrow;
+  }
+}
+\end{lstlisting}
+
+\section{Over-the-Air (OTA) Update System}
+The Android mobile client implements a custom Over-the-Air (OTA) update system designed to bypass Google Play Store distribution paths. The update system checks the GitHub Releases API for new releases and determines if updates are optional or mandatory based on version increments or commit-level tags.
+
+Optional updates prompt a bottom sheet overlay where users can postpone (snooze) the update for 24 hours. The snooze timestamp and target version are cached securely in hardware using \texttt{FlutterSecureStorage}. In contrast, mandatory updates trigger a full-screen blocking overlay that intercepts system back navigation, directing users to download the latest APK directly.
+
+Listing~\ref{lst:ota_update_notifier} shows the implementation of version comparisons and snooze evaluation within \texttt{UpdateNotifier}.
+
+\begin{lstlisting}[language=Java, caption={SemVer version checks and snooze verification in UpdateNotifier}, label=lst:ota_update_notifier]
+Future<void> checkForUpdates() async {
+  try {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version; // e.g., 1.0.0.104
+
+    // Query unauthenticated public GitHub API
+    final response = await _dio.get(
+      'https://api.github.com/repos/Seasonal-job-matching-platform/Seasonal-job-matching-platform-mobile-app/releases/latest',
+    );
+
+    if (response.statusCode == 200 && response.data != null) {
+      final data = response.data;
+      final String latestTagName = data['tag_name'] ?? '';
+      final String latestVersion = latestTagName.replaceAll('v', '').trim();
+      final String releaseName = data['name'] ?? '';
+      final String releaseBody = data['body'] ?? '';
+
+      // Find the APK release asset url
+      final List assets = data['assets'] ?? [];
+      Map<String, dynamic>? apkAsset;
+      for (final asset in assets) {
+        if (asset is Map && asset['name'] != null && asset['name'].toString().endsWith('.apk')) {
+          apkAsset = Map<String, dynamic>.from(asset);
+          break;
+        }
+      }
+
+      if (apkAsset == null) return;
+      final String apkUrl = apkAsset['browser_download_url'] ?? '';
+
+      if (isNewerVersion(currentVersion, latestVersion)) {
+        final isMandatory = isMajorUpdate(currentVersion, latestVersion) ||
+            releaseName.contains('[MANDATORY]') ||
+            releaseBody.contains('[MANDATORY]');
+
+        if (isMandatory) {
+          state = UpdateState(
+            status: UpdateStatus.mandatory,
+            latestVersion: latestTagName,
+            apkUrl: apkUrl,
+            releaseNotes: releaseBody,
+          );
+        } else {
+          final isSnoozed = await _checkIfSnoozed(latestTagName);
+          state = UpdateState(
+            status: UpdateStatus.optional,
+            latestVersion: latestTagName,
+            apkUrl: apkUrl,
+            releaseNotes: releaseBody,
+            isSnoozed: isSnoozed,
+          );
+        }
+      } else {
+        state = UpdateState(status: UpdateStatus.none);
+      }
+    }
+  } catch (e) {
+    // Fail silently in production to prevent app startup blocks
+  }
+}
+\end{lstlisting}
+
+\section{User-Selected Currency Support}
+The application supports multi-currency options inside settings, allowing users to format salary values based on selected profile currency denominations. The implementation enforces a reactive Riverpod dependency invalidation flow that updates listings without forcing manual user reloads.
+
+\begin{itemize}
+    \item \textbf{Dropdown Selection}: Inside the settings section, a currency dropdown dropdown registers change events (e.g. USD, EGP, SAR) and triggers the notifier.
+    \item \textbf{Backend Sync}: The notifier invokes a PATCH request containing the updated currency key to the user profile endpoint (\texttt{/api/users/\{uid\}}).
+    \item \textbf{Reactive Feed Invalidation}: Both \texttt{PaginatedJobs} and \texttt{RecommendedJobsNotifier} watch the user's currency value. Invalidation is configured via the watch API:
+    \begin{lstlisting}[language=Java]
+// Refetches page 0 and invalidates cache on currency state updates
+ref.watch(personalInformationProvider.select((u) => u.value?.currency));
+    \end{lstlisting}
+    \item \textbf{UI Currency Formatting}: Active salary values display utilizing Dart's \texttt{intl} Simple Currency helper formatter:
+    \begin{lstlisting}[language=Java]
+// Formats numerical ranges based on the user's currency setting
+NumberFormat.simpleCurrency(name: selectedCurrency).format(salaryValue);
+    \end{lstlisting}
+\end{itemize}
+
+\section{Bug Reporting and Feedback Module}
+To capture user feedback and crash reports, a feedback interface was integrated into the profile menu. Submissions connect to the backend REST API, utilizing a riverpod state controller to isolate payload properties.
+
+Listing~\ref{lst:feedback_notifier} displays the provider implementation, focusing on how email filters verify user identification fields depending on anonymous settings toggles.
+
+\begin{lstlisting}[language=Java, caption={FeedbackNotifier submit feedback filter logic}, label=lst:feedback_notifier]
+class FeedbackNotifier extends AsyncNotifier<void> {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> submitFeedback({
+    required String title,
+    required String body,
+    required bool anonymous,
+  }) async {
+    state = const AsyncValue.loading();
+
+    state = await AsyncValue.guard(() async {
+      String? userEmail;
+
+      if (!anonymous) {
+        final personalInfoState = ref.read(personalInformationProvider);
+        userEmail = personalInfoState.value?.email;
+        if (userEmail == null) {
+          throw Exception('Unable to retrieve user email.');
+        }
+      }
+
+      // Submit feedback payload to backend API service
+      await ref.read(feedbackServiceProvider).submitFeedback(
+        title: title,
+        body: body,
+        userEmail: userEmail,
+      );
+    });
   }
 }
 \end{lstlisting}

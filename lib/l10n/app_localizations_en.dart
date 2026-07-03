@@ -636,4 +636,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectCurrency => 'Select preferred currency';
+
+  @override
+  String get updateAvailable => 'Update Available!';
+
+  @override
+  String updateVersionReady(String version) {
+    return 'Version $version is ready to install.';
+  }
+
+  @override
+  String get updateLater => 'Later';
+
+  @override
+  String get updateAction => 'Update';
+
+  @override
+  String get mandatoryUpdateTitle => 'Mandatory Update Required';
+
+  @override
+  String get mandatoryUpdateBody =>
+      'Please update the app to the latest version to continue using it.';
+
+  @override
+  String appliedDate(String date) {
+    return 'Applied: $date';
+  }
+
+  @override
+  String get applicationUpdate => 'Application Update';
+
+  @override
+  String get newNotification => 'New Notification';
+
+  @override
+  String get exitApp => 'Exit App';
 }

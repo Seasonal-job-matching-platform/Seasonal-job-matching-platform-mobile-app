@@ -239,7 +239,7 @@ class _TimelineApplicationCard extends StatelessWidget {
                             ),
                           ),
                           StatusBadge(
-                            status: job.status,
+                            status: isJobOpen ? l10n.open : l10n.closed,
                             type: isJobOpen
                                 ? StatusType.success
                                 : StatusType.neutral,
@@ -292,8 +292,7 @@ class _TimelineApplicationCard extends StatelessWidget {
                           const SizedBox(height: AppTheme.spaceSm),
                           _InfoRow(
                             icon: Icons.calendar_today_outlined,
-                            text:
-                                'Applied: ${app.createdAt ?? app.appliedDate ?? "N/A"}',
+                            text: l10n.appliedDate(app.createdAt ?? app.appliedDate ?? "N/A"),
                             subtle: true,
                           ),
                         ],
