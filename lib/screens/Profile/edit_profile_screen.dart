@@ -25,7 +25,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   List<String> _initialInterests = [];
   List<String> _currentInterests = [];
-  List<String> selectedInterests = [];
   bool _initialized = false;
 
   @override
@@ -122,7 +121,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   void _addInterest() {
-    // Show dialog to add interest
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -134,20 +132,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             controller: controller,
             decoration: const InputDecoration(hintText: 'e.g. Graphic Design'),
             autofocus: true,
+            onSubmitted: (_) {
+              final value = controller.text.trim();
+              if (value.isNotEmpty && !_currentInterests.contains(value)) {
+                setState(() => _currentInterests.add(value));
+              }
+              Navigator.pop(dialogContext);
+            },
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
               child: Text(l10n.cancel),
             ),
-TextButton(
+            TextButton(
               onPressed: () {
-                if (controller.text.trim().isNotEmpty) {
-                  setState(() {
-                    selectedInterests.add(controller.text.trim());
-                  });
-                  Navigator.pop(dialogContext);
+                final value = controller.text.trim();
+                if (value.isNotEmpty && !_currentInterests.contains(value)) {
+                  setState(() => _currentInterests.add(value));
                 }
+                Navigator.pop(dialogContext);
               },
               child: Text(l10n.add),
             ),

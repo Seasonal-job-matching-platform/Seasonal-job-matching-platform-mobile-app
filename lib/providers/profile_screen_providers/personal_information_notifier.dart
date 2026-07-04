@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/widgets.dart';
 import 'package:job_seeker/models/profile_screen_models/personal_information_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_seeker/services/profile_screen_services/personal_information_service.dart';
@@ -192,6 +190,11 @@ class PersonalInformationAsyncNotifier
     required List<String> added,
     required List<String> removed,
   }) async {
+    // Capture current state BEFORE setting loading, otherwise state.value
+    // becomes null inside AsyncValue.guard and causes a null dereference.
+    final current = state.value;
+    if (current == null) return;
+
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await _service.updateFieldsOfInterest(
@@ -199,7 +202,6 @@ class PersonalInformationAsyncNotifier
         fieldsOfInterestToRemove: removed,
       );
 
-      final current = state.value!;
       final newInterests = List<String>.from(current.fieldsOfInterest ?? []);
       newInterests.removeWhere((i) => removed.contains(i));
       newInterests.addAll(added);

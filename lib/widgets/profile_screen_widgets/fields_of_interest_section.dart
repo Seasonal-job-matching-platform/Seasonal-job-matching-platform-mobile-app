@@ -59,7 +59,10 @@ class _FieldsOfInterestSectionState
     }
 
     final currentUser = ref.read(personalInformationProvider).value;
-    if (currentUser == null) return;
+    if (currentUser == null) {
+      _showSnackbar('Profile not loaded yet. Please wait.', isError: true);
+      return;
+    }
 
     // Check if already exists
     if ((currentUser.fieldsOfInterest ?? []).contains(interest) ||
@@ -173,8 +176,8 @@ class _FieldsOfInterestSectionState
         color: isRemoved
             ? Colors.grey.shade100
             : isNew
-            ? const Color(0xFF10B981).withOpacity(0.1)
-            : const Color(0xFF3B82F6).withOpacity(0.1),
+            ? const Color(0xFF10B981).withValues(alpha: 0.1)
+            : const Color(0xFF3B82F6).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: isRemoved
@@ -286,7 +289,7 @@ class _FieldsOfInterestSectionState
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF3B82F6).withOpacity(0.3),
+                          color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
