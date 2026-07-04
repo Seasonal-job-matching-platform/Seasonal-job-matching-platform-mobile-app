@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NotificationModel {
 
- int? get id; String? get type; String? get message; String? get timestamp; bool get isRead; String? get applicationId; String? get jobTitle; String? get status;
+ int? get id; String? get type; String? get message; String? get timestamp; String? get createdAt; bool get isRead; String? get applicationId; String? get jobTitle; String? get status;
 /// Create a copy of NotificationModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NotificationModelCopyWith<NotificationModel> get copyWith => _$NotificationMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotificationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.isRead, isRead) || other.isRead == isRead)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.jobTitle, jobTitle) || other.jobTitle == jobTitle)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotificationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isRead, isRead) || other.isRead == isRead)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.jobTitle, jobTitle) || other.jobTitle == jobTitle)&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,message,timestamp,isRead,applicationId,jobTitle,status);
+int get hashCode => Object.hash(runtimeType,id,type,message,timestamp,createdAt,isRead,applicationId,jobTitle,status);
 
 @override
 String toString() {
-  return 'NotificationModel(id: $id, type: $type, message: $message, timestamp: $timestamp, isRead: $isRead, applicationId: $applicationId, jobTitle: $jobTitle, status: $status)';
+  return 'NotificationModel(id: $id, type: $type, message: $message, timestamp: $timestamp, createdAt: $createdAt, isRead: $isRead, applicationId: $applicationId, jobTitle: $jobTitle, status: $status)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $NotificationModelCopyWith<$Res>  {
   factory $NotificationModelCopyWith(NotificationModel value, $Res Function(NotificationModel) _then) = _$NotificationModelCopyWithImpl;
 @useResult
 $Res call({
- int? id, String? type, String? message, String? timestamp, bool isRead, String? applicationId, String? jobTitle, String? status
+ int? id, String? type, String? message, String? timestamp, String? createdAt, bool isRead, String? applicationId, String? jobTitle, String? status
 });
 
 
@@ -65,12 +65,13 @@ class _$NotificationModelCopyWithImpl<$Res>
 
 /// Create a copy of NotificationModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? type = freezed,Object? message = freezed,Object? timestamp = freezed,Object? isRead = null,Object? applicationId = freezed,Object? jobTitle = freezed,Object? status = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? type = freezed,Object? message = freezed,Object? timestamp = freezed,Object? createdAt = freezed,Object? isRead = null,Object? applicationId = freezed,Object? jobTitle = freezed,Object? status = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,isRead: null == isRead ? _self.isRead : isRead // ignore: cast_nullable_to_non_nullable
 as bool,applicationId: freezed == applicationId ? _self.applicationId : applicationId // ignore: cast_nullable_to_non_nullable
 as String?,jobTitle: freezed == jobTitle ? _self.jobTitle : jobTitle // ignore: cast_nullable_to_non_nullable
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? type,  String? message,  String? timestamp,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? type,  String? message,  String? timestamp,  String? createdAt,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NotificationModel() when $default != null:
-return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
+return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.createdAt,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? type,  String? message,  String? timestamp,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? type,  String? message,  String? timestamp,  String? createdAt,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)  $default,) {final _that = this;
 switch (_that) {
 case _NotificationModel():
-return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
+return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.createdAt,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? type,  String? message,  String? timestamp,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? type,  String? message,  String? timestamp,  String? createdAt,  bool isRead,  String? applicationId,  String? jobTitle,  String? status)?  $default,) {final _that = this;
 switch (_that) {
 case _NotificationModel() when $default != null:
-return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
+return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.createdAt,_that.isRead,_that.applicationId,_that.jobTitle,_that.status);case _:
   return null;
 
 }
@@ -216,13 +217,14 @@ return $default(_that.id,_that.type,_that.message,_that.timestamp,_that.isRead,_
 @JsonSerializable()
 
 class _NotificationModel implements NotificationModel {
-  const _NotificationModel({this.id, this.type, this.message, this.timestamp, this.isRead = false, this.applicationId, this.jobTitle, this.status});
+  const _NotificationModel({this.id, this.type, this.message, this.timestamp, this.createdAt, this.isRead = false, this.applicationId, this.jobTitle, this.status});
   factory _NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
 
 @override final  int? id;
 @override final  String? type;
 @override final  String? message;
 @override final  String? timestamp;
+@override final  String? createdAt;
 @override@JsonKey() final  bool isRead;
 @override final  String? applicationId;
 @override final  String? jobTitle;
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NotificationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.isRead, isRead) || other.isRead == isRead)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.jobTitle, jobTitle) || other.jobTitle == jobTitle)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NotificationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.message, message) || other.message == message)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isRead, isRead) || other.isRead == isRead)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.jobTitle, jobTitle) || other.jobTitle == jobTitle)&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,message,timestamp,isRead,applicationId,jobTitle,status);
+int get hashCode => Object.hash(runtimeType,id,type,message,timestamp,createdAt,isRead,applicationId,jobTitle,status);
 
 @override
 String toString() {
-  return 'NotificationModel(id: $id, type: $type, message: $message, timestamp: $timestamp, isRead: $isRead, applicationId: $applicationId, jobTitle: $jobTitle, status: $status)';
+  return 'NotificationModel(id: $id, type: $type, message: $message, timestamp: $timestamp, createdAt: $createdAt, isRead: $isRead, applicationId: $applicationId, jobTitle: $jobTitle, status: $status)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$NotificationModelCopyWith<$Res> implements $NotificationM
   factory _$NotificationModelCopyWith(_NotificationModel value, $Res Function(_NotificationModel) _then) = __$NotificationModelCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, String? type, String? message, String? timestamp, bool isRead, String? applicationId, String? jobTitle, String? status
+ int? id, String? type, String? message, String? timestamp, String? createdAt, bool isRead, String? applicationId, String? jobTitle, String? status
 });
 
 
@@ -278,12 +280,13 @@ class __$NotificationModelCopyWithImpl<$Res>
 
 /// Create a copy of NotificationModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? type = freezed,Object? message = freezed,Object? timestamp = freezed,Object? isRead = null,Object? applicationId = freezed,Object? jobTitle = freezed,Object? status = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? type = freezed,Object? message = freezed,Object? timestamp = freezed,Object? createdAt = freezed,Object? isRead = null,Object? applicationId = freezed,Object? jobTitle = freezed,Object? status = freezed,}) {
   return _then(_NotificationModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,isRead: null == isRead ? _self.isRead : isRead // ignore: cast_nullable_to_non_nullable
 as bool,applicationId: freezed == applicationId ? _self.applicationId : applicationId // ignore: cast_nullable_to_non_nullable
 as String?,jobTitle: freezed == jobTitle ? _self.jobTitle : jobTitle // ignore: cast_nullable_to_non_nullable

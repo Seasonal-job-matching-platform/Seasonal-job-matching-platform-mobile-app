@@ -1381,6 +1381,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exit App'**
   String get exitApp;
+
+  /// No description provided for @interviewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview Details'**
+  String get interviewDetails;
+
+  /// No description provided for @interviewDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get interviewDate;
+
+  /// No description provided for @interviewTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get interviewTime;
+
+  /// No description provided for @interviewLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get interviewLocation;
+
+  /// No description provided for @joinInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Interview'**
+  String get joinInterview;
+
+  /// No description provided for @statusInterviewScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Interview Scheduled'**
+  String get statusInterviewScheduled;
 }
 
 class _AppLocalizationsDelegate

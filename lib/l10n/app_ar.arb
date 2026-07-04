@@ -248,5 +248,11 @@
   },
   "applicationUpdate": "تحديث الطلب",
   "newNotification": "إشعار جديد",
-  "exitApp": "خروج"
+  "exitApp": "خروج",
+  "interviewDetails": "تفاصيل المقابلة",
+  "interviewDate": "التاريخ",
+  "interviewTime": "الوقت",
+  "interviewLocation": "الموقع",
+  "joinInterview": "الانضمام للمقابلة",
+  "statusInterviewScheduled": "تم تحديد مقابلة"
 }

@@ -10,6 +10,7 @@ abstract class NotificationModel with _$NotificationModel {
     String? type,
     String? message,
     String? timestamp,
+    String? createdAt,
     @Default(false) bool isRead,
     String? applicationId,
     String? jobTitle,

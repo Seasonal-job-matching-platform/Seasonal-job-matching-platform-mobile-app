@@ -357,10 +357,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.work_rounded,
-                            size: 50,
-                            color: Colors.white,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'images/app_icon.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

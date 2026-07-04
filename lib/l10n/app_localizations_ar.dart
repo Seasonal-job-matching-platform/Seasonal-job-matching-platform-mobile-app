@@ -666,4 +666,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exitApp => 'خروج';
+
+  @override
+  String get interviewDetails => 'تفاصيل المقابلة';
+
+  @override
+  String get interviewDate => 'التاريخ';
+
+  @override
+  String get interviewTime => 'الوقت';
+
+  @override
+  String get interviewLocation => 'الموقع';
+
+  @override
+  String get joinInterview => 'الانضمام للمقابلة';
+
+  @override
+  String get statusInterviewScheduled => 'تم تحديد مقابلة';
 }

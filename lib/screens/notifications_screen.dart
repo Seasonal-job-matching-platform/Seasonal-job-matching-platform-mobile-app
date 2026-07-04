@@ -269,7 +269,7 @@ class _NotificationCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    _formatRelativeTime(notification.timestamp),
+                    _formatRelativeTime(notification.timestamp ?? notification.createdAt),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

@@ -17,6 +17,9 @@ _ApplicationModel _$ApplicationModelFromJson(Map<String, dynamic> json) =>
       describeYourself: json['describeYourself'] as String?,
       coverLetter: json['coverLetter'] as String?,
       appliedDate: json['appliedDate'] as String?,
+      interviewDate: json['interviewDate'] as String?,
+      interviewTime: json['interviewTime'] as String?,
+      interviewLocation: json['interviewLocation'] as String?,
     );
 
 Map<String, dynamic> _$ApplicationModelToJson(_ApplicationModel instance) =>
@@ -30,4 +33,7 @@ Map<String, dynamic> _$ApplicationModelToJson(_ApplicationModel instance) =>
       'describeYourself': instance.describeYourself,
       'coverLetter': instance.coverLetter,
       'appliedDate': instance.appliedDate,
+      'interviewDate': instance.interviewDate,
+      'interviewTime': instance.interviewTime,
+      'interviewLocation': instance.interviewLocation,
     };

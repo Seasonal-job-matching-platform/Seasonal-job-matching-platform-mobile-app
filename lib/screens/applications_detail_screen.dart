@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:job_seeker/services/applications_screen_services/applications_service.dart';
 import 'package:job_seeker/widgets/common/app_card.dart';
 import 'package:job_seeker/utils/translation_utils.dart';
@@ -172,6 +173,15 @@ class ApplicationDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  // Interview Details Card
+                  if (app.applicationStatus == 'INTERVIEW_SCHEDULED' ||
+                      app.interviewDate != null ||
+                      app.interviewTime != null ||
+                      app.interviewLocation != null) ...[
+                    const SizedBox(height: 16),
+                    _InterviewDetailsCard(application: app),
+                  ],
 
                   const SizedBox(height: 16),
 
@@ -555,6 +565,174 @@ class _InfoRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _InterviewDetailsCard extends StatelessWidget {
+  final dynamic application; // Cast to dynamic or ApplicationModel to reference fields before build_runner completes
+
+  const _InterviewDetailsCard({required this.application});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final date = application.interviewDate;
+    final time = application.interviewTime;
+    final location = application.interviewLocation;
+
+    final isLink = _isUrl(location);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: AppCard(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF3B82F6).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.event_available,
+                    color: Color(0xFF3B82F6),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  l10n.interviewDetails,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1F2937),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            if (date != null && date.toString().isNotEmpty) ...[
+              _InterviewInfoRow(
+                icon: Icons.calendar_today_outlined,
+                label: l10n.interviewDate,
+                value: date.toString(),
+              ),
+              const SizedBox(height: 16),
+            ],
+            if (time != null && time.toString().isNotEmpty) ...[
+              _InterviewInfoRow(
+                icon: Icons.access_time_outlined,
+                label: l10n.interviewTime,
+                value: time.toString(),
+              ),
+              const SizedBox(height: 16),
+            ],
+            if (location != null && location.toString().isNotEmpty) ...[
+              _InterviewInfoRow(
+                icon: isLink ? Icons.videocam_outlined : Icons.location_on_outlined,
+                label: l10n.interviewLocation,
+                value: location.toString(),
+                isLink: isLink,
+              ),
+            ],
+            if (isLink && location != null) ...[
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final uri = Uri.tryParse(location.toString());
+                    if (uri != null) {
+                      try {
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Could not open meeting link: $e')),
+                        );
+                      }
+                    }
+                  },
+                  icon: const Icon(Icons.open_in_new, size: 18),
+                  label: Text(
+                    l10n.joinInterview,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B82F6),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  bool _isUrl(String? text) {
+    if (text == null) return false;
+    final uri = Uri.tryParse(text);
+    return uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
+  }
+}
+
+class _InterviewInfoRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final bool isLink;
+
+  const _InterviewInfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.isLink = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20, color: Colors.grey.shade600),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: isLink ? const Color(0xFF3B82F6) : const Color(0xFF1F2937),
+                  decoration: isLink ? TextDecoration.underline : TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

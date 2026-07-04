@@ -16,6 +16,9 @@ abstract class ApplicationModel with _$ApplicationModel {
     String? describeYourself,
     String? coverLetter,
     String? appliedDate,
+    String? interviewDate,
+    String? interviewTime,
+    String? interviewLocation,
   }) = _ApplicationModel;
 
   factory ApplicationModel.fromJson(Map<String, dynamic> json) => 

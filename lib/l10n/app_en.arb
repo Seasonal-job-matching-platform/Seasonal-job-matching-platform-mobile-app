@@ -248,5 +248,11 @@
   },
   "applicationUpdate": "Application Update",
   "newNotification": "New Notification",
-  "exitApp": "Exit App"
+  "exitApp": "Exit App",
+  "interviewDetails": "Interview Details",
+  "interviewDate": "Date",
+  "interviewTime": "Time",
+  "interviewLocation": "Location",
+  "joinInterview": "Join Interview",
+  "statusInterviewScheduled": "Interview Scheduled"
 }

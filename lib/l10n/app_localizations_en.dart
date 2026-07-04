@@ -671,4 +671,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exitApp => 'Exit App';
+
+  @override
+  String get interviewDetails => 'Interview Details';
+
+  @override
+  String get interviewDate => 'Date';
+
+  @override
+  String get interviewTime => 'Time';
+
+  @override
+  String get interviewLocation => 'Location';
+
+  @override
+  String get joinInterview => 'Join Interview';
+
+  @override
+  String get statusInterviewScheduled => 'Interview Scheduled';
 }

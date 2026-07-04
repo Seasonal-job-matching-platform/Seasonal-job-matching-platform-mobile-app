@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$ApplicationModel {
 
  int get id; int get userId; String get applicationStatus; JobModel get job;// ← No @JsonKey needed!
- String? get createdAt; String? get updatedAt; String? get describeYourself; String? get coverLetter; String? get appliedDate;
+ String? get createdAt; String? get updatedAt; String? get describeYourself; String? get coverLetter; String? get appliedDate; String? get interviewDate; String? get interviewTime; String? get interviewLocation;
 /// Create a copy of ApplicationModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $ApplicationModelCopyWith<ApplicationModel> get copyWith => _$ApplicationModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ApplicationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.applicationStatus, applicationStatus) || other.applicationStatus == applicationStatus)&&(identical(other.job, job) || other.job == job)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.describeYourself, describeYourself) || other.describeYourself == describeYourself)&&(identical(other.coverLetter, coverLetter) || other.coverLetter == coverLetter)&&(identical(other.appliedDate, appliedDate) || other.appliedDate == appliedDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ApplicationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.applicationStatus, applicationStatus) || other.applicationStatus == applicationStatus)&&(identical(other.job, job) || other.job == job)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.describeYourself, describeYourself) || other.describeYourself == describeYourself)&&(identical(other.coverLetter, coverLetter) || other.coverLetter == coverLetter)&&(identical(other.appliedDate, appliedDate) || other.appliedDate == appliedDate)&&(identical(other.interviewDate, interviewDate) || other.interviewDate == interviewDate)&&(identical(other.interviewTime, interviewTime) || other.interviewTime == interviewTime)&&(identical(other.interviewLocation, interviewLocation) || other.interviewLocation == interviewLocation));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,applicationStatus,job,createdAt,updatedAt,describeYourself,coverLetter,appliedDate);
+int get hashCode => Object.hash(runtimeType,id,userId,applicationStatus,job,createdAt,updatedAt,describeYourself,coverLetter,appliedDate,interviewDate,interviewTime,interviewLocation);
 
 @override
 String toString() {
-  return 'ApplicationModel(id: $id, userId: $userId, applicationStatus: $applicationStatus, job: $job, createdAt: $createdAt, updatedAt: $updatedAt, describeYourself: $describeYourself, coverLetter: $coverLetter, appliedDate: $appliedDate)';
+  return 'ApplicationModel(id: $id, userId: $userId, applicationStatus: $applicationStatus, job: $job, createdAt: $createdAt, updatedAt: $updatedAt, describeYourself: $describeYourself, coverLetter: $coverLetter, appliedDate: $appliedDate, interviewDate: $interviewDate, interviewTime: $interviewTime, interviewLocation: $interviewLocation)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $ApplicationModelCopyWith<$Res>  {
   factory $ApplicationModelCopyWith(ApplicationModel value, $Res Function(ApplicationModel) _then) = _$ApplicationModelCopyWithImpl;
 @useResult
 $Res call({
- int id, int userId, String applicationStatus, JobModel job, String? createdAt, String? updatedAt, String? describeYourself, String? coverLetter, String? appliedDate
+ int id, int userId, String applicationStatus, JobModel job, String? createdAt, String? updatedAt, String? describeYourself, String? coverLetter, String? appliedDate, String? interviewDate, String? interviewTime, String? interviewLocation
 });
 
 
@@ -66,7 +66,7 @@ class _$ApplicationModelCopyWithImpl<$Res>
 
 /// Create a copy of ApplicationModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? applicationStatus = null,Object? job = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? describeYourself = freezed,Object? coverLetter = freezed,Object? appliedDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? applicationStatus = null,Object? job = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? describeYourself = freezed,Object? coverLetter = freezed,Object? appliedDate = freezed,Object? interviewDate = freezed,Object? interviewTime = freezed,Object? interviewLocation = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -77,6 +77,9 @@ as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // igno
 as String?,describeYourself: freezed == describeYourself ? _self.describeYourself : describeYourself // ignore: cast_nullable_to_non_nullable
 as String?,coverLetter: freezed == coverLetter ? _self.coverLetter : coverLetter // ignore: cast_nullable_to_non_nullable
 as String?,appliedDate: freezed == appliedDate ? _self.appliedDate : appliedDate // ignore: cast_nullable_to_non_nullable
+as String?,interviewDate: freezed == interviewDate ? _self.interviewDate : interviewDate // ignore: cast_nullable_to_non_nullable
+as String?,interviewTime: freezed == interviewTime ? _self.interviewTime : interviewTime // ignore: cast_nullable_to_non_nullable
+as String?,interviewLocation: freezed == interviewLocation ? _self.interviewLocation : interviewLocation // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -171,10 +174,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate,  String? interviewDate,  String? interviewTime,  String? interviewLocation)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ApplicationModel() when $default != null:
-return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate);case _:
+return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate,_that.interviewDate,_that.interviewTime,_that.interviewLocation);case _:
   return orElse();
 
 }
@@ -192,10 +195,10 @@ return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate,  String? interviewDate,  String? interviewTime,  String? interviewLocation)  $default,) {final _that = this;
 switch (_that) {
 case _ApplicationModel():
-return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate);case _:
+return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate,_that.interviewDate,_that.interviewTime,_that.interviewLocation);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -212,10 +215,10 @@ return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int userId,  String applicationStatus,  JobModel job,  String? createdAt,  String? updatedAt,  String? describeYourself,  String? coverLetter,  String? appliedDate,  String? interviewDate,  String? interviewTime,  String? interviewLocation)?  $default,) {final _that = this;
 switch (_that) {
 case _ApplicationModel() when $default != null:
-return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate);case _:
+return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.createdAt,_that.updatedAt,_that.describeYourself,_that.coverLetter,_that.appliedDate,_that.interviewDate,_that.interviewTime,_that.interviewLocation);case _:
   return null;
 
 }
@@ -227,7 +230,7 @@ return $default(_that.id,_that.userId,_that.applicationStatus,_that.job,_that.cr
 @JsonSerializable()
 
 class _ApplicationModel implements ApplicationModel {
-  const _ApplicationModel({required this.id, required this.userId, required this.applicationStatus, required this.job, this.createdAt, this.updatedAt, this.describeYourself, this.coverLetter, this.appliedDate});
+  const _ApplicationModel({required this.id, required this.userId, required this.applicationStatus, required this.job, this.createdAt, this.updatedAt, this.describeYourself, this.coverLetter, this.appliedDate, this.interviewDate, this.interviewTime, this.interviewLocation});
   factory _ApplicationModel.fromJson(Map<String, dynamic> json) => _$ApplicationModelFromJson(json);
 
 @override final  int id;
@@ -240,6 +243,9 @@ class _ApplicationModel implements ApplicationModel {
 @override final  String? describeYourself;
 @override final  String? coverLetter;
 @override final  String? appliedDate;
+@override final  String? interviewDate;
+@override final  String? interviewTime;
+@override final  String? interviewLocation;
 
 /// Create a copy of ApplicationModel
 /// with the given fields replaced by the non-null parameter values.
@@ -254,16 +260,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ApplicationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.applicationStatus, applicationStatus) || other.applicationStatus == applicationStatus)&&(identical(other.job, job) || other.job == job)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.describeYourself, describeYourself) || other.describeYourself == describeYourself)&&(identical(other.coverLetter, coverLetter) || other.coverLetter == coverLetter)&&(identical(other.appliedDate, appliedDate) || other.appliedDate == appliedDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ApplicationModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.applicationStatus, applicationStatus) || other.applicationStatus == applicationStatus)&&(identical(other.job, job) || other.job == job)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.describeYourself, describeYourself) || other.describeYourself == describeYourself)&&(identical(other.coverLetter, coverLetter) || other.coverLetter == coverLetter)&&(identical(other.appliedDate, appliedDate) || other.appliedDate == appliedDate)&&(identical(other.interviewDate, interviewDate) || other.interviewDate == interviewDate)&&(identical(other.interviewTime, interviewTime) || other.interviewTime == interviewTime)&&(identical(other.interviewLocation, interviewLocation) || other.interviewLocation == interviewLocation));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,applicationStatus,job,createdAt,updatedAt,describeYourself,coverLetter,appliedDate);
+int get hashCode => Object.hash(runtimeType,id,userId,applicationStatus,job,createdAt,updatedAt,describeYourself,coverLetter,appliedDate,interviewDate,interviewTime,interviewLocation);
 
 @override
 String toString() {
-  return 'ApplicationModel(id: $id, userId: $userId, applicationStatus: $applicationStatus, job: $job, createdAt: $createdAt, updatedAt: $updatedAt, describeYourself: $describeYourself, coverLetter: $coverLetter, appliedDate: $appliedDate)';
+  return 'ApplicationModel(id: $id, userId: $userId, applicationStatus: $applicationStatus, job: $job, createdAt: $createdAt, updatedAt: $updatedAt, describeYourself: $describeYourself, coverLetter: $coverLetter, appliedDate: $appliedDate, interviewDate: $interviewDate, interviewTime: $interviewTime, interviewLocation: $interviewLocation)';
 }
 
 
@@ -274,7 +280,7 @@ abstract mixin class _$ApplicationModelCopyWith<$Res> implements $ApplicationMod
   factory _$ApplicationModelCopyWith(_ApplicationModel value, $Res Function(_ApplicationModel) _then) = __$ApplicationModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int userId, String applicationStatus, JobModel job, String? createdAt, String? updatedAt, String? describeYourself, String? coverLetter, String? appliedDate
+ int id, int userId, String applicationStatus, JobModel job, String? createdAt, String? updatedAt, String? describeYourself, String? coverLetter, String? appliedDate, String? interviewDate, String? interviewTime, String? interviewLocation
 });
 
 
@@ -291,7 +297,7 @@ class __$ApplicationModelCopyWithImpl<$Res>
 
 /// Create a copy of ApplicationModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? applicationStatus = null,Object? job = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? describeYourself = freezed,Object? coverLetter = freezed,Object? appliedDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? applicationStatus = null,Object? job = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? describeYourself = freezed,Object? coverLetter = freezed,Object? appliedDate = freezed,Object? interviewDate = freezed,Object? interviewTime = freezed,Object? interviewLocation = freezed,}) {
   return _then(_ApplicationModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -302,6 +308,9 @@ as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // igno
 as String?,describeYourself: freezed == describeYourself ? _self.describeYourself : describeYourself // ignore: cast_nullable_to_non_nullable
 as String?,coverLetter: freezed == coverLetter ? _self.coverLetter : coverLetter // ignore: cast_nullable_to_non_nullable
 as String?,appliedDate: freezed == appliedDate ? _self.appliedDate : appliedDate // ignore: cast_nullable_to_non_nullable
+as String?,interviewDate: freezed == interviewDate ? _self.interviewDate : interviewDate // ignore: cast_nullable_to_non_nullable
+as String?,interviewTime: freezed == interviewTime ? _self.interviewTime : interviewTime // ignore: cast_nullable_to_non_nullable
+as String?,interviewLocation: freezed == interviewLocation ? _self.interviewLocation : interviewLocation // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

@@ -71,6 +71,7 @@ enum ApplicationStatus {
   accepted,
   rejected,
   interview,
+  interviewScheduled,
   submitted,
   closed,
   open,
@@ -82,6 +83,7 @@ enum ApplicationStatus {
     if (normalized.contains('pending')) return ApplicationStatus.pending;
     if (normalized.contains('accepted') || normalized.contains('approved')) return ApplicationStatus.accepted;
     if (normalized.contains('rejected') || normalized.contains('declined')) return ApplicationStatus.rejected;
+    if (normalized.contains('interview_scheduled')) return ApplicationStatus.interviewScheduled;
     if (normalized.contains('interview')) return ApplicationStatus.interview;
     if (normalized.contains('submitted')) return ApplicationStatus.submitted;
     if (normalized.contains('closed')) return ApplicationStatus.closed;
@@ -99,6 +101,8 @@ enum ApplicationStatus {
         return 'Rejected';
       case ApplicationStatus.interview:
         return 'Interview';
+      case ApplicationStatus.interviewScheduled:
+        return 'Interview Scheduled';
       case ApplicationStatus.submitted:
         return 'Submitted';
       case ApplicationStatus.closed:
@@ -120,6 +124,8 @@ enum ApplicationStatus {
         return l10n.statusRejected;
       case ApplicationStatus.interview:
         return l10n.statusInterview;
+      case ApplicationStatus.interviewScheduled:
+        return l10n.statusInterviewScheduled;
       case ApplicationStatus.submitted:
         return l10n.statusSubmitted;
       case ApplicationStatus.closed:
