@@ -1,0 +1,111 @@
+\documentclass[12pt, a4paper]{report}
+
+% --- Core System Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=30mm,
+    right=25mm,
+    top=25mm,
+    bottom=25mm
+}
+
+% --- Graphics & Visualization ---
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, shapes.geometric, calc}
+
+% --- Typography & Spacing ---
+\usepackage{helvet} % Standard clean font
+\usepackage{setspace}
+\onehalfspacing % Standard 1.5 line spacing for academic reports
+\usepackage{indentfirst} % Indent the first paragraph of sections
+
+% --- Mathematics & Tables ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+
+% --- Code Snippet Settings ---
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{gray!5},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black!30},
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)}
+}
+
+% --- Navigation & Hyperlinks ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Seasonal Job Matching Platform Mobile Client App},
+    pdfpagemode=FullScreen,
+}
+
+% --- Metadata Configurations ---
+\title{
+    \vspace{2in}
+    \textbf{Seasonal Job Matching Platform}\\
+    \Large{Mobile Client Application (\texttt{job\_seeker})}\\
+    \vspace{0.5in}
+    \large{Graduation Project Report}
+    \vspace{1.5in}
+}
+\author{
+    \textbf{Prepared by:}\\
+    Job Seeker Mobile Project Author\\
+    \vspace{0.5in}
+}
+\date{
+    \vfill
+    June 2026
+}
+
+\begin{document}
+
+% --- Title Page & Frontmatter ---
+\maketitle
+\pagenumbering{roman}
+
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+
+% --- Main Body ---
+\pagenumbering{arabic}
+
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{chapter7}
+
+\end{document}

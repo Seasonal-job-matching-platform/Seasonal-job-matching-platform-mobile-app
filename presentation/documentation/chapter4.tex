@@ -1,0 +1,268 @@
+\chapter{Implementation}
+\label{ch:implementation}
+
+\section{Introduction}
+This chapter describes the implementation details of the Seasonal Job Matching Platform Mobile Application. It details the development environment and package configurations, provides a high-level overview of the folder hierarchy, and details the programming logic for the core application features. These include the authentication session interceptors, memory-optimized hybrid pagination scroll handlers, parallel service aggregation, and optimistic state synchronization controllers.
+
+\section{Software Environment and Packages}
+The mobile application is built using the Flutter SDK. Table~\ref{tab:development_packages} lists the primary open-source packages and libraries declared in the application's configuration (\texttt{pubspec.yaml}), along with their versions and roles.
+
+\begin{table}[htbp]
+\centering
+\caption{Core Flutter Packages and Implementations}
+\label{tab:development_packages}
+\begin{tabular}{|l|l|p{7.5cm}|}
+\hline
+\textbf{Package Name} & \textbf{Version} & \textbf{Operational Purpose in Client} \\ \hline
+\texttt{flutter\_riverpod} & \texttt{\^{}3.0.3} & Reactively manages UI states and coordinates dependency injection. \\ \hline
+\texttt{dio} & \texttt{\^{}5.9.0} & HTTP client for network requests, supporting interceptors. \\ \hline
+\texttt{flutter\_secure\_storage} & \texttt{\^{}9.2.2} & Encrypts and caches user sessions and authentication tokens. \\ \hline
+\texttt{firebase\_messaging} & \texttt{\^{}15.2.5} & Connects the client to Firebase Cloud Messaging to receive push notifications. \\ \hline
+\texttt{flutter\_local\_notifications} & \texttt{\^{}19.2.1} & Displays in-app notification banners when messages arrive in the background. \\ \hline
+\texttt{freezed\_annotation} & \texttt{\^{}3.1.0} & Code generator for immutable data models and JSON serialization. \\ \hline
+\texttt{google\_fonts} & \texttt{\^{}6.3.3} & Custom typography, utilizing the Inter and Outfit font packages. \\ \hline
+\texttt{package\_info\_plus} & \texttt{\^{}8.0.0} & Resolves local runtime version name and version code configurations. \\ \hline
+\texttt{url\_launcher} & \texttt{\^{}6.3.0} & Launches external web browser links to execute APK update downloads. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Folder Hierarchy}
+The codebase is organized into key subdirectories under the main source directory (\texttt{lib/}). This layout supports the clean separation of UI components, state managers, and data repositories:
+\begin{itemize}
+    \item \texttt{lib/core}: Configures the base HTTP clients (Dio), authentication security interceptors, and navigation helper utilities.
+    \item \texttt{lib/data}: Manages networking queries and implements the repository interfaces (e.g., \texttt{ApplicationsRepository}).
+    \item \texttt{lib/domain}: Encapsulates standalone use case classes that represent business logic transactions.
+    \item \texttt{lib/models}: Contains immutable data structures and data transfer objects (DTOs).
+    \item \texttt{lib/providers}: Coordinates the Riverpod state notifiers, screen filters, and data sync controllers.
+    \item \texttt{lib/screens}: Hosts the main page templates and layouts (e.g., \texttt{LoginScreen}, \texttt{LayoutScreen}).
+    \item \texttt{lib/services}: Wraps raw endpoint configurations and provides low-level API communication.
+    \item \texttt{lib/theme}: Configures color schemes, custom animations, and typographic decorators.
+    \item \texttt{lib/widgets}: Reusable UI components (cards, badges, loading shimmers).
+\end{itemize}
+
+\section{Authentication and Session Interception}
+Authentication sessions are secured using JWT tokens. A custom HTTP interceptor, \texttt{AuthInterceptor}, automatically appends the token from secure storage to the headers of outgoing requests.
+
+If a session expires or is revoked, the server returns a \texttt{401 Unauthorized} or \texttt{403 Forbidden} response. This is caught by a global Dio error interceptor. Listing~\ref{lst:interceptor_logic} shows the implementation of this error handling and session validation flow.
+
+\begin{lstlisting}[language=Java, caption={Dio Session Expiration Interceptor implementation}, label=lst:interceptor_logic]
+dio.interceptors.add(
+  InterceptorsWrapper(
+    onError: (error, handler) async {
+      final requestPath = error.requestOptions.path.toLowerCase();
+      final method = error.requestOptions.method.toUpperCase();
+
+      // Skip verification for public authentication endpoints
+      final isAuth = requestPath.contains('auth/') ||
+                     requestPath.contains('users/login') ||
+                     requestPath.contains('users/signup') ||
+                     (requestPath == 'users' && method == 'POST');
+
+      if (isAuth || NavigationService().isOnAuthScreen()) {
+        handler.next(error);
+        return;
+      }
+
+      if (error.response?.statusCode == 401 || 
+          error.response?.statusCode == 403) {
+        
+        // Prevent duplicate popup modals
+        if (AuthDialogManager().isSessionExpiredHandled) {
+          handler.next(error);
+          return;
+        }
+
+        AuthDialogManager().markSessionExpiredHandled();
+        await storage.clearToken();
+        await storage.clearUserId();
+        
+        // Log out the user and trigger UI redirect
+        ref.read(authProvider.notifier).logout(sessionExpired: true);
+      }
+      handler.next(error);
+    },
+  ),
+);
+\end{lstlisting}
+
+\section{Hybrid Pagination and Memory Optimization}
+To support large datasets without degradation in performance, the application implements a hybrid pagination strategy for job listings.
+The UI tracks the scroll offset using a \texttt{NotificationListener} wrapping the list builder.
+* **Automatic Fetching:** For the first 200 items (4 pages of 50 listings each), the system automatically loads the next page when the user scrolls near the bottom of the list.
+* **Manual Fetching:** Beyond 200 items, automatic scrolling pauses, and the user must click a manual ``Load More'' button to fetch additional pages.
+
+This approach balances network overhead and memory usage. While a textual model occupies only $\approx 1.5\text{ KB}$ in memory, inflating that data into layout components (widgets, images, and haptics) within Flutter's render tree increases the resource cost. Restricting automatic scrolling to 200 items avoids memory issues on low-end devices.
+
+\section{Parallel Aggregation and Optimistic Updates}
+\subsection{Parallel Aggregation}
+When initializing the applicant's profile screen, the system fetches data concurrently from four distinct endpoints to reduce wait times. This parallel request flow is managed within \texttt{PersonalInformationAsyncNotifier} using Dart's asynchronous libraries, as shown in Listing~\ref{lst:parallel_fetching}.
+
+\begin{lstlisting}[language=Java, caption={Parallel request aggregation flow}, label=lst:parallel_fetching]
+Future<PersonalInformationModel> fetchProfileData(String userId) async {
+  final results = await Future.wait([
+    _service.fetchUserData(userId),
+    _service.fetchAppliedJobIds(userId),
+    _service.fetchFavoriteJobIds(userId),
+    _service.fetchFieldsOfInterest(userId),
+  ]);
+
+  return PersonalInformationModel(
+    user: results[0] as UserModel,
+    appliedJobIds: results[1] as List<int>,
+    favoriteJobIds: results[2] as List<int>,
+    fieldsOfInterest: results[3] as List<String>,
+  );
+}
+\end{lstlisting}
+
+\subsection{Optimistic Updates and Rollback}
+To ensure the UI remains responsive, user actions such as favoriting a job are handled using optimistic state updates.
+When a user toggles a favorite, the \texttt{FavoritesController} updates the local list in memory immediately, and the heart icon changes state before the network request completes.
+If the API call fails, the controller catches the error, rolls back the local state to its previous version, and alerts the user. Listing~\ref{lst:optimistic_updates} shows the structure of this rollback loop.
+
+\begin{lstlisting}[language=Java, caption={Optimistic updates and rollback loop implementation}, label=lst:optimistic_updates]
+Future<void> toggleFavorite(int jobId) async {
+  final previousState = state;
+  
+  // Optimistically update the UI state immediately
+  state = _calculateToggledState(jobId);
+
+  try {
+    await _service.updateFavoriteJobs(userId, state.favoriteJobIds);
+    // Refresh the detailed listings cache on success
+    ref.invalidate(favoriteJobsProvider);
+  } catch (e) {
+    // Roll back to the original state on failure
+    state = previousState;
+    AppLogger.error('Failed to update favorites: $e');
+    rethrow;
+  }
+}
+\end{lstlisting}
+
+\section{Over-the-Air (OTA) Update System}
+The Android mobile client implements a custom Over-the-Air (OTA) update system designed to bypass Google Play Store distribution paths. The update system checks the GitHub Releases API for new releases and determines if updates are optional or mandatory based on version increments or commit-level tags.
+
+Optional updates prompt a bottom sheet overlay where users can postpone (snooze) the update for 24 hours. The snooze timestamp and target version are cached securely in hardware using \texttt{FlutterSecureStorage}. In contrast, mandatory updates trigger a full-screen blocking overlay that intercepts system back navigation, directing users to download the latest APK directly.
+
+Listing~\ref{lst:ota_update_notifier} shows the implementation of version comparisons and snooze evaluation within \texttt{UpdateNotifier}.
+
+\begin{lstlisting}[language=Java, caption={SemVer version checks and snooze verification in UpdateNotifier}, label=lst:ota_update_notifier]
+Future<void> checkForUpdates() async {
+  try {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version; // e.g., 1.0.0.104
+
+    // Query unauthenticated public GitHub API
+    final response = await _dio.get(
+      'https://api.github.com/repos/Seasonal-job-matching-platform/Seasonal-job-matching-platform-mobile-app/releases/latest',
+    );
+
+    if (response.statusCode == 200 && response.data != null) {
+      final data = response.data;
+      final String latestTagName = data['tag_name'] ?? '';
+      final String latestVersion = latestTagName.replaceAll('v', '').trim();
+      final String releaseName = data['name'] ?? '';
+      final String releaseBody = data['body'] ?? '';
+
+      // Find the APK release asset url
+      final List assets = data['assets'] ?? [];
+      Map<String, dynamic>? apkAsset;
+      for (final asset in assets) {
+        if (asset is Map && asset['name'] != null && asset['name'].toString().endsWith('.apk')) {
+          apkAsset = Map<String, dynamic>.from(asset);
+          break;
+        }
+      }
+
+      if (apkAsset == null) return;
+      final String apkUrl = apkAsset['browser_download_url'] ?? '';
+
+      if (isNewerVersion(currentVersion, latestVersion)) {
+        final isMandatory = isMajorUpdate(currentVersion, latestVersion) ||
+            releaseName.contains('[MANDATORY]') ||
+            releaseBody.contains('[MANDATORY]');
+
+        if (isMandatory) {
+          state = UpdateState(
+            status: UpdateStatus.mandatory,
+            latestVersion: latestTagName,
+            apkUrl: apkUrl,
+            releaseNotes: releaseBody,
+          );
+        } else {
+          final isSnoozed = await _checkIfSnoozed(latestTagName);
+          state = UpdateState(
+            status: UpdateStatus.optional,
+            latestVersion: latestTagName,
+            apkUrl: apkUrl,
+            releaseNotes: releaseBody,
+            isSnoozed: isSnoozed,
+          );
+        }
+      } else {
+        state = UpdateState(status: UpdateStatus.none);
+      }
+    }
+  } catch (e) {
+    // Fail silently in production to prevent app startup blocks
+  }
+}
+\end{lstlisting}
+
+\section{User-Selected Currency Support}
+The application supports multi-currency options inside settings, allowing users to format salary values based on selected profile currency denominations. The implementation enforces a reactive Riverpod dependency invalidation flow that updates listings without forcing manual user reloads.
+
+\begin{itemize}
+    \item \textbf{Dropdown Selection}: Inside the settings section, a currency dropdown dropdown registers change events (e.g. USD, EGP, SAR) and triggers the notifier.
+    \item \textbf{Backend Sync}: The notifier invokes a PATCH request containing the updated currency key to the user profile endpoint (\texttt{/api/users/\{uid\}}).
+    \item \textbf{Reactive Feed Invalidation}: Both \texttt{PaginatedJobs} and \texttt{RecommendedJobsNotifier} watch the user's currency value. Invalidation is configured via the watch API:
+    \begin{lstlisting}[language=Java]
+// Refetches page 0 and invalidates cache on currency state updates
+ref.watch(personalInformationProvider.select((u) => u.value?.currency));
+    \end{lstlisting}
+    \item \textbf{UI Currency Formatting}: Active salary values display utilizing Dart's \texttt{intl} Simple Currency helper formatter:
+    \begin{lstlisting}[language=Java]
+// Formats numerical ranges based on the user's currency setting
+NumberFormat.simpleCurrency(name: selectedCurrency).format(salaryValue);
+    \end{lstlisting}
+\end{itemize}
+
+\section{Bug Reporting and Feedback Module}
+To capture user feedback and crash reports, a feedback interface was integrated into the profile menu. Submissions connect to the backend REST API, utilizing a riverpod state controller to isolate payload properties.
+
+Listing~\ref{lst:feedback_notifier} displays the provider implementation, focusing on how email filters verify user identification fields depending on anonymous settings toggles.
+
+\begin{lstlisting}[language=Java, caption={FeedbackNotifier submit feedback filter logic}, label=lst:feedback_notifier]
+class FeedbackNotifier extends AsyncNotifier<void> {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> submitFeedback({
+    required String title,
+    required String body,
+    required bool anonymous,
+  }) async {
+    state = const AsyncValue.loading();
+
+    state = await AsyncValue.guard(() async {
+      String? userEmail;
+
+      if (!anonymous) {
+        final personalInfoState = ref.read(personalInformationProvider);
+        userEmail = personalInfoState.value?.email;
+        if (userEmail == null) {
+          throw Exception('Unable to retrieve user email.');
+        }
+      }
+
+      // Submit feedback payload to backend API service
+      await ref.read(feedbackServiceProvider).submitFeedback(
+        title: title,
+        body: body,
+        userEmail: userEmail,
+      );
+    });
+  }
+}
+\end{lstlisting}

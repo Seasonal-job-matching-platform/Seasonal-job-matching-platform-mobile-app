@@ -1,0 +1,72 @@
+- what the app offers (mobile):
+	The platform is designed specifically to help seasonal job seekers manage their profiles, upload professional details,
+	discover relevant opportunities, submit applications instantly, and monitor their status
+	in real-time.
+
+-  Project Scope & High-Level Architecture: [Figure High-Level System Overview and Communication Channels]
+- objectvs: *read the (Target Metric / Operational Rule) and the and how its achived * *this section are going to be fast paced just makeing a quick run at it *
+	- Performance NetworkLatency
+	- Performance Main UI Thread Budget
+	- ResourceControl Memory Optimization
+	- Security Secure Keychain Storage
+	- Security DataLeak Protection
+	- Localization Multi-language Support
+	- Usability  Currency Format Latency
+- on startup * [diagram of Application Navigation and ScreenFlow with Update Checking] *
+- arguemnt on how to save the jwt token, first argument why is shared_preferences pacakge can't be used [photo of meduim article named: Stop Storing Tokens in SharedPreferences — Here’s the Secure Way in Flutter], then why flutter_secure_storage is the best option
+-  *[Authentication and Secure Registration Sequence Diagram]* and how dose it work in dio interceptor after it explain what happens on logout(13 Riverpod providers during logout to prevent data leakage. Why 13 providers? What kind of data is leaked if you don't reset?)
+
+
+- *[photo of Optimistic Job Application and Double-Submission Prevention Sequence]*
+
+- System Architecture: *also a quick run on it [photo of System Architectural Layering and Dependency Flows]*  
+- because our app focuses on egypt and arab job seekers so we had to support arabic lang, changing every static word in the app and supporting rtl 
+- update arguemnt:
+	- any app in the world is required to face updates: for new features or bug fixes. in classic android world, publising to play store saves of a lot of trouble of
+		pushing the updates to new users and notifying them, and downloadig the app with a single click.
+	- the process goes as testing the app cross varoius android devices and screens and a one time fee 25$
+	- because this a grad project and we still students we felt that the cost is undfiend atleast at the moment
+	- this was a problem, becuase we want to use these feauters but we feel its costly, so what now, what work around can we do
+	- ok so lets break the problem to smaller ones, 
+	- first, we want the apk to be built every time we make a change because this is how flutte works, so what about an automatoin process every time code is pushed to the repo, we build the apk and make a new release, Github actions
+	- ok thats something solved, now the users can check the github repo and download an updated apk, but how would they know if theres a new upadte, should they check the repo everyday
+	- so we need to notiy them thats our second problem, what about the backend make a new api callled getVersion that returens the version title and in the mobile client compare between them if they are the same its ok, if not then view a msg to user theres a new update.
+	- but wait do we really need this flow: mobile->backend -> github -> backend -> mobile. you can see that we can shorten this process by calling the github/repo/releases/latest from the mobile client and doing the same checking process.
+	- and like that we implemnted the OTA , on the air update. we also wanted to push this further by redirecting the user to the download page if pressed update dialong if the versions dosen't match.
+	- but also we had another thought, do we always need to update. what if its a new feature or just a ui impovment, and the user dosen't want to make immedaite udpate. now we have another thing to think about, types of update and what action should the app make based on them, because of course if theres a bug the user should update immedatily.
+	- what about making every update as a new feature or ui imporvamnt (optianl update) [photo of the update msg screen], but if there is a bug we flag the update as (mandatory)[photo of the mandatory  update msg screen], this happens in the commit message.
+	- *also read the document for the sonooze process if the user clikced later**read it from the documents*
+	- why dont use veriosng x.x.x (explain the major.minor.pathc) as an indicator, we can but theres a few arguemnt: 
+		1. Critical Security Patches: If you find a critical security bug in version 1.0.25 and fix it in 1.0.26, it is technically a Patch release. Under normal version rules, it would be marked "optional". But you want to force everyone to update immediately to be secure.
+		2. Automatic CI/CD Bumps: Because our GitHub Actions workflow is fully automated, it does not know if your commit contains a bug fix, a new feature, or a breaking change. It just increments the
+			github.run_number (the Patch number) on every commit.
+	
+		The Best of Both Worlds Solution
+		We can write the version check in Flutter to mark an update as MANDATORY in either of these cases:
+			1. Different Major Versions: If the latest version has a higher Major number (e.g., 2.8.0 vs your local 1.0.56), the app forces the update.
+			2. Explicit Tag: If the release notes or title explicitly contain [MANDATORY], the app forces the update (allowing you to force a quick bug fix like 1.0.57).
+				This keeps the system fully automated for daily pushes, but gives you manual override capability for emergency releases.
+
+	- and this is how the update workflow works
+	- but of course the wrold is not pink, there are cons to this approch
+		**No Internet Connection**: If the update API check fails because of bad network connectivity, fail silently. Do not show any update screen or lock the user out unless they are completely offline and the app requires network.
+		**In-Progress Download Feedback**: Directing the user to a browser link is simple, but if you download the APK directly inside the app, display a progress bar (e.g., "Downloading... 45%").
+		**OS-Level Permissions**: On modern Android, installing APKs from unknown sources requires runtime permission. Make sure to catch any permission exceptions and show a friendly dialog explaining why they need to enable "Allow from this source" in system settings.
+- *[Startup OTA Update Verification and Blocker Sequence Diagram]*
+	
+- feedback:
+	- of course every software can have bugs that is missed by the dev and unit testing, this why the user can report an issue if he ever faced one and he have the option to send it anon or attaching his email to it.
+- in same slide or topic:
+	- Parallel Aggregation: *why and whats its benifte*
+	- OptimisticUpdatesandRollback (favorites): how its done
+	-  User-SelectedCurrencySupport : *how it works*
+- testig and valdiating:
+	- *[Figure: Multi-Layered Testing and Validation Hierarchy diagram]* : on the left of it each level explanataion
+	- ### Q4: In your benchmarks, you show that processing 100,000 items takes 14.5ms. Why test 100,000 items when your hybrid pagination limits the feed to 200 items?
+	* **Answer Strategy**: Distinguish between **state engine computational limits** and **UI rendering constraints**.
+	* **Prepared Explanation**: 
+  	> "We benchmarked the state engine up to 100,000 items to find the computational limits of Riverpod's state recalculations, proving its background calculations scale efficiently. 
+  	> However, UI rendering is different. While the state calculation is fast, inflating 1,000+ job cards into widgets on Flutter's main thread consumes significant RAM and causes frame jank. 
+  	> The benchmark proves that the limitation is not our state engine, but device rendering. This justifies why we limit automatic scrolling to 200 items in the UI."
+- *in testing or objectives:  Multi-Account Cache Isolation
+- the whole  Performance and Computational Benchmarks arguments and tables

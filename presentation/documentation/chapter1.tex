@@ -1,0 +1,85 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{Introduction and Project Context}
+Seasonal employment represents a significant segment of the global labor market, particularly in sectors such as agriculture, tourism, and hospitality. Unlike permanent positions, seasonal jobs are characterized by high turnover, rapid recruitment cycles, and distinct geographical concentrations. Finding and applying for these positions remains a fragmented process, often relying on informal networks or generic job portals that are not optimized for mobile-first user experiences or rapid application lifecycles.
+
+This project focuses on the development of the mobile client application for the Seasonal Job Matching Platform, named \texttt{job\_seeker}. The platform is designed specifically to help seasonal job seekers manage their profiles, upload professional details, discover relevant opportunities, submit applications instantly, and monitor their status in real-time.
+
+\section{Problem Definition}
+Existing digital job search channels often fail to address the unique constraints of seasonal employment. The key issues identified in current seasonal job-seeking systems are:
+\begin{itemize}
+    \item \textbf{High Loading Latency:} Large datasets of job listings retrieved over mobile networks (e.g., 4G) can cause UI latency and frames jank during rendering. Large JSON payloads delay user interactions.
+    \item \textbf{Insecure Session Management:} Mobile applications often persist sessions insecurely or fail to handle token expirations gracefully. This leads to duplicate popups or data exposure when multiple users share a single device.
+    \item \textbf{Lack of Structured Portfolios:} Applicants require a fast, mobile-friendly resume editor that allows them to organize their education, experience, and skills without heavy document payloads.
+    \item \textbf{Missing Real-time Synchronization:} Job seekers need immediate notification of changes to their application status. Systems without push synchronization force users to poll APIs manually, increasing network traffic.
+\end{itemize}
+
+\section{Project Objectives}
+To address these problems, the mobile client must meet several core software engineering objectives. Table~\ref{tab:project_objectives} lists these objectives.
+
+\begin{table}[htbp]
+\centering
+\caption{System Engineering Objectives}
+\label{tab:project_objectives}
+\begin{tabular}{|l|p{5cm}|p{6cm}|}
+\hline
+\textbf{Objective ID} & \textbf{Target Objective} & \textbf{Operational Criteria} \\ \hline
+\textbf{OBJ-SEC-1} & Secure Session Management & Persist sessions via encrypted hardware storage and clear all data caches on logout. \\ \hline
+\textbf{OBJ-PERF-1} & Low Interaction Latency & Maintain Time-To-Interactive (TTI) $\le 150\text{ms}$ for paginated job listings. \\ \hline
+\textbf{OBJ-PERF-2} & CPU Frame Thread Safety & Complete list rendering within a $16.6\text{ms}$ budget to prevent stuttering. \\ \hline
+\textbf{OBJ-NOT-1} & Real-time Status Sync & Integrate push notifications to update unread badge counts and timelines. \\ \hline
+\textbf{OBJ-LOC-1} & Multilingual Support & Implement dynamic Arabic and English translations with RTL/LTR layout transitions. \\ \hline
+\textbf{OBJ-UPD-1} & Automated Update Deployment & Query GitHub Releases on startup to identify mandatory versions, blocking user navigation during critical patches. \\ \hline
+\textbf{OBJ-CURR-1} & Multi-Currency Localization & Dynamically reload listings and reformat salaries utilizing platform-localized currency parameters. \\ \hline
+\textbf{OBJ-FDBK-1} & In-App Issue Feedback & Provide custom reporting routes supporting email inclusion or anonymous client submissions. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Project Scope}
+The scope of this document is restricted to the design, implementation, and testing of the mobile client application (\texttt{job\_seeker}). The mobile application is designed specifically for job seekers (applicants) and communicates with a backend Spring Boot REST API. Features related to recruiter dashboards, job posting creation, and backend admin controls are managed outside this client application and are excluded from this scope.
+
+\section{High-Level System Overview}
+The platform consists of the mobile client, a backend REST service, a relational database, and notification infrastructure. Figure~\ref{fig:system_overview} shows the high-level system overview.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.85, every node/.style={transform shape}]
+    % Styles
+    \tikzstyle{box} = [draw, rectangle, fill=blue!10, text width=3.5cm, minimum height=1.2cm, align=center, rounded corners]
+    \tikzstyle{cloud} = [draw, rectangle, fill=red!10, text width=3.5cm, minimum height=1.2cm, align=center, rounded corners]
+    \tikzstyle{db} = [draw, cylinder, fill=yellow!15, shape border rotate=90, text width=2.5cm, minimum height=1.5cm, align=center]
+
+    % Nodes
+    \node[box] (client) at (0, 3) {\textbf{Flutter Mobile Client}\\(\texttt{job\_seeker})};
+    \node[box] (backend) at (6, 3) {\textbf{Spring Boot Backend}\\(REST API Service)};
+    \node[db] (database) at (6, 0) {\textbf{PostgreSQL}\\(Database)};
+    \node[cloud] (fcm) at (0, 0) {\textbf{Firebase Messaging}\\(FCM Server)};
+
+    % Arrows
+    \draw[<->, thick] (client) -- node[midway, above] {HTTPS / JSON} (backend);
+    \draw[<->, thick] (backend) -- node[midway, right] {SQL JDBC} (database);
+    \draw[->, thick] (backend) -- node[midway, below] {Send Alerts} (fcm);
+    \draw[->, thick] (fcm) -- node[midway, left] {Push Notifications} (client);
+\end{tikzpicture}
+\caption{High-Level System Overview and Communication Channels}
+\label{fig:system_overview}
+\end{figure}
+
+The communication flows are defined as follows:
+\begin{itemize}
+    \item The Flutter mobile client interacts with the Spring Boot backend using HTTPS REST API requests, passing JSON payloads.
+    \item The Spring Boot backend records transactions and retrieves job details from the PostgreSQL database using SQL queries.
+    \item The backend sends push payloads to the Firebase Cloud Messaging server, which routes background alerts to the mobile client.
+\end{itemize}
+
+\section{Report Organization}
+The remainder of this report is structured as follows:
+\begin{itemize}
+    \item \textbf{Chapter 2 --- Requirements Analysis:} Defines primary stakeholders, functional and non-functional requirements, use cases, and system constraints.
+    \item \textbf{Chapter 3 --- System Design:} Details system architecture, MVVM state structures, navigation flowcharts, PostgreSQL database relationships, and sequence diagrams.
+    \item \textbf{Chapter 4 --- Implementation:} Discusses development libraries, folder structure, and the code logic for the interceptors, scroll listeners, and optimistic controllers.
+    \item \textbf{Chapter 5 --- Testing and Validation:} Evaluates functional test matrices, resilience loops, and benchmarks regarding network latency, parsing delays, and memory heap footprints.
+    \item \textbf{Chapter 6 --- Results:} Summarizes completed work and evaluates implementation results against project objectives.
+    \item \textbf{Chapter 7 --- Conclusion and Future Work:} Reflects on project contributions and outlines future enhancements, including offline modes and machine learning matching pipelines.
+\end{itemize}

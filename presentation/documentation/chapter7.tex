@@ -1,0 +1,30 @@
+\chapter{Conclusion and Future Work}
+\label{ch:conclusion_and_future_work}
+
+\section{Summary of Contributions}
+The major contribution of this graduation project is the development of a secure, responsive, and resource-optimized mobile application for seasonal job seekers (\texttt{job\_seeker}). Built on the Flutter SDK and integrated with a Spring Boot REST API, the system implements several key engineering solutions:
+\begin{itemize}
+    \item \textbf{Robust Session Caching:} Integrates secure keychain-level JWT storage, automatic request headers injection via interceptors, and a global error filter that handles session timeouts while preventing duplicate popup warnings.
+    \item \textbf{Optimized Paginated List Views:} Uses a hybrid scroll-listening technique that transitions from automatic infinite scroll to manual loading at 200 items. This optimization controls widget inflation costs and prevents memory heap expansion issues on low-end hardware.
+    \item \textbf{Concurrency and Aggregation:} Implements parallel request handling to fetch profile details, applications, and favorites concurrently, reducing screen loading latency.
+    \item \textbf{Resilient Local State:} Employs optimistic state updates for favorites and notification read markings, combined with automatic background rollback actions to recover from api communication failures gracefully.
+    \item \textbf{Automated Update Infrastructure and Feedback Channels:} Integrates startup OTA version query controllers linked with GitHub Release APIs, secure snooze caching parameters, reactive user currency selections that propagate feed invalidations, and an issue reporting form supporting anonymous payload sanitization.
+\end{itemize}
+
+\section{Project Reflections}
+Building the application highlighted several important software engineering principles:
+\begin{itemize}
+    \item \textbf{Clean Architecture Layering:} Separating the codebase into Data, Domain, and Presentation layers simplifies code maintenance. It isolates networking code and database queries from the UI rendering widgets, making the core business logic easier to test.
+    \item \textbf{Declarative State Management:} Using Riverpod notifiers to act as ViewModel controllers provides a clean, reactive flow. It ensures the UI updates instantly in response to state transitions while minimizing unnecessary widget rebuilds.
+    \item \textbf{User Experience Optimization:} Introducing optimistic UI updates and haptic feedback profiles makes the application feel significantly more responsive and interactive. It demonstrates that perceived performance is as critical for user satisfaction as actual network response times.
+\end{itemize}
+
+\section{Future Work}
+To further scale and extend the capabilities of the Seasonal Job Matching Platform, several future enhancements are proposed:
+\begin{itemize}
+    \item \textbf{Offline Capability and Synchronization Queue:} Implement a local relational database (e.g., SQLite or Isar) on the mobile client. This database will cache job listings and profile data locally and queue job applications submitted while offline, synchronizing them automatically once a network connection is detected.
+    \item \textbf{Recruiter Dashboard and Role Scope Expansion:} Expand the application's boundaries to include screens and routes for employers. This dashboard will allow recruiters to post new job listings, review submitted applications, and coordinate interview stages directly through the mobile interface.
+    \item \textbf{Machine Learning Recommendations:} Upgrade the Spring Boot recommendation engine. By transitioning from basic tags to natural language processing (NLP) text embedding models, the engine can analyze the full text of uploaded resumes against job descriptions to provide more relevant recommendations.
+    \item \textbf{In-App APK Download and Silent Installer Integration:} Replace external browser redirection prompts with an in-app download manager and progress visualizer, interacting with Android's native \texttt{PackageInstaller} API to streamline the application upgrade process.
+    \item \textbf{Offline Currency Converter Fallbacks:} Store currency exchange rates in local secure preferences during network-active sessions, allowing formatting widgets to display estimated conversions even when network channels are offline.
+\end{itemize}

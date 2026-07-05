@@ -1,0 +1,194 @@
+\chapter{Requirements Analysis}
+\label{ch:requirements_analysis}
+
+\section{Introduction}
+This chapter provides a detailed analysis of the requirements for the Seasonal Job Matching Platform Mobile Application (\texttt{job\_seeker}). It defines the system's stakeholders, functional and non-functional requirements, and operational constraints. This analysis establishes the system boundaries and baseline parameters necessary to guide the system design and implementation phases.
+
+\section{Stakeholders and System Actors}
+The software system interacts with both human and external software entities. The primary actors identified for the mobile application are:
+
+\begin{itemize}
+    \item \textbf{Applicant (Job Seeker):} The primary human stakeholder. The applicant interacts with the mobile client to manage their profile, upload resumes, select fields of interest, search/filter seasonal job listings, submit job applications, and monitor application progress.
+    \item \textbf{Backend REST API (Spring Boot System):} The supporting system actor. The backend provides secure business endpoints, executes the matching recommendations algorithm, and records database transactions.
+    \item \textbf{Firebase Cloud Messaging (FCM):} The external infrastructure actor. FCM handles device registration tokens and routes background push notifications to the client.
+\end{itemize}
+
+\section{Functional Requirements}
+The functional requirements specify the exact actions that the mobile application must perform. These requirements are grouped into six core operational modules as outlined in Table~\ref{tab:functional_requirements}.
+
+\begin{table}[htbp]
+\centering
+\caption{System Functional Requirements by Module}
+\label{tab:functional_requirements}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{Module ID} & \textbf{Functional Requirement Description} \\ \hline
+\textbf{FR-AUTH-1} & The system shall allow users to register an account by providing their full name, country, phone number, email address, and a secure password. \\ \hline
+\textbf{FR-AUTH-2} & The system shall validate login credentials via a secure REST API endpoint. \\ \hline
+\textbf{FR-AUTH-3} & The system shall persist the user session securely across application restarts. \\ \hline
+\textbf{FR-AUTH-4} & The system shall invalidate all cached credentials and user data on user logout. \\ \hline
+\textbf{FR-PROF-1} & The system shall aggregate and display user profile details including contact information, applied job lists, and favorites. \\ \hline
+\textbf{FR-PROF-2} & The system shall allow the user to modify their profile data and perform optimistic local updates. \\ \hline
+\textbf{FR-PROF-3} & The system shall support resume management, allowing the user to create, edit, and update sections (Education, Skills, Experience) dynamically. \\ \hline
+\textbf{FR-PROF-4} & The system shall support user selection of a preferred currency in the profile settings, persisting it on the backend database and propagating selections to update and format all salary listings dynamically. \\ \hline
+\textbf{FR-PROF-5} & The system shall provide a feedback and bug reporting form in settings, permitting users to submit issues either anonymously or automatically including their logged-in email. \\ \hline
+\textbf{FR-JOB-1}  & The system shall support paginated loading of job listings (default 50 items per page) to reduce startup latency. \\ \hline
+\textbf{FR-JOB-2}  & The system shall support real-time job searching by title/company and filtering by location, salary, and employment type. \\ \hline
+\textbf{FR-JOB-3}  & The system shall dim already viewed job listings within the current active session. \\ \hline
+\textbf{FR-APP-1}  & The system shall permit users to apply for jobs with a custom description (cover letter). \\ \hline
+\textbf{FR-APP-2}  & The system shall prevent duplicate job applications by disabling the apply button and verifying existing states. \\ \hline
+\textbf{FR-APP-3}  & The system shall render a chronological timeline tracking application progress (Pending, Approved, Rejected). \\ \hline
+\textbf{FR-NOT-1}  & The system shall register the device's FCM token upon successful authentication. \\ \hline
+\textbf{FR-NOT-2}  & The system shall listen to incoming notification streams and update in-app read statuses and badge indicators dynamically. \\ \hline
+\textbf{FR-UPD-1}  & The system shall query the GitHub Releases API on startup to check for newer application versions. \\ \hline
+\textbf{FR-UPD-2}  & The system shall classify found updates as mandatory if the major version is incremented or if the release contains the `[MANDATORY]` tag; otherwise, classify as optional. \\ \hline
+\textbf{FR-UPD-3}  & The system shall intercept navigation and display a non-dismissible full-screen overlay blocking access to the app if a mandatory update is found. \\ \hline
+\textbf{FR-UPD-4}  & The system shall prompt optional updates using a bottom sheet, caching a 24-hour snooze state in secure storage upon dismissal and rendering visual update badges on profile settings. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Use Case Analysis}
+The system's functional workflows are modeled using a UML Use Case diagram. Figure~\ref{fig:use_case_diagram} depicts the interaction between the primary actor (Applicant), the supporting services, and the backend system.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
+    % Actors
+    \node[draw, minimum width=1cm, minimum height=1.5cm] (applicant) at (0, 3) {Applicant};
+    \node[draw, minimum width=1cm, minimum height=1.5cm, align=center] (api) at (10, 4.5) {Backend\\API};
+    \node[draw, minimum width=1cm, minimum height=1.5cm, align=center] (fcm) at (10, 1.5) {Firebase\\FCM};
+    \node[draw, minimum width=1cm, minimum height=1.5cm, align=center] (github) at (10, -1.5) {GitHub\\API};
+
+    % Boundaries
+    \draw (2,-3.5) rectangle (8,9.5);
+    \node at (5, 9.1) {\textbf{Mobile Client Boundary}};
+
+    % Use Cases
+    \node[draw, ellipse, align=center] (uc1) at (5, 8.1) {Register / Login};
+    \node[draw, ellipse, align=center] (uc2) at (5, 6.8) {Search \& Filter\\Job Listings};
+    \node[draw, ellipse, align=center] (uc3) at (5, 5.4) {View Job Details};
+    \node[draw, ellipse, align=center] (uc4) at (5, 4.0) {Apply for Job};
+    \node[draw, ellipse, align=center] (uc5) at (5, 2.6) {Manage Resume \&\\Fields of Interest};
+    \node[draw, ellipse, align=center] (uc6) at (5, 1.2) {Track Application\\Timeline};
+    \node[draw, ellipse, align=center] (uc7) at (5, -0.2) {Receive Notifications};
+    \node[draw, ellipse, align=center] (uc8) at (5, -1.4) {Select Currency \&\\Submit Feedback};
+    \node[draw, ellipse, align=center] (uc9) at (5, -2.6) {Check \& Apply\\OTA Updates};
+
+    % Connections (Applicant)
+    \draw[->] (applicant) -- (uc1);
+    \draw[->] (applicant) -- (uc2);
+    \draw[->] (applicant) -- (uc3);
+    \draw[->] (applicant) -- (uc4);
+    \draw[->] (applicant) -- (uc5);
+    \draw[->] (applicant) -- (uc6);
+    \draw[->] (applicant) -- (uc7);
+    \draw[->] (applicant) -- (uc8);
+    \draw[->] (applicant) -- (uc9);
+
+    % Connections (Backend/FCM/GitHub)
+    \draw[->] (uc1) -- (api);
+    \draw[->] (uc2) -- (api);
+    \draw[->] (uc3) -- (api);
+    \draw[->] (uc4) -- (api);
+    \draw[->] (uc5) -- (api);
+    \draw[->] (uc6) -- (api);
+    \draw[->] (uc7) -- (fcm);
+    \draw[->] (uc8) -- (api);
+    \draw[->] (uc9) -- (github);
+\end{tikzpicture}
+\caption{UML Use Case Diagram for the Mobile Client}
+\label{fig:use_case_diagram}
+\end{figure}
+
+\section{Detailed User Stories}
+To align the development steps with user needs, the following detailed user stories describe core application operations along with their strict acceptance criteria.
+
+\subsection{User Story 1: Profile Creation and Fields of Interest Tagging}
+\textbf{As an} Applicant,\\
+\textbf{I want to} build a digital profile and select fields of interest (e.g., Agriculture, Tourism),\\
+\textbf{So that} I can present my skills and receive customized job recommendations matching my preferences.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} The system shall display editable form fields for Name, Country, Email, and Phone number.
+    \item \textbf{Acceptance Criteria 2:} The fields of interest must be managed via a dynamic tagging chip interface. Adding or removing tags must trigger an asynchronous network request.
+    \item \textbf{Acceptance Criteria 3:} Any validation error (e.g., invalid phone format) must trigger visual feedback inline.
+\end{itemize}
+
+\subsection{User Story 2: Infinite Job Scrolling and Advanced Searching}
+\textbf{As an} Applicant,\\
+\textbf{I want to} search job lists using titles and refine options using employment categories and salary sliders,\\
+\textbf{So that} I can quickly locate relevant seasonal positions without encountering UI jank or delays.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} The job list shall load the first 200 jobs automatically via infinite scroll pagination.
+    \item \textbf{Acceptance Criteria 2:} After loading 200 job items, automatic scrolling must pause, and a ``Load More'' button must appear in the footer.
+    \item \textbf{Acceptance Criteria 3:} The search queries must update the active filter provider dynamically and reset the list offset to zero.
+\end{itemize}
+
+\subsection{User Story 3: Double Application Prevention}
+\textbf{As an} Applicant,\\
+\textbf{I want the system to} check my application state and prevent duplicate submissions,\\
+\textbf{So that} I do not accidentally apply to the same seasonal job listing multiple times.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} Tapping the ``Apply'' button must instantly trigger an optimistic UI update, appending the job ID to the local applied set and disabling the button.
+    \item \textbf{Acceptance Criteria 2:} The repository must perform a verification call to the backend user applications API before committing the application request.
+    \item \textbf{Acceptance Criteria 3:} If the user is confirmed to have applied, the button must remain disabled and display the text ``Applied''.
+\end{itemize}
+
+\subsection{User Story 4: Preferred Currency Selection}
+\textbf{As an} Applicant,\\
+\textbf{I want to} select my preferred currency in the profile settings,\\
+\textbf{So that} I can view all job salaries formatted automatically in my local denomination.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} The settings page must render a currency selection dropdown showing supported codes (EGP, USD, EUR, JOD, SAR).
+    \item \textbf{Acceptance Criteria 2:} Selecting a currency must trigger a PATCH call to the profile API and invalidate the job feed cached providers.
+    \item \textbf{Acceptance Criteria 3:} Salary values on all screens (cards, details, recommendations, favorites) must format reactively via localized currency symbols.
+\end{itemize}
+
+\subsection{User Story 5: Automated OTA Update Verification}
+\textbf{As an} Applicant,\\
+\textbf{I want the system to} automatically detect newer software releases on startup and guide me to update,\\
+\textbf{So that} I remain on a secure, fully supported version of the mobile client.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} If a major version mismatch is found on startup, navigation must be blocked by a non-dismissible full-screen overlay showing release notes and a direct download button.
+    \item \textbf{Acceptance Criteria 2:} Optional version upgrades must prompt a bottom sheet, allowing the user to select ``Later''.
+    \item \textbf{Acceptance Criteria 3:} Dismissing an optional update must snooze the startup sheet modal for exactly 24 hours, displaying a visual badge dot next to the profile menu instead.
+\end{itemize}
+
+\subsection{User Story 6: Feedback Submission with Anonymous Toggling}
+\textbf{As an} Applicant,\\
+\textbf{I want to} submit bug reports and feedback from the profile screen, with the option to send it anonymously,\\
+\textbf{So that} I can report software issues while maintaining privacy if desired.
+\begin{itemize}
+    \item \textbf{Acceptance Criteria 1:} The feedback form dialog must require a title and a description.
+    \item \textbf{Acceptance Criteria 2:} An ``Anonymous'' toggle switch must exclude the user's logged-in email from the network payload when checked.
+    \item \textbf{Acceptance Criteria 3:} Submitting feedback must display a loading spinner, followed by a success dialog toast.
+\end{itemize}
+
+\section{Non-Functional Requirements}
+Non-functional requirements describe quality attributes, system limits, and performance goals. Table~\ref{tab:non_functional_requirements} defines these requirements and their target metrics.
+
+\begin{table}[htbp]
+\centering
+\caption{System Non-Functional Requirements}
+\label{tab:non_functional_requirements}
+\begin{tabular}{|l|p{3.5cm}|p{6.5cm}|}
+\hline
+\textbf{Category} & \textbf{Requirement Label} & \textbf{Target Metric / Operational Rule} \\ \hline
+\textbf{Performance} & Network Latency & Time-To-Interactive (TTI) shall be $\le 200\text{ms}$ when loading a 20-item job list page under standard 4G network parameters. \\ \hline
+\textbf{Performance} & Main UI Thread Budget & Deserialization and widget inflation operations must execute within $16.6\text{ms}$ per frame to preserve $60\text{ FPS}$ UI fluidity. \\ \hline
+\textbf{Resource Control} & Memory Optimization & The app shall virtualize list views via lazy builders to prevent graphic widget expansion from exceeding memory heap capacities. \\ \hline
+\textbf{Security} & Secure Keychain Storage & Sensitive user auth tokens must be encrypted and saved in secure hardware storage, avoiding generic shared preferences. \\ \hline
+\textbf{Security} & Data Leak Protection & Logouts must clear all credentials from storage and immediately reset/invalidate all 13 in-memory data providers to protect private sessions. \\ \hline
+\textbf{Reliability} & Fault Recovery & The system shall support parallel resource batch fetching with partial success thresholds and exponential backoff retry alerts. \\ \hline
+\textbf{Reliability} & Update Fail-Silence & GitHub API connection errors or rate limit ceilings shall bypass updates silently within $500\text{ms}$ to allow uninterrupted startup. \\ \hline
+\textbf{Localization} & Multi-language Support & The UI layout must switch dynamically between English and Arabic layouts, adjusting text directions (LTR/RTL) accordingly. \\ \hline
+\textbf{Usability} & Currency Format Latency & Salary formatting updates across all visible list widgets must complete within $50\text{ms}$ of changing the preferred currency. \\ \hline
+\end{tabular}
+\end{table}
+
+\section{System Constraints}
+The system implementation and deployment are governed by the following operational constraints:
+\begin{itemize}
+    \item \textbf{Network Dependency:} The mobile client relies entirely on external network availability. When offline, cache restrictions apply and network requests fail gracefully showing custom state templates.
+    \item \textbf{Platform Limitation:} The application is built using the Flutter cross-platform SDK and must maintain consistent UI rendering and haptic feedback profiles on both iOS and Android platforms.
+    \item \textbf{Backend Coupling:} API contracts are coupled with the Spring Boot REST API parameters. Any signature alterations in response payloads or endpoints must be refactored via generated models.
+\end{itemize}
