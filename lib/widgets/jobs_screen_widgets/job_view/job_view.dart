@@ -32,6 +32,7 @@ class JobView extends ConsumerWidget {
       data: (u) => u.currency,
       orElse: () => null,
     ) ?? job.currency ?? 'USD';
+    final isRtl = Directionality.of(context).name == 'rtl';
     final theme = Theme.of(context);
     final companyColor = JobColorUtil.getJobColor(job.id, job.title);
 
@@ -236,10 +237,11 @@ class JobView extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  NumberFormat.simpleCurrency(
-                                    name: currencyCode,
-                                    decimalDigits: 0,
-                                  ).format(job.amount),
+                                  TranslationUtils.formatCurrency(
+                                    job.amount,
+                                    currencyCode,
+                                    isRtl,
+                                  ),
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w800,

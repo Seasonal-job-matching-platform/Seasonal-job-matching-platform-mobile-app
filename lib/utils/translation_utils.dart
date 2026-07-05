@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:job_seeker/l10n/app_localizations.dart';
 
 enum JobType {
@@ -171,5 +172,15 @@ class TranslationUtils {
 
     // Fallback if not mapped
     return apiSalaryType;
+  }
+
+  /// Formats currency amount using currency name/code, handling LTR and RTL.
+  static String formatCurrency(num amount, String currencyCode, bool isRtl) {
+    final formattedAmount = NumberFormat('#,##0', 'en_US').format(amount);
+    if (isRtl) {
+      // Use RTL Marks (\u200F) to ensure amount is read first in RTL context
+      return '\u200F$formattedAmount \u200F$currencyCode';
+    }
+    return '$formattedAmount $currencyCode';
   }
 }

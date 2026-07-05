@@ -23,6 +23,7 @@ class RecommendedJobCard extends ConsumerWidget {
       data: (u) => u.currency,
       orElse: () => null,
     ) ?? job.currency ?? 'USD';
+    final isRtl = Directionality.of(context).name == 'rtl';
     // Dynamic Bold Color
     final Color cardColor = JobColorUtil.getJobColor(job.id, job.title);
 
@@ -164,10 +165,11 @@ class RecommendedJobCard extends ConsumerWidget {
                               alignment: Alignment.centerLeft,
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                NumberFormat.simpleCurrency(
-                                  name: currencyCode,
-                                  decimalDigits: 0,
-                                ).format(job.amount),
+                                TranslationUtils.formatCurrency(
+                                  job.amount,
+                                  currencyCode,
+                                  isRtl,
+                                ),
                                 style: const TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w900,

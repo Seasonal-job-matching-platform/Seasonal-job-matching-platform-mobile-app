@@ -22,6 +22,25 @@ class ApplicationsNotifier extends AsyncNotifier<List<ApplicationWithJob>> {
     // Fetch all applications for this user
     final result = await _service.getApplicationsForUser(userId.toString());
     
+    // Sort applications by date descending (most recent first)
+    result.sort((a, b) {
+      final dateAStr = a.application.appliedDate ?? a.application.createdAt;
+      final dateBStr = b.application.appliedDate ?? b.application.createdAt;
+      
+      if (dateAStr == null && dateBStr == null) return 0;
+      if (dateAStr == null) return 1; // Nulls sorted to the end
+      if (dateBStr == null) return -1; // Nulls sorted to the end
+      
+      final dateA = DateTime.tryParse(dateAStr);
+      final dateB = DateTime.tryParse(dateBStr);
+      
+      if (dateA == null && dateB == null) return 0;
+      if (dateA == null) return 1; // Unparseable sorted to the end
+      if (dateB == null) return -1; // Unparseable sorted to the end
+      
+      return dateB.compareTo(dateA); // Descending (most recent first)
+    });
+    
     return result;
   }
 }
