@@ -1,0 +1,35 @@
+{
+  "account": {
+    "name": "Mariem Mohamed",
+    "country": "Egypt",
+    "number": "+201023456785",
+    "email": "mariemmohamed1421@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "UX/UI Design"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Information Technology Institute (ITI), 9 Month Trainee, Professional Web Development, BI, & CRM Track (October 2023 - June 2024)",
+      "Alexandria University, Bachelor of Science - BS, Computer Science (September 2018 - July 2022)"
+    ],
+    "experience": [
+      "AK-Group, Software Engineer (October 2025 - Present)",
+      "Information Technology Institute (ITI), Course Instructor (February 2025 - Present)",
+      "Mahoney Shipping & Marine Services, Software Engineer (February 2025 - October 2025)"
+    ],
+    "certificates": [
+      "Full Stack Web Development Diploma",
+      "IT Essentials",
+      "Web Development - Nano Degree Program"
+    ],
+    "skills": [
+      "User Interface Design",
+      "HTML5",
+      "Programming Languages"
+    ],
+    "languages": []
+  }
+}

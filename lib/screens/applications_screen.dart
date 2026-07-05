@@ -611,14 +611,7 @@ class _EmptyApplicationsState extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-            const SizedBox(height: AppTheme.spaceLg),
-            FilledButton.icon(
-              onPressed: () {
-                // Navigate to jobs
-              },
-              icon: const Icon(Icons.search),
-              label: Text(l10n.exploreJobs),
-            ),
+
           ],
         ),
       ),

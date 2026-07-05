@@ -1,0 +1,42 @@
+{
+  "account": {
+    "name": "Abdelrahman Mashaal",
+    "country": "Egypt",
+    "number": "+201063790384",
+    "email": "abdelrahmanmashaal@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "Data Science",
+      "Project Management"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Bachelor of Engineering - BE, Computer and Communications Engineering (October 2021 - June 2026)",
+      "Riada International School (RIS), High School Diploma, IGCSE (January 2013 - May 2021)"
+    ],
+    "experience": [
+      "Blink22, Software Engineer (October 2025 - Present)",
+      "Blink22, Software Engineer Intern (July 2025 - October 2025)",
+      "Zaylon, Co-Founder & Backend/DevOps Engineer (June 2025 - Present)",
+      "Nile University, Software Engineer Intern (August 2024 - October 2024)",
+      "Information Technology Institute (ITI), Internet of Things (IoT) Application Development Training (August 2024 - September 2024)",
+      "WHS, Software Developer (April 2022 - September 2024)",
+      "Google DSC Zagazig, Core Team Flutter Mentor (October 2023 - August 2024)",
+      "CodeAlpha, Mobile Application Developer Intern (March 2024 - April 2024)"
+    ],
+    "certificates": [
+      "Web Development Fundamentals (Skillsbuild with Eyoot)",
+      "Internship Completion Certificate",
+      "The Complete 2022 Flutter & Dart Development Course [Arabic]",
+      "Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization"
+    ],
+    "skills": [
+      "Internet of Things (IoT)",
+      "Communication Skills",
+      "Dart"
+    ],
+    "languages": []
+  }
+}

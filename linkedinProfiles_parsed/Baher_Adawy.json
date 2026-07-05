@@ -1,0 +1,31 @@
+{
+  "account": {
+    "name": "Baher Adawy",
+    "country": "Egypt",
+    "number": "+201068925447",
+    "email": "baheradawy_new@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "UX/UI Design"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Bachelor's degree, Computer and Communication (September 2021 - June 2026)",
+      "WE Telecom, Course, Artificial Intelligence (January 2024 - January 2024)"
+    ],
+    "experience": [
+      "HNDL Fleet Management, Mobile Developer (July 2025 - August 2025)",
+      "All for One Egypt, Back End Developer (August 2024 - August 2024)",
+      "Vision Plus, Software Engineer (June 2022 - June 2023)"
+    ],
+    "certificates": [],
+    "skills": [
+      "Problem Solving",
+      "UI/UX",
+      "Bubble.io"
+    ],
+    "languages": []
+  }
+}

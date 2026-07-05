@@ -1,0 +1,26 @@
+{
+  "account": {
+    "name": "Ahmed Bahig",
+    "country": "Egypt",
+    "number": "+201210993477",
+    "email": "ahmedbahig2003@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "Project Management"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Engineering, Computer Engineering (2022 - June 2026)"
+    ],
+    "experience": [],
+    "certificates": [],
+    "skills": [
+      "Microsoft Azure",
+      "Docker",
+      "Linux"
+    ],
+    "languages": []
+  }
+}

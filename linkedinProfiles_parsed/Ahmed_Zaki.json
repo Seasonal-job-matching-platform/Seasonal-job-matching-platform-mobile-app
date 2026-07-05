@@ -1,0 +1,38 @@
+{
+  "account": {
+    "name": "Ahmed Zaki",
+    "country": "Egypt",
+    "number": "+201023456784",
+    "email": "ahmed525zaki@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Data Science",
+      "Business Analysis"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Egypt, Bachelor of Engineering, Computer and communication (October 2021 - June 2026)"
+    ],
+    "experience": [
+      "Nile University, Research Internship (July 2025 - September 2025)",
+      "Prodigy InfoTech, Machine Learning Engineer (April 2024 - April 2024)"
+    ],
+    "certificates": [
+      "McKinsey.org Forward Program",
+      "C intermediate",
+      "Power BI Fundamentals",
+      "SQL (Intermediate)",
+      "Excel Fundamentals"
+    ],
+    "skills": [
+      "Databases",
+      "Microsoft Power BI",
+      "SQL"
+    ],
+    "languages": [
+      "Arabic (Native or Bilingual)",
+      "English (Professional Working)"
+    ]
+  }
+}

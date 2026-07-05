@@ -1,0 +1,45 @@
+{
+  "account": {
+    "name": "Samia Hafez",
+    "country": "Egypt",
+    "number": "+201023456787",
+    "email": "samia.hafez@example.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "Project Management"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Master of Science (MSc), Computer Software Engineering (2010 - 2014)",
+      "Alexandria University, Bsc, Engineering (2005 - 2010)",
+      "Kawmeyya Girls College, Language Section, High school Diploma (2003 - 2005)"
+    ],
+    "experience": [
+      "Applied Innovation Center - MCIT, Software Team Leader (July 2025 - Present)",
+      "Alexandria University, Assistant Professor (January 2024 - Present)",
+      "Faculty of Engineering, Alexandria University, Egypt, Teaching Assistant and Research Assistant (June 2013 - Present)",
+      "Faculty of Engineering, Alexandria University, Egypt, Teaching assistant (July 2011 - Present)",
+      "Faculty of Engineering, Alexandria University, Egypt, Research Assistant (July 2011 - June 2012)",
+      "UCCD University Centers for Career Development, Deputy Director (September 2020 - December 2021)",
+      "Staffordshire University, Researcher Phd Candidate (February 2018 - July 2018)",
+      "Alexandria University, Research assistant and Teaching assistant (June 2011 - May 2013)",
+      "EJADA, Junior software Developer (September 2010 - June 2011)",
+      "Faculty of Engineering, Alexandria University, Egypt, Trainee (January 2010 - April 2010)",
+      "Global Impact, Junior Developer under training (June 2009 - August 2009)"
+    ],
+    "certificates": [
+      "Blockchain for IoT Applications"
+    ],
+    "skills": [
+      "C",
+      "C++",
+      "Java"
+    ],
+    "languages": [
+      "Arabic",
+      "English"
+    ]
+  }
+}

@@ -290,11 +290,14 @@ class _NotificationCard extends ConsumerWidget {
     
     try {
       final date = DateTime.parse(timestamp);
+      final localDate = date.isUtc
+          ? date.toLocal()
+          : DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second, date.millisecond, date.microsecond).toLocal();
       final now = DateTime.now();
-      final difference = now.difference(date);
+      final difference = now.difference(localDate);
 
       if (difference.inDays > 30) {
-        return '${date.day}/${date.month}/${date.year}';
+        return '${localDate.day}/${localDate.month}/${localDate.year}';
       } else if (difference.inDays > 0) {
         return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
       } else if (difference.inHours > 0) {

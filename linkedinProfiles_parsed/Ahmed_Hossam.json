@@ -1,0 +1,34 @@
+{
+  "account": {
+    "name": "Ahmed Hossam",
+    "country": "Egypt",
+    "number": "+201023456782",
+    "email": "ahmed.hossamnabih@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Project Management",
+      "Software Development"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Computer & Communication (2021 - 2026)"
+    ],
+    "experience": [
+      "Orange Egypt, Core Transmission Operation Intern (September 2025 - September 2025)",
+      "VODAFONE UK LIMITED, International Advisor (June 2023 - April 2024)"
+    ],
+    "certificates": [
+      "Deep Learning Specialization"
+    ],
+    "skills": [
+      "Global System for Mobile Communications (GSM)",
+      "Telecommunications",
+      "Networking"
+    ],
+    "languages": [
+      "Arabic (Native or Bilingual)",
+      "English (Full Professional)"
+    ]
+  }
+}

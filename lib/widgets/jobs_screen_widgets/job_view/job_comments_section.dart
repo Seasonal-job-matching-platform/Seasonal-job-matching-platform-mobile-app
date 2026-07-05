@@ -388,11 +388,14 @@ class _CommentCard extends StatelessWidget {
   }
 
   String _formatDate(DateTime date, AppLocalizations l10n) {
+    final localDate = date.isUtc
+        ? date.toLocal()
+        : DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second, date.millisecond, date.microsecond).toLocal();
     final now = DateTime.now();
-    final difference = now.difference(date);
+    final difference = now.difference(localDate);
 
     if (difference.inDays > 30) {
-      return '${date.day}/${date.month}/${date.year}';
+      return '${localDate.day}/${localDate.month}/${localDate.year}';
     } else if (difference.inDays > 0) {
       return l10n.daysAgo(difference.inDays);
     } else if (difference.inHours > 0) {

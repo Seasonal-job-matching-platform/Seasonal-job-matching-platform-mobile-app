@@ -1,0 +1,29 @@
+{
+  "account": {
+    "name": "Abdelrahman Mohamed",
+    "country": "Egypt",
+    "number": "+201023456781",
+    "email": "abdelrahman.moh984@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "UX/UI Design",
+      "Business Analysis"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Bachelor's Degree, Computer and Communication (September 2021 - June 2026)"
+    ],
+    "experience": [
+      "EJADA, Business Analyst (August 2025 - September 2025)"
+    ],
+    "certificates": [],
+    "skills": [
+      "User Interface Design",
+      "Business Planning",
+      "Software Development Life Cycle (SDLC)"
+    ],
+    "languages": []
+  }
+}

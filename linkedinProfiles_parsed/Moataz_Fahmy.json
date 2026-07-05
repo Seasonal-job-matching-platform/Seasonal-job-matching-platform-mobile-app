@@ -1,0 +1,25 @@
+{
+  "account": {
+    "name": "Moataz Fahmy",
+    "country": "Egypt",
+    "number": "+201023456786",
+    "email": "motaz.fahmy.hassan@gmail.com",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Bachelor of Engineering - BE, Computer and Communications Engineering (2021 - 2026)"
+    ],
+    "experience": [],
+    "certificates": [],
+    "skills": [
+      "C++",
+      "Problem Solving",
+      "Software Engineering"
+    ],
+    "languages": []
+  }
+}

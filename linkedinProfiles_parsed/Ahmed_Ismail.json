@@ -1,0 +1,29 @@
+{
+  "account": {
+    "name": "Ahmed Ismail",
+    "country": "Egypt",
+    "number": "+201099635321",
+    "email": "es-ahmed.ismael2026@alexu.edu.eg",
+    "password": "Password123!",
+    "fieldsOfInterest": [
+      "Software Development",
+      "UX/UI Design"
+    ]
+  },
+  "resume": {
+    "education": [
+      "Alexandria University, Computer and Communication Engineering Student"
+    ],
+    "experience": [],
+    "certificates": [
+      "Full Stack Web Development",
+      "Front-end web development Diploma (React JS)"
+    ],
+    "skills": [
+      "PHP",
+      "bootstrap",
+      "React.js"
+    ],
+    "languages": []
+  }
+}
