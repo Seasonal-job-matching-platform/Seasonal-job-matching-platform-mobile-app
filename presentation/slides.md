@@ -1339,27 +1339,27 @@ White background.
 
 **Bottom card — Engineering Justification:**
 ```
-The Riverpod state engine is computationally efficient at any realistic scale.
-The bottleneck is Flutter's widget inflation — rendering a ListView with 1,000+
-job cards inflates the widget tree, consuming significant RAM and causing frame
-jank on low-end Android hardware (the dominant device class in the target market).
+The Riverpod state engine is computationally efficient at any scale (14.5ms updates).
+The bottleneck is not raw state compute — it is Heap Memory Growth & Event Loop Blocking.
 
-Hybrid Pagination Strategy:
-  • Auto-scroll loads new pages continuously as the user scrolls
-  • At 200 items rendered in the widget tree → auto-scroll pauses
-  • User taps "Load More" to continue (manual continuation)
-  • Prevents OOM errors on entry-level devices
-
-The 14.5ms benchmark proves the limitation is not the state engine.
-The limitation is device rendering. The pagination limit is set by RAM — not compute.
+Key Constraints:
+  • Single-Threaded Event Loop: Parsing massive JSON blocks to Dart objects is a
+    synchronous operation. Large loads block the main thread, causing frame drops (jank).
+  • Garbage Collection (GC) Pressure: Even with lazy widget inflation (ListView.builder),
+    accumulating thousands of parsed job models and cached employer logos in the heap
+    forces the Dart VM to run frequent GC cycles during scrolling, dropping frames.
+  • UX Friction Design: Infinite scrolling encourages passive, directionless browsing.
+    Pausing at 200 items acts as a conscious UX prompt, encouraging users to refine
+    their query filters (location, duration, work arrangements) instead.
 ```
 
 **Pre-emptive Q4 answer (for speaker):**
 ```
-Q: "You tested 100,000 items but paginate at 200 — why test that far?"
-A: "To prove the state engine is not the bottleneck.
-    The 200-item limit is a rendering constraint, not a state management limit.
-    The benchmark separates the two concerns clearly."
+Q: "Why paginate at 200 items if the state engine scales to 100,000?"
+A: "To separate UI state computation from physical hardware constraints.
+    Riverpod handles 100k items easily, but mobile hardware suffers from
+    JSON parsing latency and garbage collection pressure when holding thousands
+    of nested models + image caches in memory. 200 is a safe threshold for UX."
 ```
 
 ### Kicker
@@ -1370,23 +1370,22 @@ A: "To prove the state engine is not the bottleneck.
 
 ### Speaker Notes
 ```
-"We benchmarked the Riverpod state engine across four data scales, up to
-100,000 job entries. At that scale, state recalculation takes 14.5 milliseconds —
-just under the 16.6ms single-frame budget for 60fps. The state engine is
-not the bottleneck. The bottleneck is widget inflation. Rendering 1,000 job
-cards as Flutter widgets consumes roughly 1.5MB of RAM. At 30,000 items,
-the app risks an out-of-memory crash on entry-level Android hardware —
-which is exactly the device class our target users are most likely to own.
-This is why we stop automatic scrolling at 200 items. The benchmark exists
-specifically to prove that the pagination limit is a rendering constraint,
-not a state management limitation."
+"We benchmarked our state engine to prove that state updates are not the
+performance bottleneck. Even at 100,000 jobs, a state change resolves in 14.5ms —
+within our 16.6ms frame budget. The actual bottleneck on low-end devices is
+memory heap growth and event-loop blocking. Parsing thousands of JSON entries
+synchronously blocks Flutter's main thread. Furthermore, even with lazy list
+views, keeping thousands of data models and cached logo images in memory triggers
+frequent Garbage Collection pauses during scrolling, causing visible jank. 
+To prevent this, we implement a hybrid pagination strategy: we pause auto-scrolling
+at 200 items, keeping the memory footprint under 5MB and prompting the user to
+refine their search filters instead."
 ```
 
 ### Expected Examiner Questions
 - How did you measure these benchmarks — what tooling?
 - What devices did you test on — real hardware or emulated?
-- 200 items seems arbitrary — how did you determine that number specifically?
-- Why not use Flutter's SliverList with lazy widget inflation to avoid the memory issue entirely?
+- Why does holding items in memory cause jank if Flutter uses lazy list builders?
 - You tested 100,000 items but said the limit is 200 — why test at that scale?
 
 ---

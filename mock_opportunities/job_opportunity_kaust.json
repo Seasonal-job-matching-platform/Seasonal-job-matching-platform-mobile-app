@@ -1,0 +1,28 @@
+{
+  "title": "Seasonal High-Performance Computing & GPU Systems Architect",
+  "description": "King Abdullah University of Science and Technology (KAUST) is seeking a Seasonal HPC & GPU Systems Architect for our extreme computing research center in Thuwal. In this high-level role, you will lead research groups in analyzing performance bottlenecks of parallel scientific applications, implementing GPU-specific optimization models for weather and climate forecasting, and mentoring graduate research assistants. Strong expertise in systems programming using C/C++ is required.",
+  "type": "CONTRACT",
+  "status": "OPEN",
+  "amount": 35000,
+  "salary": "MONTHLY",
+  "location": "Thuwal, Saudi Arabia",
+  "startDate": "01-06-2026",
+  "duration": 180,
+  "workArrangement": "HYBRID",
+  "categories": [
+    "Software Development"
+  ],
+  "requirements": [
+    "Experience working as a Research Assistant, Systems Architect, or teaching computer systems performance.",
+    "Proven expertise writing custom C/C++ parallel computing modules and implementing GPU-specific optimizations.",
+    "Academic publication or research record in optimizing forecasting simulation engines or parallel algorithms.",
+    "Excellent academic writing and technical collaboration skills in English.",
+    "PhD or Master's degree in Computer Science, Systems Engineering, or related high-performance computing track."
+  ],
+  "benefits": [
+    "World-class monthly stipend",
+    "Fully covered housing and travel options",
+    "Access to KAUST Shaheen supercomputing clusters"
+  ],
+  "jobposterId": 423
+}

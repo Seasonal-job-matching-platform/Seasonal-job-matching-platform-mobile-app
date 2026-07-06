@@ -9,6 +9,7 @@ import 'package:job_seeker/providers/home_screen_providers/favorites_controller.
 import 'package:job_seeker/providers/profile_screen_providers/personal_information_notifier.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_apply_dialog.dart';
 import 'package:job_seeker/widgets/jobs_screen_widgets/job_view/job_comments_section.dart';
+import 'package:job_seeker/providers/jobs_screen_providers/job_comments_provider.dart';
 
 import 'package:job_seeker/utils/job_color_util.dart';
 import 'package:job_seeker/utils/translation_utils.dart';
@@ -40,9 +41,19 @@ class JobView extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
+          RefreshIndicator(
+            onRefresh: () async {
+              HapticFeedback.lightImpact();
+              await ref
+                  .read(jobCommentsNotifierProvider.notifier)
+                  .loadComments(job.id);
+            },
+            color: companyColor,
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
+              slivers: [
               // Minimal Pinned AppBar (No big header)
               SliverAppBar(
                 expandedHeight: 0, // Removed big header
@@ -67,6 +78,18 @@ class JobView extends ConsumerWidget {
                   ),
                 ),
                 actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      HapticFeedback.lightImpact();
+                      await ref
+                          .read(jobCommentsNotifierProvider.notifier)
+                          .loadComments(job.id);
+                    },
+                  ),
                   IconButton(
                     icon: Icon(
                       isFav
@@ -315,6 +338,7 @@ class JobView extends ConsumerWidget {
                 ),
               ),
             ],
+          ),
           ),
 
           // Glassmorphic Sticky Apply Bar (Smaller & Glass)

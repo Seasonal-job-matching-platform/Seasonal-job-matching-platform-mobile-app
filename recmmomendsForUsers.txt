@@ -1,0 +1,179 @@
+==================================================
+User: Samia Hafez (User ID: 414)
+==================================================
+{
+  "count": 5,
+  "jobs": [
+    {
+      "title": "Algorithms & Data Structures Curriculum Coordinator",
+      "description": "Alexandria Technical University (ATU) is seeking an Algorithms & Data Structures Curriculum Coordinator to lead our summer undergraduate computer science tracks. In this seasonal academic role, you will be responsible for lecturing on basic programming, data structures, algorithms, and discrete mathematics. You will coordinate with faculty, lead a group of teaching assistants, and provide career and academic counseling to students. The ideal candidate has significant teaching assistantship or assistant professorship experience and a background in leading academic initiatives or university career centers.",
+      "id": 61284,
+      "type": "CONTRACT",
+      "location": "Alexandria, Egypt",
+      "startDate": "01-07-2026",
+      "amount": 20000.0,
+      "currency": "EGP",
+      "salary": "MONTHLY",
+      "duration": 90,
+      "status": "OPEN",
+      "numOfPositions": 1,
+      "workArrangement": "HYBRID",
+      "createdAt": "2026-07-05",
+      "jobposterId": 417,
+      "jobposterName": "Alexandria Technical University",
+      "requirements": [
+        "5+ years of experience as a university Teaching Assistant, Assistant Professor, or academic coordinator in computer science.",
+        "Proven experience leading academic programs, university centers (e.g., career centers), or coordinating course curriculums.",
+        "Deep pedagogical knowledge in instructing data structures, algorithms, discrete mathematics, and basic programming concepts.",
+        "Bilingual fluency in Arabic and English, with a strong commitment to delivering engaging learning experiences.",
+        "Master's degree in Computer Software Engineering or a related technical discipline."
+      ],
+      "categories": [
+        "Software Development",
+        "Project Management"
+      ],
+      "benefits": [
+        "Competitive monthly academic compensation",
+        "Access to university research databases and resources",
+        "Opportunities for academic publication support"
+      ]
+    },
+    {
+      "title": "Software Quality Control & Process Improvement Lead",
+      "description": "Nile Systems Research Institute (NSRI) is seeking a Software Quality Control & Process Improvement Lead for a 4-month systems audit project. You will lead an agile software engineering team in conducting software process audits, identifying efficiency bottlenecks, and implementing automated testing tools. The role requires designing regression testing strategies, executing fault-based testing, and ensuring strict compliance with software quality metrics. Strong experience in software team leadership and development in C, C++, or Java is required.",
+      "id": 61285,
+      "type": "CONTRACT",
+      "location": "Cairo, Egypt",
+      "startDate": "01-08-2026",
+      "amount": 22000.0,
+      "currency": "EGP",
+      "salary": "MONTHLY",
+      "duration": 120,
+      "status": "OPEN",
+      "numOfPositions": 1,
+      "workArrangement": "HYBRID",
+      "createdAt": "2026-07-05",
+      "jobposterId": 418,
+      "jobposterName": "Nile Systems Research Institute",
+      "requirements": [
+        "Proven experience as a Software Team Leader or Systems Engineer, supervising developer groups and managing release quality.",
+        "Expertise in software quality control, software process improvement methodologies, and test automation design.",
+        "Strong programming skills in C, C++, and Java, with a solid grasp of software architecture.",
+        "Experience implementing fault-based testing or regression test selection algorithms to minimize test effort.",
+        "Master's or PhD in Computer Software Engineering, Computer Engineering, or related field."
+      ],
+      "categories": [
+        "Software Development",
+        "Project Management"
+      ],
+      "benefits": [
+        "Highly competitive monthly contractor rate",
+        "Flexible hybrid schedule",
+        "Opportunity to collaborate with government ministries and tech leaders"
+      ]
+    },
+    {
+      "title": "Algorithms & Data Structures Curriculum Coordinator",
+      "description": "Alexandria Technical University (ATU) is seeking an Algorithms & Data Structures Curriculum Coordinator to lead our summer undergraduate computer science tracks. In this seasonal academic role, you will be responsible for lecturing on basic programming, data structures, algorithms, and discrete mathematics. You will coordinate with faculty, lead a group of teaching assistants, and provide career and academic counseling to students. The ideal candidate has significant teaching assistantship or assistant professorship experience and a background in leading academic initiatives or university career centers.",
+      "id": 61287,
+      "type": "CONTRACT",
+      "location": "Alexandria, Egypt",
+      "startDate": "01-07-2026",
+      "amount": 20000.0,
+      "currency": "EGP",
+      "salary": "MONTHLY",
+      "duration": 90,
+      "status": "OPEN",
+      "numOfPositions": 1,
+      "workArrangement": "HYBRID",
+      "createdAt": "2026-07-05",
+      "jobposterId": 417,
+      "jobposterName": "Alexandria Technical University",
+      "requirements": [
+        "5+ years of experience as a university Teaching Assistant, Assistant Professor, or academic coordinator in computer science.",
+        "Proven experience leading academic programs, university centers (e.g., career centers), or coordinating course curriculums.",
+        "Deep pedagogical knowledge in instructing data structures, algorithms, discrete mathematics, and basic programming concepts.",
+        "Bilingual fluency in Arabic and English, with a strong commitment to delivering engaging learning experiences.",
+        "Master's degree in Computer Software Engineering or a related technical discipline."
+      ],
+      "categories": [
+        "Software Development",
+        "Project Management"
+      ],
+      "benefits": [
+        "Competitive monthly academic compensation",
+        "Access to university research databases and resources",
+        "Opportunities for academic publication support"
+      ]
+    },
+    {
+      "title": "Software Quality Control & Process Improvement Lead",
+      "description": "Nile Systems Research Institute (NSRI) is seeking a Software Quality Control & Process Improvement Lead for a 4-month systems audit project. You will lead an agile software engineering team in conducting software process audits, identifying efficiency bottlenecks, and implementing automated testing tools. The role requires designing regression testing strategies, executing fault-based testing, and ensuring strict compliance with software quality metrics. Strong experience in software team leadership and development in C, C++, or Java is required.",
+      "id": 61288,
+      "type": "CONTRACT",
+      "location": "Cairo, Egypt",
+      "startDate": "01-08-2026",
+      "amount": 22000.0,
+      "currency": "EGP",
+      "salary": "MONTHLY",
+      "duration": 120,
+      "status": "OPEN",
+      "numOfPositions": 1,
+      "workArrangement": "HYBRID",
+      "createdAt": "2026-07-05",
+      "jobposterId": 418,
+      "jobposterName": "Nile Systems Research Institute",
+      "requirements": [
+        "Proven experience as a Software Team Leader or Systems Engineer, supervising developer groups and managing release quality.",
+        "Expertise in software quality control, software process improvement methodologies, and test automation design.",
+        "Strong programming skills in C, C++, and Java, with a solid grasp of software architecture.",
+        "Experience implementing fault-based testing or regression test selection algorithms to minimize test effort.",
+        "Master's or PhD in Computer Software Engineering, Computer Engineering, or related field."
+      ],
+      "categories": [
+        "Software Development",
+        "Project Management"
+      ],
+      "benefits": [
+        "Highly competitive monthly contractor rate",
+        "Flexible hybrid schedule",
+        "Opportunity to collaborate with government ministries and tech leaders"
+      ]
+    },
+    {
+      "title": "Seasonal IoT & Blockchain Solutions Architect",
+      "description": "Smart Village Technical College (SVTC) is seeking a Seasonal IoT & Blockchain Solutions Architect to oversee our summer student project lab in Smart Village. In this role, you will lead student teams in designing and optimizing decentralized software systems and integrating blockchain tech for IoT applications. You will deliver lectures on computer systems engineering, supervise parallel processing implementations in Java/C++, and guide teams through software project execution pipelines.",
+      "id": 61290,
+      "type": "CONTRACT",
+      "location": "Giza, Egypt",
+      "startDate": "01-07-2026",
+      "amount": 24000.0,
+      "currency": "EGP",
+      "salary": "MONTHLY",
+      "duration": 90,
+      "status": "OPEN",
+      "numOfPositions": 1,
+      "workArrangement": "HYBRID",
+      "createdAt": "2026-07-05",
+      "jobposterId": 421,
+      "jobposterName": "Smart Village Technical College",
+      "requirements": [
+        "Experience working as an Assistant Professor, Teaching Assistant, or Senior Lecturer/Mentor in computer science or engineering.",
+        "Demonstrated professional project history or certification in Blockchain for IoT Applications.",
+        "Solid programming skills in Java, C++, and systems-level programming languages.",
+        "Proven track record as a Software Team Leader or technical project manager.",
+        "Bilingual proficiency in English and Arabic with strong technical presentation skills."
+      ],
+      "categories": [
+        "Software Development",
+        "Project Management"
+      ],
+      "benefits": [
+        "Premium monthly consultant compensation",
+        "Modern research space at Smart Village Giza",
+        "Opportunity to collaborate on innovative IoT research prototypes"
+      ]
+    }
+  ]
+}
+

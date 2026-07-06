@@ -8,14 +8,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Extract version from pubspec.yaml
-        id: extract_version
+      - name: Calculate Release Version
+        id: calculate_version
         run: |
           VERSION_VAL=$(grep '^version: ' pubspec.yaml | sed 's/version: //' | tr -d '\r')
-          BUILD_NAME=$(echo $VERSION_VAL | cut -d'+' -f1)
-          BUILD_CODE=$(echo $VERSION_VAL | cut -d'+' -f2)
-          echo "build_name=$BUILD_NAME" >> $GITHUB_OUTPUT
-          echo "build_code=$BUILD_CODE" >> $GITHUB_OUTPUT
+          PUBSPEC_VER=$(echo $VERSION_VAL | cut -d'+' -f1)
+          
+          LATEST_TAG=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/latest | grep '"tag_name":' | sed -E 's/.*"tag_name":\s*"(v)?([^"]+)".*/\2/')
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="0.0.0"
+          fi
+          
+          NEW_VER=$(python -c "
+import sys
+def parse_version(v_str):
+    if v_str.startswith('v'): v_str = v_str[1:]
+    parts = []
+    for part in v_str.split('.'):
+        try: parts.append(int(part))
+        except ValueError: parts.append(0)
+    while len(parts) < 3: parts.append(0)
+    return parts[:3]
+
+pub_major, pub_minor, pub_patch = parse_version('$PUBSPEC_VER')
+lat_major, lat_minor, lat_patch = parse_version('$LATEST_TAG')
+
+if (pub_major, pub_minor, pub_patch) > (lat_major, lat_minor, lat_patch):
+    new_ver = f'{pub_major}.{pub_minor}.{pub_patch}'
+else:
+    new_ver = f'{lat_major}.{lat_minor}.{lat_patch + 1}'
+print(new_ver)
+          ")
+          echo "version=$NEW_VER" >> $GITHUB_OUTPUT
 
       - name: Set up Flutter
         run: |
@@ -28,15 +52,15 @@ jobs:
       - name: Build APK
         run: |
           flutter build apk --release \
-            --build-name=${{ steps.extract_version.outputs.build_name }}.${{ github.run_number }} \
+            --build-name=${{ steps.calculate_version.outputs.version }} \
             --build-number=${{ github.run_number }}
       
       - name: Create Release and Upload APK
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.extract_version.outputs.build_name }}.${{ github.run_number }}
+          tag_name: v${{ steps.calculate_version.outputs.version }}
           name: >-
-            ${{ (contains(github.event.head_commit.message, '[MANDATORY]') || contains(join(github.event.commits.*.message, ' '), '[MANDATORY]')) && format('v{0}.{1} [MANDATORY]', steps.extract_version.outputs.build_name, github.run_number) || format('v{0}.{1} [OPTIONAL]', steps.extract_version.outputs.build_name, github.run_number) }}
+            ${{ (contains(github.event.head_commit.message, '[MANDATORY]') || contains(join(github.event.commits.*.message, ' '), '[MANDATORY]')) && format('v{0} [MANDATORY]', steps.calculate_version.outputs.version) || format('v{0} [OPTIONAL]', steps.calculate_version.outputs.version) }}
           body: |
             This is an automated update.
             Commit: ${{ github.event.head_commit.message }}

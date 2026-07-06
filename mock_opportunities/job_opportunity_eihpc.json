@@ -1,0 +1,29 @@
+{
+  "title": "Parallel Computing & GPU Systems Research Fellow",
+  "description": "The Egyptian Institute of High-Performance Computing (EIHPC) is seeking a Parallel Computing & GPU Systems Research Fellow for a seasonal scientific project. You will join our research group to accelerate high-performance simulations, specifically working on weather forecasting applications. Responsibilities include diagnosing performance bottlenecks, writing custom C/C++ parallel code, and implementing GPU-specific optimizations to accelerate large-scale computations. The candidate is expected to contribute to academic research papers and participate in technical reports.",
+  "type": "CONTRACT",
+  "status": "OPEN",
+  "amount": 25000,
+  "salary": "MONTHLY",
+  "location": "Cairo, Egypt",
+  "startDate": "15-06-2026",
+  "duration": 180,
+  "numOfPositions": 1,
+  "jobposterId": 419,
+  "workArrangement": "ONSITE",
+  "categories": [
+    "Software Development"
+  ],
+  "requirements": [
+    "Background in parallel programming, high-performance scientific computing, or GPU optimization.",
+    "Strong systems programming experience in C and C++ (Java is a plus).",
+    "Experience or academic publication history in optimizing forecasting applications, simulation engines, or GPU architectures.",
+    "Prior experience working as a Research Assistant or Teaching Assistant in an engineering department.",
+    "Master's or PhD degree in Computer Engineering, Systems Engineering, or related technical field."
+  ],
+  "benefits": [
+    "Access to high-performance GPU clusters and cutting-edge server infrastructure",
+    "Monthly stipend aligned with senior research fellow standards",
+    "Support for presenting papers at international IEEE/ACM conferences"
+  ]
+}
